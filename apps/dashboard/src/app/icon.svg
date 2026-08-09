@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="7" fill="#F97316"/>
+  <!-- Ring -->
+  <circle cx="16" cy="8" r="4.5" stroke="white" stroke-width="2.4"/>
+  <!-- Shaft -->
+  <line x1="16" y1="12.5" x2="16" y2="26" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- Crossbar -->
+  <line x1="7" y1="16.5" x2="25" y2="16.5" stroke="#D946EF" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Crossbar dots -->
+  <circle cx="7" cy="16.5" r="1.8" fill="white" fill-opacity="0.7"/>
+  <circle cx="25" cy="16.5" r="1.8" fill="white" fill-opacity="0.7"/>
+  <!-- Flukes -->
+  <path d="M 16 26 Q 10 26 7 21" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 16 26 Q 22 26 25 21" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

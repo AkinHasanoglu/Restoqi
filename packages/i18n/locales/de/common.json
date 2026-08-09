@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "solutions": "Solutions",
+    "pricing": "Pricing",
+    "docs": "Docs",
+    "blog": "Blog",
+    "login": "Sign In",
+    "signup": "Get Started"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "remove": "Remove",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "export": "Export",
+    "refresh": "Refresh",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "enable": "Enable",
+    "disable": "Disable",
+    "invite": "Invite",
+    "resend": "Resend"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "delivered": "Delivered",
+    "failed": "Failed",
+    "trialing": "Trial",
+    "canceled": "Canceled"
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "editor": "Editor",
+    "viewer": "Viewer"
+  },
+  "platforms": {
+    "shopify": "Shopify",
+    "trendyol": "Trendyol",
+    "amazon": "Amazon",
+    "etsy": "Etsy",
+    "ebay": "eBay",
+    "hepsiburada": "Hepsiburada",
+    "aliexpress": "AliExpress"
+  },
+  "plans": {
+    "starter": "Starter",
+    "business": "Business",
+    "enterprise": "Enterprise"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "notFound": "Not found",
+    "unauthorized": "You are not authorized to perform this action.",
+    "forbidden": "Access denied.",
+    "required": "{field} is required.",
+    "invalidEmail": "Invalid email address.",
+    "networkError": "Network error. Check your connection."
+  },
+  "pagination": {
+    "showing": "Showing {from}–{to} of {total}",
+    "rowsPerPage": "Rows per page",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{count} min ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago",
+    "never": "Never"
+  }
+}

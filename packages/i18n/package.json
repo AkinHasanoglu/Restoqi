@@ -1,0 +1,20 @@
+{
+  "name": "@stockalert/i18n",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/get-messages.ts",
+    "./locales/*": "./locales/*.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next-intl": "^3.25.1"
+  },
+  "devDependencies": {
+    "@stockalert/config": "workspace:*",
+    "typescript": "^5.6.3"
+  }
+}

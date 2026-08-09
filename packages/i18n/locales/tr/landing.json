@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "badge": "7 Pazar. Tek Platform.",
+    "title": "Bir daha stok tükenmesin",
+    "subtitle": "Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada ve AliExpress için gerçek zamanlı stok uyarıları — yapay zeka destekli tahminlerle.",
+    "cta": "Ücretsiz dene",
+    "ctaSecondary": "Nasıl çalıştığını gör",
+    "trustedBy": "Dünya genelinde {count}+ satıcının güveni"
+  },
+  "features": {
+    "title": "Stokta kalmak için ihtiyacınız olan her şey",
+    "subtitle": "Profesyonel satıcılar ve kurumsal e-ticaret ekipleri için tasarlandı.",
+    "items": {
+      "realtime": {
+        "title": "Gerçek Zamanlı Webhook'lar",
+        "description": "Stok belirlediğiniz eşiğin altına düştüğü anda anında uyarı alın."
+      },
+      "ai": {
+        "title": "Yapay Zeka Tahminleri",
+        "description": "Geçmiş satış hızınızı kullanarak stok tükenmesini günler öncesinden tahmin edin."
+      },
+      "teams": {
+        "title": "Takım Çalışma Alanları",
+        "description": "Rol tabanlı izinlerle takımınızı davet edin. Sahip, Yönetici, Editör, İzleyici."
+      },
+      "channels": {
+        "title": "Çok Kanallı Uyarılar",
+        "description": "E-posta, Slack, Telegram, SMS veya kendi webhook'unuzla bildirim alın."
+      },
+      "rules": {
+        "title": "Akıllı Uyarı Kuralları",
+        "description": "Ürün veya etikete göre mutlak, yüzde veya günlük arz eşiği belirleyin."
+      },
+      "audit": {
+        "title": "Denetim İzi",
+        "description": "Çalışma alanınızdaki her kural değişikliği ve mağaza işleminin tam geçmişi."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Basit, şeffaf fiyatlandırma",
+    "subtitle": "Ücretsiz başlayın. Büyüdükçe yükseltin.",
+    "monthly": "Aylık",
+    "annual": "Yıllık",
+    "save": "%20 tasarruf",
+    "perMonth": "/ay",
+    "startTrial": "14 günlük ücretsiz deneme başlat",
+    "contactSales": "Satış ekibiyle iletişime geç",
+    "popular": "En popüler",
+    "plans": {
+      "starter": {
+        "name": "Başlangıç",
+        "price": "29",
+        "description": "Bireysel satıcılar için ideal.",
+        "features": [
+          "2 bağlı mağaza",
+          "500 ürün",
+          "3 uyarı kuralı",
+          "E-posta ve Webhook uyarıları",
+          "7 günlük geçmiş"
+        ]
+      },
+      "business": {
+        "name": "İş",
+        "price": "79",
+        "description": "Büyüyen takımlar ve çoklu mağazalar için.",
+        "features": [
+          "10 bağlı mağaza",
+          "Sınırsız ürün",
+          "Sınırsız uyarı kuralı",
+          "Tüm bildirim kanalları",
+          "Yapay zeka tahminleri",
+          "5 takım üyesi",
+          "90 günlük geçmiş"
+        ]
+      },
+      "enterprise": {
+        "name": "Kurumsal",
+        "price": "Özel",
+        "description": "Özel ihtiyaçları olan büyük operasyonlar için.",
+        "features": [
+          "Sınırsız mağaza",
+          "Sınırsız ürün",
+          "Sınırsız takım üyesi",
+          "Özel destek",
+          "SLA garantisi",
+          "Özel entegrasyonlar",
+          "Tam denetim logları"
+        ]
+      }
+    }
+  },
+  "solutions": {
+    "title": "Mağazalarınızı bağlayın",
+    "subtitle": "StockAlert tüm büyük pazar yerleriyle entegre olur."
+  },
+  "footer": {
+    "product": "Ürün",
+    "company": "Şirket",
+    "legal": "Yasal",
+    "copyright": "© {year} StockAlert. Tüm hakları saklıdır.",
+    "terms": "Kullanım Şartları",
+    "privacy": "Gizlilik Politikası",
+    "dpa": "Veri İşleme Sözleşmesi"
+  }
+}

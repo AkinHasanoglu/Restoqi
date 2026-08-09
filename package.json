@@ -1,0 +1,30 @@
+{
+  "name": "stockalert-saas",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "dev:landing": "pnpm --filter landing dev",
+    "dev:dashboard": "pnpm --filter dashboard dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "e2e": "turbo run e2e",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "db:types": "pnpm --filter @stockalert/database run gen:types",
+    "db:migrate": "pnpm --filter @stockalert/database run migrate",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\" --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "turbo": "^2.3.3",
+    "typescript": "^5.6.3"
+  }
+}

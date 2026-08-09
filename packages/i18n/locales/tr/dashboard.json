@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "overview": "Genel Bakış",
+    "products": "Ürünler",
+    "alerts": "Uyarılar",
+    "rules": "Uyarı Kuralları",
+    "integrations": "Entegrasyonlar",
+    "notes": "Notlar",
+    "settings": "Ayarlar"
+  },
+  "overview": {
+    "title": "Genel Bakış",
+    "welcomeBack": "Tekrar hoş geldiniz, {name}",
+    "stats": {
+      "totalProducts": "Toplam Ürün",
+      "activeRules": "Aktif Kurallar",
+      "alertsToday": "Bugünkü Uyarılar",
+      "connectedStores": "Bağlı Mağazalar"
+    },
+    "criticalProducts": "Kritik Ürünler",
+    "criticalProductsDesc": "7 gün içinde stok tükenebilecek ürünler",
+    "recentAlerts": "Son Uyarılar",
+    "noAlerts": "Son uyarı yok",
+    "aiPredictions": "Yapay Zeka Tahminleri",
+    "daysUntilStockout": "Stok tükenmesine {days} gün"
+  },
+  "products": {
+    "title": "Ürünler",
+    "searchPlaceholder": "Ürün ara…",
+    "columns": {
+      "product": "Ürün",
+      "store": "Mağaza",
+      "sku": "SKU",
+      "stock": "Stok",
+      "prediction": "Tahmin",
+      "lastSync": "Son Senkronizasyon"
+    },
+    "noProducts": "Henüz ürün yok",
+    "noProductsDesc": "Stok takibine başlamak için bir mağaza bağlayın.",
+    "tracked": "Takip Edilen",
+    "untracked": "Takip Edilmeyen"
+  },
+  "alerts": {
+    "title": "Uyarılar",
+    "history": "Uyarı Geçmişi",
+    "columns": {
+      "product": "Ürün",
+      "rule": "Kural",
+      "channel": "Kanal",
+      "quantity": "Miktar",
+      "status": "Durum",
+      "sentAt": "Gönderildiği Zaman"
+    },
+    "noAlerts": "Henüz uyarı yok",
+    "noAlertsDesc": "Stok eşikleri aşıldığında uyarılar burada görünecek."
+  },
+  "rules": {
+    "title": "Uyarı Kuralları",
+    "createRule": "Kural Oluştur",
+    "editRule": "Kuralı Düzenle",
+    "deleteRule": "Kuralı Sil",
+    "toggleRule": "Kuralı Aç/Kapat",
+    "fields": {
+      "name": "Kural Adı",
+      "threshold": "Eşik",
+      "thresholdType": "Eşik Türü",
+      "thresholdValue": "Değer",
+      "scope": "Uygulanacak",
+      "channels": "Bildirim Kanalları",
+      "cooldown": "Bekleme Süresi",
+      "quietHours": "Sessiz Saatler"
+    },
+    "thresholdTypes": {
+      "absolute": "Mutlak (adet)",
+      "percentage": "Yüzde (%)",
+      "days_of_supply": "Gün Bazlı Stok"
+    },
+    "scopes": {
+      "all": "Tüm ürünler",
+      "tags": "Etikete göre",
+      "specific": "Belirli ürünler"
+    },
+    "noRules": "Uyarı kuralı yok",
+    "noRulesDesc": "Stok uyarısı almaya başlamak için ilk kuralınızı oluşturun."
+  },
+  "integrations": {
+    "title": "Entegrasyonlar",
+    "connectStore": "Mağaza Bağla",
+    "connectedStores": "Bağlı Mağazalar",
+    "noStores": "Bağlı mağaza yok",
+    "noStoresDesc": "Stok takibine başlamak için ilk mağazanızı bağlayın.",
+    "lastSync": "Son senkronizasyon: {time}",
+    "syncNow": "Şimdi Senkronize Et",
+    "status": {
+      "connected": "Bağlandı",
+      "error": "Senkronizasyon Hatası",
+      "syncing": "Senkronize ediliyor…"
+    }
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "account": {
+      "title": "Hesap",
+      "name": "Ad Soyad",
+      "email": "E-posta",
+      "password": "Şifre",
+      "changePassword": "Şifre Değiştir",
+      "language": "Dil",
+      "theme": "Tema"
+    },
+    "team": {
+      "title": "Takım",
+      "members": "Üyeler",
+      "inviteMember": "Üye Davet Et",
+      "inviteEmail": "E-posta adresi",
+      "inviteRole": "Rol",
+      "pendingInvitations": "Bekleyen Davetler",
+      "removeMember": "Üyeyi Çıkar",
+      "leaveTeam": "Takımdan Ayrıl"
+    },
+    "apiKeys": {
+      "title": "Yapay Zeka API Anahtarları",
+      "description": "Yapay zeka destekli tahminler için kendi Anthropic veya OpenAI anahtarınızı ekleyin.",
+      "anthropic": "Anthropic API Anahtarı",
+      "openai": "OpenAI API Anahtarı",
+      "masked": "••••••••{suffix}",
+      "addKey": "Anahtar Ekle",
+      "removeKey": "Anahtarı Kaldır"
+    },
+    "audit": {
+      "title": "Denetim Günlükleri",
+      "description": "Çalışma alanınızda gerçekleştirilen tüm işlemler.",
+      "columns": {
+        "action": "İşlem",
+        "user": "Kullanıcı",
+        "timestamp": "Zaman",
+        "details": "Detaylar"
+      }
+    },
+    "billing": {
+      "title": "Faturalama",
+      "currentPlan": "Mevcut Plan",
+      "trialEndsIn": "Deneme süresi {days} gün sonra bitiyor",
+      "upgradePlan": "Planı Yükselt",
+      "manageBilling": "Faturayı Yönet",
+      "usage": "Bu Ayki Kullanım"
+    },
+    "notifications": {
+      "title": "Bildirim Kanalları",
+      "addChannel": "Kanal Ekle",
+      "testChannel": "Test Et"
+    }
+  },
+  "onboarding": {
+    "welcome": "StockAlert'e hoş geldiniz!",
+    "steps": {
+      "profile": "Profilinizi oluşturun",
+      "store": "İlk mağazanızı bağlayın",
+      "rule": "İlk uyarı kuralınızı oluşturun",
+      "channel": "Bildirim kanalı ayarlayın"
+    }
+  },
+  "commandPalette": {
+    "placeholder": "Ara veya git…",
+    "noResults": "Sonuç bulunamadı.",
+    "navigation": "Gezinme",
+    "actions": "İşlemler",
+    "actions_createRule": "Uyarı kuralı oluştur",
+    "actions_connectStore": "Mağaza bağla",
+    "actions_inviteMember": "Takım üyesi davet et",
+    "actions_searchProducts": "Ürün ara"
+  }
+}

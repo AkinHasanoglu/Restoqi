@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "supabase.supabase",
+    "ms-playwright.playwright",
+    "lokalise.i18n-ally",
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "aaron-bond.better-comments"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@stockalert/database",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./server": "./src/server.ts",
+    "./middleware": "./src/middleware.ts",
+    "./types": "./src/types/database.types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "gen:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public > src/types/database.types.ts",
+    "migrate": "supabase db push"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.46.2"
+  },
+  "peerDependencies": {
+    "next": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@stockalert/config": "workspace:*",
+    "next": "^15.0.0",
+    "supabase": "^1.224.3",
+    "typescript": "^5.6.3"
+  }
+}

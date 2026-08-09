@@ -1,0 +1,20 @@
+{
+  "name": "@stockalert/integrations-core",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.23.8",
+    "@upstash/ratelimit": "^2.0.5",
+    "@upstash/redis": "^1.34.3"
+  },
+  "devDependencies": {
+    "@stockalert/config": "workspace:*",
+    "typescript": "^5.6.3"
+  }
+}

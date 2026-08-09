@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "badge": "7 Marketplaces. One Platform.",
+    "title": "Never run out of stock again",
+    "subtitle": "Real-time inventory alerts for Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada and AliExpress — with AI-powered predictions.",
+    "cta": "Start free trial",
+    "ctaSecondary": "See how it works",
+    "trustedBy": "Trusted by {count}+ sellers worldwide"
+  },
+  "features": {
+    "title": "Everything you need to stay in stock",
+    "subtitle": "Built for professional sellers and enterprise e-commerce teams.",
+    "items": {
+      "realtime": {
+        "title": "Real-time Webhooks",
+        "description": "Receive instant alerts the moment inventory drops below your threshold."
+      },
+      "ai": {
+        "title": "AI-Powered Predictions",
+        "description": "Predict stockouts days in advance using your historical sales velocity."
+      },
+      "teams": {
+        "title": "Team Workspaces",
+        "description": "Invite your team with role-based permissions. Owner, Admin, Editor, Viewer."
+      },
+      "channels": {
+        "title": "Multi-Channel Alerts",
+        "description": "Get notified via Email, Slack, Telegram, SMS, or your own webhook."
+      },
+      "rules": {
+        "title": "Smart Alert Rules",
+        "description": "Set absolute, percentage, or days-of-supply thresholds per product or tag."
+      },
+      "audit": {
+        "title": "Audit Trail",
+        "description": "Full history of every rule change and store action in your workspace."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Start for free. Upgrade as you grow.",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "save": "Save 20%",
+    "perMonth": "/mo",
+    "startTrial": "Start 14-day free trial",
+    "contactSales": "Contact sales",
+    "popular": "Most popular",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "29",
+        "description": "Perfect for individual sellers.",
+        "features": [
+          "2 connected stores",
+          "500 products",
+          "3 alert rules",
+          "Email & Webhook alerts",
+          "7-day history"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "price": "79",
+        "description": "For growing teams and multiple stores.",
+        "features": [
+          "10 connected stores",
+          "Unlimited products",
+          "Unlimited alert rules",
+          "All notification channels",
+          "AI predictions",
+          "5 team members",
+          "90-day history"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Custom",
+        "description": "For large operations with custom needs.",
+        "features": [
+          "Unlimited stores",
+          "Unlimited products",
+          "Unlimited team members",
+          "Dedicated support",
+          "SLA guarantee",
+          "Custom integrations",
+          "Full audit logs"
+        ]
+      }
+    }
+  },
+  "solutions": {
+    "title": "Connect your stores",
+    "subtitle": "StockAlert integrates with all major marketplaces."
+  },
+  "footer": {
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "copyright": "© {year} StockAlert. All rights reserved.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "dpa": "Data Processing Agreement"
+  }
+}

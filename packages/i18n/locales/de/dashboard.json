@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "products": "Products",
+    "alerts": "Alerts",
+    "rules": "Alert Rules",
+    "integrations": "Integrations",
+    "notes": "Notes",
+    "settings": "Settings"
+  },
+  "overview": {
+    "title": "Overview",
+    "welcomeBack": "Welcome back, {name}",
+    "stats": {
+      "totalProducts": "Total Products",
+      "activeRules": "Active Rules",
+      "alertsToday": "Alerts Today",
+      "connectedStores": "Connected Stores"
+    },
+    "criticalProducts": "Critical Products",
+    "criticalProductsDesc": "Products predicted to stock out within 7 days",
+    "recentAlerts": "Recent Alerts",
+    "noAlerts": "No recent alerts",
+    "aiPredictions": "AI Predictions",
+    "daysUntilStockout": "{days} days until stockout"
+  },
+  "products": {
+    "title": "Products",
+    "searchPlaceholder": "Search products…",
+    "columns": {
+      "product": "Product",
+      "store": "Store",
+      "sku": "SKU",
+      "stock": "Stock",
+      "prediction": "Prediction",
+      "lastSync": "Last Sync"
+    },
+    "noProducts": "No products yet",
+    "noProductsDesc": "Connect a store to start tracking inventory.",
+    "tracked": "Tracked",
+    "untracked": "Untracked"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "history": "Alert History",
+    "columns": {
+      "product": "Product",
+      "rule": "Rule",
+      "channel": "Channel",
+      "quantity": "Quantity",
+      "status": "Status",
+      "sentAt": "Sent At"
+    },
+    "noAlerts": "No alerts yet",
+    "noAlertsDesc": "Alerts will appear here when stock thresholds are breached."
+  },
+  "rules": {
+    "title": "Alert Rules",
+    "createRule": "Create Rule",
+    "editRule": "Edit Rule",
+    "deleteRule": "Delete Rule",
+    "toggleRule": "Toggle Rule",
+    "fields": {
+      "name": "Rule Name",
+      "threshold": "Threshold",
+      "thresholdType": "Threshold Type",
+      "thresholdValue": "Value",
+      "scope": "Applies To",
+      "channels": "Notify Via",
+      "cooldown": "Cooldown",
+      "quietHours": "Quiet Hours"
+    },
+    "thresholdTypes": {
+      "absolute": "Absolute (units)",
+      "percentage": "Percentage (%)",
+      "days_of_supply": "Days of Supply"
+    },
+    "scopes": {
+      "all": "All products",
+      "tags": "By tag",
+      "specific": "Specific products"
+    },
+    "noRules": "No alert rules",
+    "noRulesDesc": "Create your first rule to start receiving stock alerts."
+  },
+  "integrations": {
+    "title": "Integrations",
+    "connectStore": "Connect Store",
+    "connectedStores": "Connected Stores",
+    "noStores": "No stores connected",
+    "noStoresDesc": "Connect your first store to start tracking inventory.",
+    "lastSync": "Last sync: {time}",
+    "syncNow": "Sync Now",
+    "status": {
+      "connected": "Connected",
+      "error": "Sync Error",
+      "syncing": "Syncing…"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "account": {
+      "title": "Account",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "changePassword": "Change Password",
+      "language": "Language",
+      "theme": "Theme"
+    },
+    "team": {
+      "title": "Team",
+      "members": "Members",
+      "inviteMember": "Invite Member",
+      "inviteEmail": "Email address",
+      "inviteRole": "Role",
+      "pendingInvitations": "Pending Invitations",
+      "removeMember": "Remove Member",
+      "leaveTeam": "Leave Team"
+    },
+    "apiKeys": {
+      "title": "AI API Keys",
+      "description": "Add your own Anthropic or OpenAI key for AI-powered predictions.",
+      "anthropic": "Anthropic API Key",
+      "openai": "OpenAI API Key",
+      "masked": "••••••••{suffix}",
+      "addKey": "Add Key",
+      "removeKey": "Remove Key"
+    },
+    "audit": {
+      "title": "Audit Logs",
+      "description": "All actions performed in your workspace.",
+      "columns": {
+        "action": "Action",
+        "user": "User",
+        "timestamp": "Timestamp",
+        "details": "Details"
+      }
+    },
+    "billing": {
+      "title": "Billing",
+      "currentPlan": "Current Plan",
+      "trialEndsIn": "Trial ends in {days} days",
+      "upgradePlan": "Upgrade Plan",
+      "manageBilling": "Manage Billing",
+      "usage": "Usage This Month"
+    },
+    "notifications": {
+      "title": "Notification Channels",
+      "addChannel": "Add Channel",
+      "testChannel": "Test"
+    }
+  },
+  "onboarding": {
+    "welcome": "Welcome to StockAlert!",
+    "steps": {
+      "profile": "Set up your profile",
+      "store": "Connect your first store",
+      "rule": "Create your first alert rule",
+      "channel": "Set up a notification channel"
+    }
+  },
+  "commandPalette": {
+    "placeholder": "Search or jump to…",
+    "noResults": "No results found.",
+    "navigation": "Navigation",
+    "actions": "Actions",
+    "actions_createRule": "Create alert rule",
+    "actions_connectStore": "Connect store",
+    "actions_inviteMember": "Invite team member",
+    "actions_searchProducts": "Search products"
+  }
+}

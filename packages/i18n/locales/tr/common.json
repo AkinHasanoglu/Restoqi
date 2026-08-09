@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "solutions": "Çözümler",
+    "pricing": "Fiyatlandırma",
+    "docs": "Dokümantasyon",
+    "blog": "Blog",
+    "login": "Giriş Yap",
+    "signup": "Başla"
+  },
+  "actions": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "create": "Oluştur",
+    "add": "Ekle",
+    "remove": "Kaldır",
+    "confirm": "Onayla",
+    "back": "Geri",
+    "next": "İleri",
+    "submit": "Gönder",
+    "close": "Kapat",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "clear": "Temizle",
+    "export": "Dışa Aktar",
+    "refresh": "Yenile",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı!",
+    "connect": "Bağla",
+    "disconnect": "Bağlantıyı Kes",
+    "enable": "Etkinleştir",
+    "disable": "Devre Dışı Bırak",
+    "invite": "Davet Et",
+    "resend": "Yeniden Gönder"
+  },
+  "status": {
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "pending": "Beklemede",
+    "delivered": "İletildi",
+    "failed": "Başarısız",
+    "trialing": "Deneme",
+    "canceled": "İptal Edildi"
+  },
+  "roles": {
+    "owner": "Sahip",
+    "admin": "Yönetici",
+    "editor": "Editör",
+    "viewer": "İzleyici"
+  },
+  "platforms": {
+    "shopify": "Shopify",
+    "trendyol": "Trendyol",
+    "amazon": "Amazon",
+    "etsy": "Etsy",
+    "ebay": "eBay",
+    "hepsiburada": "Hepsiburada",
+    "aliexpress": "AliExpress"
+  },
+  "plans": {
+    "starter": "Başlangıç",
+    "business": "İş",
+    "enterprise": "Kurumsal"
+  },
+  "errors": {
+    "generic": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "notFound": "Bulunamadı",
+    "unauthorized": "Bu işlemi gerçekleştirme yetkiniz yok.",
+    "forbidden": "Erişim reddedildi.",
+    "required": "{field} zorunludur.",
+    "invalidEmail": "Geçersiz e-posta adresi.",
+    "networkError": "Ağ hatası. Bağlantınızı kontrol edin."
+  },
+  "pagination": {
+    "showing": "{total} kaydın {from}–{to} arası gösteriliyor",
+    "rowsPerPage": "Sayfa başı satır",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
+  "time": {
+    "justNow": "Az önce",
+    "minutesAgo": "{count} dk önce",
+    "hoursAgo": "{count} sa önce",
+    "daysAgo": "{count} gün önce",
+    "never": "Hiç"
+  }
+}
