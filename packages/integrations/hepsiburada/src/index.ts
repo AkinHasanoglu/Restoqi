@@ -75,7 +75,9 @@ export const hepsiburadaConnector: MarketplaceConnector = {
     }))
   },
 
-  verifyWebhookSignature(_headers: Record<string, string>, _body: string, _secret: string): boolean {
-    return true
+  // No public stock-change webhook product exists for Hepsiburada — poll-only.
+  supportsPush: false,
+  async verifyWebhookSignature(): Promise<boolean> {
+    return false
   },
 }

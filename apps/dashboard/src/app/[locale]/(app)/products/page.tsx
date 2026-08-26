@@ -22,13 +22,32 @@ export default async function ProductsPage() {
 
   const teamId = membership?.team_id
 
-  const { data: products } = teamId
-    ? await supabase
-        .from('products')
-        .select('id, external_id, title, sku, barcode, image_url, product_url, platform, current_quantity, last_synced_at, store_id, connected_stores(platform, store_name)')
-        .eq('team_id', teamId)
-        .order('title')
-    : { data: [] }
+  const [{ data: products }, { data: predictions }] = teamId
+    ? await Promise.all([
+        supabase
+          .from('products')
+          .select('id, external_id, title, sku, barcode, image_url, product_url, platform, current_quantity, last_synced_at, store_id, connected_stores(platform, store_name)')
+          .eq('team_id', teamId)
+          .order('title'),
+        // Only still-valid predictions — a stale row (worker hasn't run
+        // since valid_until lapsed) shouldn't be shown as current.
+        supabase
+          .from('ai_predictions')
+          .select('product_id, days_until_stockout, predicted_at')
+          .eq('team_id', teamId)
+          .gt('valid_until', new Date().toISOString())
+          .order('predicted_at', { ascending: false }),
+      ])
+    : [{ data: [] }, { data: [] }]
+
+  // ai_predictions has one row per prediction run, not per product — keep
+  // only the most recent (first, since ordered desc) per product_id.
+  const latestDaysUntilStockout = new Map<string, number | null>()
+  for (const pred of predictions ?? []) {
+    if (!latestDaysUntilStockout.has(pred.product_id)) {
+      latestDaysUntilStockout.set(pred.product_id, pred.days_until_stockout)
+    }
+  }
 
   const rows = (products ?? []).map((p) => ({
     id: p.id,
@@ -38,10 +57,11 @@ export default async function ProductsPage() {
     barcode: p.barcode ?? null,
     imageUrl: p.image_url ?? null,
     productUrl: p.product_url ?? null,
-    platform: p.platform,
+    platform: p.platform ?? 'unknown',
     quantity: p.current_quantity ?? null,
     lastSyncedAt: p.last_synced_at ?? null,
-    storeName: (p.connected_stores as { store_name: string } | null)?.store_name ?? p.platform,
+    storeName: (p.connected_stores as { store_name: string } | null)?.store_name ?? p.platform ?? 'unknown',
+    daysUntilStockout: latestDaysUntilStockout.get(p.id) ?? null,
   }))
 
   if (rows.length === 0) {

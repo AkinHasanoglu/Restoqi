@@ -63,7 +63,7 @@ export function NotesClient({ notes, canEdit }: NotesClientProps) {
       const result = editing
         ? await updateNote(editing.id, fd)
         : await createNote(fd)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else {
         toast.success(editing ? 'Note updated' : 'Note created')
         handleClose()
@@ -75,7 +75,7 @@ export function NotesClient({ notes, canEdit }: NotesClientProps) {
     if (!confirm('Delete this note?')) return
     startTransition(async () => {
       const result = await deleteNote(noteId)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else toast.success('Note deleted')
     })
   }
@@ -113,11 +113,17 @@ export function NotesClient({ notes, canEdit }: NotesClientProps) {
                 <div className="flex items-start justify-between gap-2">
                   <CardTitle className="text-base">{note.title}</CardTitle>
                   {canEdit && (
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openEdit(note)}>
+                    // group-focus-within (not just group-hover) so a
+                    // keyboard user tabbing onto either button actually
+                    // sees it appear, rather than it staying invisible
+                    // until a mouse hovers the card — WCAG 2.1 AA 2.4.7
+                    // (compliance audit rule 13). aria-label on each,
+                    // since an icon alone has no accessible name.
+                    <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openEdit(note)} aria-label={`Edit "${note.title}"`}>
                         <Pencil className="h-3.5 w-3.5" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => handleDelete(note.id)}>
+                      <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => handleDelete(note.id)} aria-label={`Delete "${note.title}"`}>
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>

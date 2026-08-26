@@ -5,7 +5,29 @@
     "subtitle": "Real-time inventory alerts for Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada and AliExpress — with AI-powered predictions.",
     "cta": "Start free trial",
     "ctaSecondary": "See how it works",
-    "trustedBy": "Trusted by {count}+ sellers worldwide"
+    "trustSignals": "{marketplaces} marketplaces · Essai gratuit de {trialDays} jours, sans carte bancaire · {languages} langues",
+    "mockup": {
+      "nav": {
+        "overview": "Aperçu",
+        "products": "Produits",
+        "alerts": "Alertes",
+        "rules": "Règles",
+        "integrations": "Intégrations"
+      },
+      "stats": {
+        "products": "Produits",
+        "lowStock": "Stock faible",
+        "stores": "Boutiques",
+        "uptime": "Disponibilité"
+      },
+      "live": "En direct",
+      "chartTitle": "Tendance des stocks — 15 derniers jours",
+      "healthy": "Sain",
+      "low": "Faible",
+      "recentAlerts": "Alertes récentes",
+      "newCount": "{count} nouvelles",
+      "qtyLeft": "{count} restants"
+    }
   },
   "features": {
     "title": "Everything you need to stay in stock",
@@ -39,60 +61,159 @@
   },
   "pricing": {
     "title": "Simple, transparent pricing",
-    "subtitle": "Start for free. Upgrade as you grow.",
+    "subtitle": "Try Growth free for 14 days — no card required. Upgrade as you grow.",
     "monthly": "Monthly",
     "annual": "Annual",
-    "save": "Save 20%",
+    "save": "2 months free",
     "perMonth": "/mo",
     "startTrial": "Start 14-day free trial",
-    "contactSales": "Contact sales",
     "popular": "Most popular",
     "plans": {
       "starter": {
         "name": "Starter",
-        "price": "29",
-        "description": "Perfect for individual sellers.",
+        "description": "Perfect for a single store getting started.",
         "features": [
-          "2 connected stores",
-          "500 products",
-          "3 alert rules",
-          "Email & Webhook alerts",
-          "7-day history"
+          "1 boutique connectée",
+          "500 SKU suivis",
+          "5 règles d'alerte",
+          "100 alertes / mois",
+          "Synchronisation toutes les 5 minutes + mises à jour webhook instantanées",
+          "Alertes e-mail et Telegram",
+          "1 poste"
         ]
       },
-      "business": {
-        "name": "Business",
-        "price": "79",
-        "description": "For growing teams and multiple stores.",
+      "growth": {
+        "name": "Growth",
+        "description": "For growing teams selling across multiple stores.",
         "features": [
-          "10 connected stores",
-          "Unlimited products",
-          "Unlimited alert rules",
-          "All notification channels",
-          "AI predictions",
-          "5 team members",
-          "90-day history"
+          "3 boutiques connectées",
+          "2 500 SKU suivis",
+          "25 règles d'alerte",
+          "1 000 alertes / mois",
+          "Synchronisation toutes les 5 minutes + mises à jour webhook instantanées",
+          "Alertes e-mail, Telegram et Slack",
+          "Seuils personnalisés par produit",
+          "Export CSV / Excel",
+          "3 postes"
         ]
       },
-      "enterprise": {
-        "name": "Enterprise",
-        "price": "Custom",
-        "description": "For large operations with custom needs.",
+      "scale": {
+        "name": "Scale",
+        "description": "For high-volume, multi-store operations.",
         "features": [
-          "Unlimited stores",
-          "Unlimited products",
-          "Unlimited team members",
-          "Dedicated support",
-          "SLA guarantee",
-          "Custom integrations",
-          "Full audit logs"
+          "10 boutiques connectées",
+          "15 000 SKU suivis",
+          "Règles d'alerte illimitées",
+          "Alertes illimitées",
+          "Synchronisation toutes les 5 minutes + mises à jour webhook instantanées",
+          "Tous les canaux dont SMS + webhooks personnalisés (n8n / Make / ERP)",
+          "Prédiction de rupture basée sur la vélocité des ventes",
+          "10 postes"
         ]
+      }
+    },
+    "billedAnnually": "Facturé ${yearly}/an · au lieu de ${monthly}/mois",
+    "trialExplainer": "{days} jours complets avec toutes les fonctionnalités Growth, sans carte bancaire. À la fin de l'essai, votre compte passe en lecture seule — rien n'est supprimé.",
+    "comparisonTitle": "Comparer les offres en détail",
+    "comparison": {
+      "stores": "Boutiques connectées",
+      "products": "SKU suivis",
+      "rules": "Règles d'alerte",
+      "alertsPerMonth": "Alertes / mois",
+      "seats": "Postes",
+      "channels": "Canaux d'alerte",
+      "customThresholds": "Seuils personnalisés",
+      "velocityPrediction": "Prédiction de rupture",
+      "csvExport": "Export CSV / Excel",
+      "unlimited": "Illimité",
+      "yes": "Inclus",
+      "no": "—"
+    },
+    "faq": {
+      "currency": {
+        "q": "Dans quelle devise suis-je facturé, la taxe est-elle incluse ?",
+        "a": "Le paiement est géré par Paddle, notre Merchant of Record — il facture dans votre devise locale et gère automatiquement la TVA."
+      },
+      "planChange": {
+        "q": "Puis-je changer d'offre plus tard ?",
+        "a": "Oui, vous pouvez monter ou descendre de gamme à tout moment depuis Paramètres → Facturation ; le montant est ajusté automatiquement au prorata."
+      },
+      "cancel": {
+        "q": "Que se passe-t-il si j'annule ?",
+        "a": "Vous conservez l'accès jusqu'à la fin de votre période de facturation, puis le compte passe en lecture seule. Vos données ne sont pas supprimées."
       }
     }
   },
   "solutions": {
     "title": "Connect your stores",
     "subtitle": "StockAlert integrates with all major marketplaces."
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Connect your store and get your inventory under control in four simple steps.",
+    "steps": {
+      "connect": {
+        "title": "Connect your store",
+        "description": "Link Shopify, Trendyol, Amazon and more in just a few clicks."
+      },
+      "import": {
+        "title": "Import your stock",
+        "description": "Bring in your existing inventory or add it manually — all in one place."
+      },
+      "sync": {
+        "title": "Stay in sync",
+        "description": "Stock levels update automatically and instantly with every sale."
+      },
+      "alert": {
+        "title": "Get alerted below threshold",
+        "description": "Get notified the moment a product drops below the level you set."
+      }
+    },
+    "ctaTitle": "Try it yourself, see how easy it is"
+  },
+  "integrations": {
+    "title": "Connect to the platforms you use",
+    "subtitle": "Every integration takes minutes to set up — no code required.",
+    "cards": {
+      "shopify": "Install from the App Store and connect with your API key in 2 minutes.",
+      "trendyol": "Enter your API details from the seller panel for automatic sync.",
+      "amazon": "Connect your Seller Central account and track every SKU in real time.",
+      "etsy": "Authorize your shop and let listing stock data flow in automatically.",
+      "ebay": "Approve API access and manage multiple accounts from one panel.",
+      "hepsiburada": "Enter your seller details and sync inventory in real time."
+    },
+    "ctaTitle": "Connect your store today"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "q": "Is there a free trial, and do I need a credit card?",
+        "a": "You can try it free for 14 days — no credit card required for the trial."
+      },
+      {
+        "q": "How long does it take to connect my store?",
+        "a": "Most integrations connect in 2-3 minutes with your API key, no code required."
+      },
+      {
+        "q": "How secure is my data?",
+        "a": "All data is encrypted at rest and isolated per account; backups are taken regularly."
+      },
+      {
+        "q": "Can I cancel anytime?",
+        "a": "Monthly plans have no commitment — cancel whenever you like. Annual plans come with an extra discount."
+      },
+      {
+        "q": "Which platforms do you support?",
+        "a": "We support Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada, AliExpress and more."
+      },
+      {
+        "q": "Is a custom integration or API possible?",
+        "a": "Growth plans and above include REST API and webhook support."
+      }
+    ],
+    "ctaTitle": "Still have questions?",
+    "ctaSubtitle": "Try it free for 14 days — we'll help answer your questions as you go."
   },
   "footer": {
     "product": "Product",
@@ -101,6 +222,131 @@
     "copyright": "© {year} StockAlert. All rights reserved.",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
-    "dpa": "Data Processing Agreement"
+    "dpa": "Data Processing Agreement",
+    "tagline": "Alertes de stock en temps réel pour les vendeurs e-commerce.",
+    "about": "À propos",
+    "blog": "Blog",
+    "contact": "Contact",
+    "cookies": "Cookie Policy",
+    "subprocessors": "Sub-processors"
+  },
+  "trust": {
+    "title": "Construit sur une infrastructure de confiance",
+    "subtitle": "Ici, la sécurité n'est pas une case à cocher — elle fait partie de la conception du produit.",
+    "items": {
+      "dataIsolation": {
+        "title": "Isolation des données par équipe",
+        "description": "Les données de chaque équipe sont isolées au niveau de la base de données grâce à la sécurité au niveau des lignes — aucun accès entre équipes n'est possible."
+      },
+      "auditTrail": {
+        "title": "Journal d'audit complet",
+        "description": "Chaque modification de règle et action sur une boutique est enregistrée et visible dans votre espace de travail, pas seulement en interne."
+      },
+      "encryptedCredentials": {
+        "title": "Identifiants de boutique chiffrés",
+        "description": "Les clés API et jetons de chaque marketplace connectée sont chiffrés au repos, jamais stockés en clair."
+      },
+      "rateLimiting": {
+        "title": "Limitation de débit et protection anti-bot",
+        "description": "Les points d'accès d'authentification et publics sont protégés contre les abus par limitation de débit et Cloudflare Turnstile."
+      },
+      "errorTracking": {
+        "title": "Surveillance proactive des erreurs",
+        "description": "Sentry surveille le tableau de bord et les workers de synchronisation, pour détecter les problèmes avant qu'ils ne causent une rupture de stock."
+      },
+      "billing": {
+        "title": "Facturation conforme PCI",
+        "description": "Les paiements transitent par Paddle, notre Merchant of Record — vos données bancaires ne touchent jamais nos serveurs."
+      }
+    }
+  },
+  "legal": {
+    "title": "Mentions légales",
+    "subtitle": "Conditions d'utilisation, confidentialité et traitement des données pour StockAlert.",
+    "draftNotice": "Brouillon — en attente de révision juridique. Cette page n'est pas encore contraignante.",
+    "backToLegal": "Retour aux mentions légales",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "blogPage": {
+    "title": "Blog",
+    "subtitle": "Actualités produit, conseils de gestion des stocks et analyses e-commerce.",
+    "emptyState": "Nous rédigeons nos premiers articles — revenez bientôt."
+  },
+  "docsPage": {
+    "title": "Documentation",
+    "subtitle": "Guides pour connecter vos boutiques, configurer des règles d'alerte et utiliser l'API.",
+    "emptyState": "La documentation complète est en cours de rédaction — contactez-nous via la page Contact en attendant, nous vous aiderons directement."
+  },
+  "about": {
+    "title": "À propos de StockAlert",
+    "subtitle": "Conçu par Lavanchor pour les vendeurs e-commerce qui ne peuvent pas se permettre d'apprendre une rupture de stock par un client.",
+    "body": "StockAlert se connecte aux marketplaces sur lesquelles vous vendez déjà et surveille vos niveaux de stock en continu, afin que les situations de stock faible ou de rupture atteignent votre équipe avant vos clients. Conçu comme un outil ciblé à usage unique plutôt qu'une fonctionnalité annexe d'une plus grande plateforme — l'alerte de stock est le produit dans son intégralité."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Une question avant de vous inscrire, ou besoin d'aide avec votre compte ? Contactez-nous — nous lisons chaque message.",
+    "emailLabel": "Envoyez-nous un e-mail",
+    "supportNote": "Nous répondons généralement sous 1 jour ouvré."
+  },
+  "meta": {
+    "home": {
+      "title": "StockAlert — Alertes de stock en temps réel pour l'e-commerce"
+    },
+    "pricing": {
+      "title": "Tarifs",
+      "description": "Tarification simple et transparente pour Starter, Growth et Scale — essai gratuit de 14 jours, sans carte bancaire."
+    },
+    "about": {
+      "title": "À propos",
+      "description": "Qui développe StockAlert et pourquoi."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Mises à jour produit, conseils de gestion des stocks et analyses e-commerce."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Contactez l'équipe StockAlert."
+    },
+    "docs": {
+      "title": "Documentation",
+      "description": "Guides pour connecter des boutiques, configurer des règles d'alerte et utiliser l'API."
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Réponses aux questions courantes sur l'essai, la sécurité, la résiliation et le support des plateformes."
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "description": "Connectez votre boutique et maîtrisez votre stock en quatre étapes simples."
+    },
+    "integrations": {
+      "title": "Intégrations",
+      "description": "Connectez Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada et AliExpress en quelques minutes — sans code."
+    },
+    "legal": {
+      "title": "Mentions légales",
+      "description": "Conditions, confidentialité et traitement des données pour StockAlert."
+    },
+    "legalCookies": {
+      "title": "Politique de cookies",
+      "description": "Quels cookies StockAlert utilise et comment modifier votre choix."
+    },
+    "legalDpa": {
+      "title": "Accord de traitement des données",
+      "description": "Conditions régissant le traitement des données personnelles par StockAlert pour le compte des clients."
+    },
+    "legalPrivacy": {
+      "title": "Politique de confidentialité",
+      "description": "Comment StockAlert collecte, utilise et protège vos données."
+    },
+    "legalSubprocessors": {
+      "title": "Sous-traitants",
+      "description": "Chaque tiers utilisé par StockAlert pour traiter les données clients, et pourquoi."
+    },
+    "legalTerms": {
+      "title": "Conditions d'utilisation",
+      "description": "Conditions d'utilisation de StockAlert."
+    }
   }
 }

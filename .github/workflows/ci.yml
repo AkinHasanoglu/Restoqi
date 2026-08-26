@@ -6,27 +6,33 @@ on:
   pull_request:
     branches: [main]
 
+# Least-privilege default for the GITHUB_TOKEN — this workflow only reads
+# the repo (checkout, cache) and never needs to write issues/PRs/packages/
+# etc. See 2nd security audit item 23.
+permissions:
+  contents: read
+
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
 jobs:
   ci:
-    name: Build, Lint, Test
+    name: Lint, Typecheck, Test, Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '20'
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
         with:
           version: '11'
 
@@ -35,7 +41,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Cache pnpm store
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -45,18 +51,178 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Secret scan
+        run: |
+          set -e
+          if git ls-files | grep -E '(^|/)\.env\.local(\..+)?$'; then
+            echo "::error::A .env.local file is tracked in git — it must never be committed."
+            exit 1
+          fi
+          if grep -rIl 'your-32-char-random-encryption-key' --exclude-dir=node_modules --exclude-dir=.git . | grep -v '\.env\.local\.example$'; then
+            echo "::error::The literal placeholder encryption key text was found outside .env.local.example — check nothing copied it into a real config."
+            exit 1
+          fi
+          # Real-looking credentials committed into a tracked template file —
+          # .env.example / .env.local.example must only ever hold placeholders.
+          ENV_TEMPLATES=$(git ls-files | grep -E '\.env(\.local)?\.example$' || true)
+          if [ -n "$ENV_TEMPLATES" ]; then
+            # A Supabase/JWT-shaped token or a live Resend API key.
+            if echo "$ENV_TEMPLATES" | xargs grep -InE 'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}|re_[A-Za-z0-9_]{16,}'; then
+              echo "::error::A real-looking secret (JWT or Resend key) was found in a tracked .env*.example file."
+              exit 1
+            fi
+            # A secret-shaped var with a non-empty value — these must ship blank.
+            if echo "$ENV_TEMPLATES" | xargs grep -InE '^(SUPABASE_DB_PASSWORD|PADDLE_API_KEY|PADDLE_WEBHOOK_SECRET|TWILIO_AUTH_TOKEN)=.+$'; then
+              echo "::error::A secret-shaped env var has a non-empty value in a tracked .env*.example file — these must ship blank."
+              exit 1
+            fi
+          fi
+
+      - name: Dependency audit — production, critical (blocking)
+        # A critical advisory in a *runtime* dependency ships straight to
+        # production the moment this merges. This narrower gate (--prod,
+        # critical-only) is what's actually clean today: an earlier attempt
+        # at gating `--prod --audit-level=high` here found packages/emails'
+        # `react-email` (used only by its local template-preview CLI, never
+        # imported by any shipped code — see packages/emails/package.json)
+        # miscategorized as a production dependency, pulling in a
+        # transitive next@15.1.2 with two critical CVEs (React flight
+        # protocol RCE, middleware auth bypass) that had nothing to do with
+        # this app's own Next.js version (15.5.22). Reclassifying it to
+        # devDependencies fixed that specific gap and is what makes this
+        # gate meaningful rather than a rubber stamp. See 3rd security
+        # audit item 37.
+        run: pnpm audit --prod --audit-level=critical
+
+      - name: Dependency audit — full tree, high+critical (report-only)
+        # continue-on-error: after the react-email fix above, --prod is
+        # still not clean at --audit-level=high — 7 high-severity
+        # advisories remain (rollup, sharp, postcss x2, fast-uri,
+        # brace-expansion, nanoid), all several levels deep inside `next`/
+        # `sharp`'s own dependency trees, not overridable here without
+        # verifying compatibility against a real build first. Plus the
+        # dev-only tree's own advisories (eslint-config-next's eslint v8
+        # chain, @sentry/nextjs's bundled webpack-plugin, supabase CLI's
+        # bundled tar). None of this is blocking yet — report-only so it
+        # doesn't silently break every PR — but it's real, tracked debt,
+        # not a false positive to wave away. Dependabot
+        # (.github/dependabot.yml) is the ongoing/scheduled half of this,
+        # opening PRs as new advisories land; tighten this step's
+        # audit-level once that queue is worked down.
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+      - name: License compliance (no GPL/AGPL/SSPL in production deps)
+        # Compliance audit rule 22 — this is closed-source commercial
+        # SaaS; a copyleft production dependency would create a
+        # distribution/source-disclosure obligation nobody's agreed to.
+        # Run per-app (not from the repo root) because pnpm's workspace
+        # symlink layout resolves each app's actual dependency tree there,
+        # not at the root package.json, which has none of its own.
+        run: |
+          set -e
+          for app in apps/dashboard apps/landing; do
+            echo "::group::$app"
+            npx --yes license-checker-rseidelsohn --production \
+              --failOn "GPL-1.0;GPL-1.0-only;GPL-1.0-or-later;GPL-2.0;GPL-2.0-only;GPL-2.0-or-later;GPL-3.0;GPL-3.0-only;GPL-3.0-or-later;AGPL-1.0;AGPL-1.0-only;AGPL-1.0-or-later;AGPL-3.0;AGPL-3.0-only;AGPL-3.0-or-later;SSPL-1.0" \
+              --start "$app" --summary
+            echo "::endgroup::"
+          done
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm format:check
+
       - name: Typecheck
         run: pnpm turbo typecheck
+        env:
+          DATABASE_URL: 'file:./dev.db'
 
       - name: Test
         run: pnpm turbo test
         env:
           NODE_ENV: test
 
-      - name: Build
+      - name: Coverage gates (crypto.ts, rules-engine.ts)
+        run: |
+          pnpm --filter @stockalert/database run test:coverage
+          pnpm --filter @stockalert/notifications run test:coverage
+
+      - name: Build (real-format placeholder env, validation not skipped)
         run: pnpm turbo build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+          # Deliberately NOT setting SKIP_ENV_VALIDATION — that's the point
+          # of this step. Every value below is a placeholder but
+          # real-*shaped*, so @t3-oss/env-nextjs's zod schemas (url(),
+          # email(), the 32-byte base64 refine on SUPABASE_ENCRYPTION_KEY)
+          # actually run and would fail the build on a malformed schema,
+          # not just a missing value. (apps/*/src/env/index.ts's
+          # `skipValidation` used to also trigger on GitHub Actions' own
+          # unconditional CI=true — fixed alongside this workflow change.)
+          NEXT_PUBLIC_SUPABASE_URL: 'https://placeholder.supabase.co'
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'placeholder-anon-key'
           NEXT_PUBLIC_APP_URL: 'https://placeholder.getlavanchor.com'
+          NEXT_PUBLIC_LANDING_URL: 'https://placeholder-landing.getlavanchor.com'
           NEXT_PUBLIC_POSTHOG_KEY: 'placeholder'
+          SUPABASE_SERVICE_ROLE_KEY: 'placeholder-service-role-key'
+          # Valid 32-byte key (base64), generated once for CI only — not a
+          # real secret, never used outside this build-time schema check.
+          SUPABASE_ENCRYPTION_KEY: 'BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc='
+          RESEND_FROM_EMAIL: 'alerts@placeholder.getlavanchor.com'
+          DATABASE_URL: 'file:./dev.db'
+
+  database:
+    name: Database — migrations, RLS, type drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: '11'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1 # v1.7.1
+        with:
+          version: latest
+
+      - name: Start local Supabase
+        working-directory: packages/database
+        run: supabase start
+
+      - name: Reset database (applies all migrations + seed.sql)
+        working-directory: packages/database
+        run: supabase db reset
+
+      - name: Lint database (RLS, search_path, etc.)
+        working-directory: packages/database
+        run: supabase db lint
+
+      - name: Regenerate types and check for drift
+        working-directory: packages/database
+        run: |
+          pnpm run gen:types:local
+          git diff --exit-code src/types/database.types.ts || \
+            (echo "::error::database.types.ts is out of date — run 'pnpm db:types' against a schema change and commit the diff." && exit 1)
+
+      - name: Export local Supabase connection info
+        working-directory: packages/database
+        run: supabase status -o env --override-name api.url=NEXT_PUBLIC_SUPABASE_URL --override-name auth.anon_key=NEXT_PUBLIC_SUPABASE_ANON_KEY --override-name auth.service_role_key=SUPABASE_SERVICE_ROLE_KEY >> "$GITHUB_ENV"
+
+      - name: RLS + handle_new_user integration suite
+        working-directory: packages/database
+        run: pnpm run test:integration

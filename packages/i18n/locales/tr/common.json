@@ -1,6 +1,9 @@
 {
   "nav": {
-    "solutions": "Çözümler",
+    "howItWorks": "Nasıl Çalışır",
+    "features": "Özellikler",
+    "integrations": "Entegrasyonlar",
+    "faq": "SSS",
     "pricing": "Fiyatlandırma",
     "docs": "Dokümantasyon",
     "blog": "Blog",
@@ -60,8 +63,8 @@
   },
   "plans": {
     "starter": "Başlangıç",
-    "business": "İş",
-    "enterprise": "Kurumsal"
+    "growth": "Growth",
+    "scale": "Scale"
   },
   "errors": {
     "generic": "Bir hata oluştu. Lütfen tekrar deneyin.",
@@ -84,5 +87,18 @@
     "hoursAgo": "{count} sa önce",
     "daysAgo": "{count} gün önce",
     "never": "Hiç"
+  },
+  "cookieConsent": {
+    "title": "Çerez kullanıyoruz",
+    "description": "Siteyi çalıştırmak için gerekli çerezleri kullanıyoruz. Analiz çerezleri isteğe bağlıdır ve siz kabul etmeden devre dışı kalır — tercihinizi istediğiniz zaman değiştirebilirsiniz.",
+    "accept": "Tümünü kabul et",
+    "reject": "Tümünü reddet",
+    "learnMore": "Çerez Politikası"
+  },
+  "errorBoundary": {
+    "title": "Bir şeyler ters gitti",
+    "description": "Beklenmedik bir hata oluştu. Ekibimize otomatik olarak bildirildi.",
+    "retry": "Tekrar dene",
+    "goHome": "Ana sayfaya dön"
   }
 }

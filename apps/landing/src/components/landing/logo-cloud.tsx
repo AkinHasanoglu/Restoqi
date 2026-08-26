@@ -1,13 +1,13 @@
 import { useTranslations } from 'next-intl'
 
 const PLATFORMS = [
-  { name: 'Shopify', color: '#96BF48', bg: '#96BF4812' },
-  { name: 'Trendyol', color: '#F27A1A', bg: '#F27A1A12' },
-  { name: 'Amazon', color: '#FF9900', bg: '#FF990012' },
-  { name: 'Etsy', color: '#F56400', bg: '#F5640012' },
-  { name: 'eBay', color: '#E53238', bg: '#E5323812' },
-  { name: 'Hepsiburada', color: '#FF6000', bg: '#FF600012' },
-  { name: 'AliExpress', color: '#FF4747', bg: '#FF474712' },
+  { name: 'Shopify', color: '#96BF48', bg: '#96BF4818' },
+  { name: 'Trendyol', color: '#F27A1A', bg: '#F27A1A18' },
+  { name: 'Amazon', color: '#B7791F', bg: '#B7791F18' },
+  { name: 'Etsy', color: '#D2601A', bg: '#D2601A18' },
+  { name: 'eBay', color: '#C0392B', bg: '#C0392B18' },
+  { name: 'Hepsiburada', color: '#D2540A', bg: '#D2540A18' },
+  { name: 'AliExpress', color: '#D2453D', bg: '#D2453D18' },
 ]
 
 export function LogoCloud() {
@@ -26,6 +26,15 @@ export function LogoCloud() {
         }
         .marquee-track:hover {
           animation-play-state: paused;
+        }
+        /* WCAG 2.1 AA 2.3.3 (compliance audit rule 13) — an infinite
+           scrolling animation is exactly what prefers-reduced-motion
+           exists to suppress for users who've opted out of it at the OS
+           level (vestibular disorders, motion sensitivity). */
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-track {
+            animation: none;
+          }
         }
       `}</style>
 

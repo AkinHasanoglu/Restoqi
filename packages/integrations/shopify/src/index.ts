@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { MarketplaceConnector, Credentials, OAuthCredentials, Page, Product, InventoryLevel, WebhookTopic } from '@stockalert/integrations-core'
-import { fetchWithRetry, buildQuery, hmacSHA256, timingSafeEqual } from '@stockalert/integrations-core'
+import type { MarketplaceConnector, Credentials, OAuthCredentials, Page, Product, InventoryLevel, WebhookTopic, WebhookVerifyInput } from '@stockalert/integrations-core'
+import { fetchWithRetry, buildQuery, hmacSHA256, timingSafeEqual, requireEnv, requireParam } from '@stockalert/integrations-core'
 
 const ShopifyProductNodeSchema = z.object({
   id: z.string(),
@@ -10,8 +10,10 @@ const ShopifyProductNodeSchema = z.object({
   variants: z.object({
     nodes: z.array(z.object({
       id: z.string(),
+      title: z.string().nullable().optional(),
       sku: z.string().nullable().optional(),
       barcode: z.string().nullable().optional(),
+      image: z.object({ url: z.string() }).nullable().optional(),
       inventoryQuantity: z.number().nullable().optional(),
     })),
   }),
@@ -25,12 +27,25 @@ const PRODUCTS_QUERY = `
         id title handle
         featuredImage { url }
         variants(first: 50) {
-          nodes { id sku barcode inventoryQuantity }
+          nodes { id title sku barcode inventoryQuantity image { url } }
         }
       }
     }
   }
 `
+
+// Only real Shopify shop domains, never an arbitrary host. Without this,
+// both getAuthUrl and connect() build a URL from a caller-supplied `shop`/
+// `shopDomain` and either redirect to it or POST SHOPIFY_CLIENT_SECRET to
+// it — an attacker-controlled value would leak the app-wide client secret
+// (which also signs every inbound Shopify webhook) to an attacker's host.
+const SHOP_DOMAIN_RE = /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/
+
+function assertValidShopDomain(shop: string): void {
+  if (!SHOP_DOMAIN_RE.test(shop)) {
+    throw new Error('Invalid Shopify shop domain')
+  }
+}
 
 async function shopifyGraphQL(shop: string, accessToken: string, query: string, variables: Record<string, unknown> = {}) {
   const res = await fetchWithRetry(
@@ -56,16 +71,19 @@ export const shopifyConnector: MarketplaceConnector = {
   getAuthUrl(state: string, redirectUri: string, extra?: Record<string, string>): string {
     const shop = extra?.['shopDomain'] ?? ''
     if (!shop) throw new Error('shopDomain is required for Shopify OAuth')
-    const clientId = process.env['SHOPIFY_CLIENT_ID'] ?? ''
+    assertValidShopDomain(shop)
+    const clientId = requireEnv('SHOPIFY_CLIENT_ID')
     const scopes = 'read_products,read_inventory,write_fulfillments'
     const params = buildQuery({ client_id: clientId, scope: scopes, redirect_uri: redirectUri, state })
     return `https://${shop}/admin/oauth/authorize?${params}`
   },
 
   async connect(params: Record<string, string>): Promise<Credentials> {
-    const { code, shop } = params
-    const clientId = process.env['SHOPIFY_CLIENT_ID'] ?? ''
-    const clientSecret = process.env['SHOPIFY_CLIENT_SECRET'] ?? ''
+    const code = requireParam(params, 'code', 'Shopify')
+    const shop = requireParam(params, 'shop', 'Shopify')
+    assertValidShopDomain(shop)
+    const clientId = requireEnv('SHOPIFY_CLIENT_ID')
+    const clientSecret = requireEnv('SHOPIFY_CLIENT_SECRET')
 
     const res = await fetchWithRetry(`https://${shop}/admin/oauth/access_token`, {
       method: 'POST',
@@ -92,6 +110,16 @@ export const shopifyConnector: MarketplaceConnector = {
         imageUrl: p.featuredImage?.url ?? null,
         productUrl: `https://${shop}/products/${p.handle}`,
         tags: [],
+        // Previously only variants.nodes[0]'s sku/barcode were kept and
+        // the rest silently dropped — real accuracy for apparel/size
+        // sellers needs every variant, not just the first.
+        variants: p.variants.nodes.map((v) => ({
+          externalId: v.id,
+          title: v.title ?? null,
+          sku: v.sku ?? null,
+          barcode: v.barcode ?? null,
+          imageUrl: v.image?.url ?? null,
+        })),
       }
     })
 
@@ -144,10 +172,16 @@ export const shopifyConnector: MarketplaceConnector = {
     })
   },
 
-  verifyWebhookSignature(headers: Record<string, string>, body: string, secret: string): boolean {
+  supportsPush: true,
+
+  // Shopify signs with the app's client secret (one secret for the whole
+  // app), not a per-store secret — the route's per-store `secret` is
+  // ignored here. Header is base64, not hex.
+  async verifyWebhookSignature({ headers, rawBody }: WebhookVerifyInput): Promise<boolean> {
     const hmacHeader = headers['x-shopify-hmac-sha256'] ?? ''
-    // Async verify — for sync interface we use a placeholder; actual verification should be async
-    void hmacSHA256(secret, body).then((computed) => timingSafeEqual(computed, hmacHeader))
-    return true // Must be verified asynchronously in route handler
+    if (!hmacHeader) return false
+    const clientSecret = requireEnv('SHOPIFY_CLIENT_SECRET')
+    const computed = hmacSHA256(clientSecret, rawBody, 'base64')
+    return timingSafeEqual(computed, hmacHeader)
   },
 }

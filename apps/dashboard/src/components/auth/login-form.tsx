@@ -5,14 +5,33 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { type Locale } from '@stockalert/i18n'
-import { Button, Input, Label, Separator } from '@stockalert/ui'
+import { Button, Input, Label, Separator, TurnstileWidget } from '@stockalert/ui'
 import { toast } from '@stockalert/ui'
 import { createClient, isSupabaseConfigured } from '@stockalert/database/client'
+import { loginAction, magicLinkAction } from '../../actions/auth'
+
+// Auth error codes returned by actions/auth.ts map to translated strings
+// here rather than forwarding whatever Supabase's SDK said — see 2nd
+// security audit item 7 (account enumeration via error messages).
+function authErrorMessage(t: ReturnType<typeof useTranslations<'auth'>>, code: string): string {
+  switch (code) {
+    case 'rate_limited':
+      return t('errors.rateLimited')
+    case 'invalid_input':
+      return t('errors.invalidInput')
+    case 'bot_check_failed':
+      return t('errors.botCheckFailed')
+    default:
+      return t('errors.invalidCredentials')
+  }
+}
 
 export function LoginForm({ redirectTo }: { redirectTo?: string }) {
   const t = useTranslations('auth')
   const locale = useLocale() as Locale
   const [loading, setLoading] = React.useState(false)
+  const turnstileSiteKey = process.env['NEXT_PUBLIC_TURNSTILE_SITE_KEY']
+  const [turnstileVerified, setTurnstileVerified] = React.useState(false)
 
   if (!isSupabaseConfigured) {
     return (
@@ -33,39 +52,32 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
     )
   }
 
-  const supabase = createClient()
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+    if (redirectTo) formData.set('redirectTo', redirectTo)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const result = await loginAction(formData, locale)
 
-    if (error) {
-      toast.error(t('errors.invalidCredentials'))
+    if (!result.success) {
+      toast.error(authErrorMessage(t, result.error))
       setLoading(false)
       return
     }
 
-    window.location.href = redirectTo ?? `/${locale}/overview`
+    window.location.href = result.data.redirectTo
   }
 
   async function handleMagicLink(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/${locale}/overview` },
-    })
+    const result = await magicLinkAction(formData, window.location.origin, locale)
 
-    if (error) {
-      toast.error(t('errors.invalidCredentials'))
+    if (!result.success) {
+      toast.error(authErrorMessage(t, result.error))
     } else {
       toast.success('Check your email for a magic link!')
     }
@@ -73,9 +85,16 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
   }
 
   async function handleOAuth(provider: 'google' | 'github') {
+    const supabase = createClient()
+    // redirectTo is client-supplied (the page's ?redirectTo= search param) —
+    // encode it so it can't inject extra query params into the callback URL.
+    // The callback route (api/auth/callback) independently re-validates
+    // `next` as an internal-only path before ever redirecting to it, so this
+    // is defense-in-depth, not the actual open-redirect guard.
+    const next = encodeURIComponent(redirectTo ?? `/${locale}/overview`)
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/api/auth/callback?next=${redirectTo ?? `/${locale}/overview`}` },
+      options: { redirectTo: `${window.location.origin}/api/auth/callback?next=${next}` },
     })
   }
 
@@ -101,7 +120,14 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
           </div>
           <Input id="password" name="password" type="password" autoComplete="current-password" required />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
+
+        {/* Bot check — see apps/dashboard/src/lib/turnstile.ts; hidden and
+            skipped server-side when no site key is configured. */}
+        {turnstileSiteKey ? (
+          <TurnstileWidget siteKey={turnstileSiteKey} onVerify={() => setTurnstileVerified(true)} onExpire={() => setTurnstileVerified(false)} />
+        ) : null}
+
+        <Button type="submit" className="w-full" disabled={loading || (!!turnstileSiteKey && !turnstileVerified)}>
           {loading ? '…' : t('login.submit')}
         </Button>
       </form>
