@@ -5,15 +5,41 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { type Locale } from '@stockalert/i18n'
-import { Button, Input, Label } from '@stockalert/ui'
+import { Button, Input, Label, Checkbox, TurnstileWidget } from '@stockalert/ui'
 import { toast } from '@stockalert/ui'
-import { createClient, isSupabaseConfigured } from '@stockalert/database/client'
+import { isSupabaseConfigured } from '@stockalert/database/client'
+import { signupAction } from '../../actions/auth'
+
+// Every non-validation failure (including "email already registered")
+// collapses to the same signupFailed message — see 2nd security audit
+// item 7. Only weak_password is safe to call out specifically since it
+// reveals nothing about account existence.
+function signupErrorMessage(t: ReturnType<typeof useTranslations<'auth'>>, code: string): string {
+  switch (code) {
+    case 'weak_password':
+      return t('errors.weakPassword')
+    case 'rate_limited':
+      return t('errors.rateLimited')
+    case 'accept_terms_required':
+      return t('errors.acceptTermsRequired')
+    case 'bot_check_failed':
+      return t('errors.botCheckFailed')
+    default:
+      return t('errors.signupFailed')
+  }
+}
 
 export function SignupForm({ plan }: { plan?: string }) {
   const t = useTranslations('auth')
   const locale = useLocale() as Locale
   const [loading, setLoading] = React.useState(false)
   const [sent, setSent] = React.useState(false)
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false)
+  // Terms/Privacy live on the landing app (apps/landing/.../legal/*), not
+  // this one — same pattern as the (auth)/layout.tsx footer links.
+  const landingUrl = process.env['NEXT_PUBLIC_LANDING_URL'] ?? ''
+  const turnstileSiteKey = process.env['NEXT_PUBLIC_TURNSTILE_SITE_KEY']
+  const [turnstileVerified, setTurnstileVerified] = React.useState(false)
 
   if (!isSupabaseConfigured) {
     return (
@@ -34,31 +60,16 @@ export function SignupForm({ plan }: { plan?: string }) {
     )
   }
 
-  const supabase = createClient()
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const fullName = formData.get('name') as string
+    if (plan) formData.set('plan', plan)
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName, plan: plan ?? 'starter' },
-        emailRedirectTo: `${window.location.origin}/${locale}/overview`,
-      },
-    })
+    const result = await signupAction(formData, window.location.origin, locale)
 
-    if (error) {
-      if (error.message.includes('already')) {
-        toast.error(t('errors.emailAlreadyExists'))
-      } else {
-        toast.error(t('errors.weakPassword'))
-      }
+    if (!result.success) {
+      toast.error(signupErrorMessage(t, result.error))
       setLoading(false)
       return
     }
@@ -104,7 +115,44 @@ export function SignupForm({ plan }: { plan?: string }) {
           <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required />
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        {/* Clickwrap acceptance — actions/auth.ts's signupAction records the
+            acceptance timestamp/IP alongside this. Submit stays disabled
+            until checked; the server also rejects an unchecked submission
+            (SignupSchema.acceptedTerms) as defense in depth against a
+            forged request. See compliance audit rule 19. */}
+        <div className="flex items-start gap-2">
+          <Checkbox
+            id="acceptedTerms"
+            name="acceptedTerms"
+            checked={acceptedTerms}
+            onCheckedChange={(checked) => setAcceptedTerms(checked === true)}
+            className="mt-0.5"
+          />
+          <Label htmlFor="acceptedTerms" className="text-sm font-normal leading-snug text-muted-foreground">
+            {t.rich('signup.terms', {
+              terms: (chunks) => (
+                <Link href={`${landingUrl}/legal/terms`} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+                  {chunks}
+                </Link>
+              ),
+              privacy: (chunks) => (
+                <Link href={`${landingUrl}/legal/privacy`} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </Label>
+        </div>
+
+        {/* Bot check — see apps/dashboard/src/lib/turnstile.ts and the
+            landing Trust section's "Turnstile" claim (compliance audit
+            rule 07). Hidden entirely (and skipped server-side too) when
+            no site key is configured, so local dev/CI aren't blocked. */}
+        {turnstileSiteKey ? (
+          <TurnstileWidget siteKey={turnstileSiteKey} onVerify={() => setTurnstileVerified(true)} onExpire={() => setTurnstileVerified(false)} />
+        ) : null}
+
+        <Button type="submit" className="w-full" disabled={loading || !acceptedTerms || (!!turnstileSiteKey && !turnstileVerified)}>
           {loading ? '…' : t('signup.submit')}
         </Button>
       </form>

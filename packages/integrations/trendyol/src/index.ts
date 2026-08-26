@@ -1,4 +1,4 @@
-import type { MarketplaceConnector, Credentials, ApiKeyCredentials, Page, Product, InventoryLevel } from '@stockalert/integrations-core'
+import type { MarketplaceConnector, Credentials, ApiKeyCredentials, Page, Product, InventoryLevel, WebhookVerifyInput } from '@stockalert/integrations-core'
 import { fetchWithRetry, buildQuery, timingSafeEqual } from '@stockalert/integrations-core'
 
 function basicAuth(apiKey: string, apiSecret: string) {
@@ -74,8 +74,35 @@ export const trendyolConnector: MarketplaceConnector = {
     }))
   },
 
-  verifyWebhookSignature(_headers: Record<string, string>, _body: string, _secret: string): boolean {
-    // Trendyol uses IP allowlisting, not HMAC
-    return true
+  supportsPush: true,
+
+  // Trendyol does not sign webhooks — no HMAC exists. Security is (a) HTTP
+  // Basic credentials registered with Trendyol at webhook setup, stored as
+  // the per-store `secret` (used as the Basic password), and (b) an
+  // optional IP allowlist. Stock levels still come primarily from the
+  // poll cron regardless.
+  async verifyWebhookSignature({ headers, secret, ip }: WebhookVerifyInput): Promise<boolean> {
+    const allowedIps = (process.env['TRENDYOL_WEBHOOK_IPS'] ?? '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+    if (allowedIps.length > 0) {
+      if (!allowedIps.includes(ip)) return false
+    } else if (process.env['NODE_ENV'] === 'production') {
+      // Since Trendyol doesn't sign webhooks at all, the IP allowlist is
+      // the only thing standing between "knows the Basic Auth secret" and
+      // "knows the Basic Auth secret AND is actually Trendyol's infra" —
+      // leaving it unset in production silently drops to Basic-Auth-only,
+      // which is a shared secret with no rotation/scoping. Fail closed
+      // instead. See 2nd security audit item 12.
+      console.error('[trendyol] TRENDYOL_WEBHOOK_IPS is not set in production — refusing webhook')
+      return false
+    }
+
+    const authHeader = headers['authorization'] ?? ''
+    if (!secret || !authHeader.startsWith('Basic ')) return false
+
+    const [, expectedPassword = ''] = Buffer.from(authHeader.slice(6), 'base64').toString('utf8').split(':')
+    return timingSafeEqual(expectedPassword, secret)
   },
 }

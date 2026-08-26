@@ -97,13 +97,14 @@ export function ConnectStoreDialog({ open, onClose }: ConnectStoreDialogProps) {
     if (selectedPlatform.authType === 'oauth') {
       const connector = selectedPlatform.id
       const redirectUri = `${window.location.origin}/api/auth/oauth-callback?platform=${connector}`
-      const state = crypto.randomUUID()
-      sessionStorage.setItem(`oauth_state_${connector}`, state)
-      sessionStorage.setItem(`oauth_storeName_${connector}`, storeName)
 
+      // No client-generated `state` anymore — oauth-start generates it
+      // server-side and binds it to an httpOnly cookie, which
+      // oauth-callback verifies. A client-supplied state would be
+      // meaningless as a CSRF defense (the browser making the callback
+      // request is exactly what an attacker controls).
       const params = new URLSearchParams({
         platform: connector,
-        state,
         redirectUri,
       })
       const shopDomain = fieldValues['shopDomain'] ?? ''
@@ -120,7 +121,7 @@ export function ConnectStoreDialog({ open, onClose }: ConnectStoreDialogProps) {
 
     startTransition(async () => {
       const result = await connectApiKeyStore(formData)
-      if (result.error) {
+      if (!result.success) {
         toast.error(result.error)
       } else {
         toast.success('Store connected!')

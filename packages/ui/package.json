@@ -31,21 +31,22 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
-    "lucide-react": "^0.468.0",
+    "lucide-react": "catalog:",
     "next-themes": "^0.4.3",
     "react-hook-form": "^7.54.0",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.5",
-    "zod": "^3.23.8"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@stockalert/config": "workspace:*",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3"
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "^9.15.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

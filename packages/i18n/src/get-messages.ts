@@ -1,7 +1,7 @@
 import type { AbstractIntlMessages } from 'next-intl'
 import type { Locale } from './config'
 
-type Namespace = 'common' | 'landing' | 'dashboard' | 'auth'
+type Namespace = 'common' | 'landing' | 'dashboard' | 'auth' | 'emails'
 
 export function getMessages(locale: Locale, namespaces: Namespace[]): AbstractIntlMessages {
   const messages: AbstractIntlMessages = {}

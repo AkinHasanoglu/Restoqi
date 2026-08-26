@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "18369fed30e39ea5",
+    "type": "split",
+    "children": [
+      {
+        "id": "9055596e29f9e91d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6b349fd4439419e0",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Grafik Görünümü"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "73f91200e605cf2e",
+    "type": "split",
+    "children": [
+      {
+        "id": "4c103273c9ee26ab",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "df23fd0e544ed747",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "41181a9d0ffde9aa",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "ba874d8625522e99",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "048776eef27ee384",
+    "type": "split",
+    "children": [
+      {
+        "id": "5eb7643b7a5ff7df",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4e167fc24aaca381",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "docs/entities/stripe.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Geri Bağlantılar"
+            }
+          },
+          {
+            "id": "1ce0d121565bf0f6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "docs/entities/stripe.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Giden bağlantılar"
+            }
+          },
+          {
+            "id": "5602e5e51a5fc569",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "4bee80f90d6bed00",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "851f15ea56305cd8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "docs/entities/stripe.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Anahat"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "6b349fd4439419e0",
+  "lastOpenFiles": [
+    "docs/entities/eticaret-stok-uyari-sistemi.md",
+    "apps/landing/public/brand/og.png",
+    "apps/dashboard/src/app/apple-icon.png",
+    "apps/landing/src/app/apple-icon.png",
+    "apps/landing/public/brand/logo-lockup.png",
+    "docs/entities/stripe.md",
+    "scripts/generate-brand-assets.mjs",
+    "scripts/generate-brand-assets.mjs.tmp.5508.b2301b8b9c5c",
+    "E-Ticaret Stok Uyarı Sistemi.md",
+    "packages/integrations/aliexpress/src/index.ts.tmp.1456.986bbed80902",
+    "packages/integrations/aliexpress/src/index.ts.tmp.1456.d0241dc95a28",
+    "packages/integrations/ebay/src/index.ts.tmp.1456.4bc38d3020a6",
+    "packages/integrations/shopify/src/index.ts.tmp.1456.dec480139b8f",
+    "packages/integrations/core/src/index.ts.tmp.1456.63b295e5e3b0",
+    "packages/integrations/core/src/env.ts",
+    "packages/integrations/core/src/env.ts.tmp.1456.a2b0066f4608",
+    "apps/dashboard/src/app/api/webhooks/[platform]/route.ts.tmp.1456.303c3cfbc893",
+    "docs/log.md",
+    "docs/lint-report.md",
+    "docs/index.md",
+    "docs/CLAUDE.md",
+    "docs/syntheses/tekrar-eden-mimari-kararlar.md",
+    "docs/syntheses/saas-portfoy-genel-bakis.md",
+    "docs/syntheses/ortak-teknoloji-yigini.md",
+    "docs/syntheses/monetizasyon-ve-odeme-altyapisi.md",
+    "docs/syntheses/acik-riskler-ve-bosluklar.md",
+    "docs/sources/projects/2026-08-17-saas-test-dashboard-readme.md",
+    "docs/sources/projects/2026-08-17-spoke-integration.md",
+    "docs/sources/projects/2026-08-17-eticaret-stok-uyari-sistemi.md",
+    "docs/sources/projects/2026-08-14-saas-test-dashboard-spec.md",
+    "docs/sources/projects/2026-08-08-fintech-yatirim-dashboard.md",
+    "docs/sources/projects/2026-08-08-cv-saas-uygulama-blueprint.md",
+    "docs/sources/projects/2026-08-04-saas-donusum-talimatlari.md",
+    "docs/sources/projects/2026-08-08-cv-saas-readme.md",
+    "docs/sources/projects/2026-07-23-otomasyon-arayuz-talimatlari.md",
+    "docs/raw/projects/07-fintech-yatirim-dashboard.md",
+    "docs/raw/projects/09-otomasyon-arayuz-talimatlari.md",
+    "docs/raw/projects/08-saas-donusum-talimatlari.md",
+    "docs/raw/projects/06-cv-saas-readme.md",
+    "docs/raw/projects/05-cv-saas-uygulama-blueprint.md"
+  ]
+}

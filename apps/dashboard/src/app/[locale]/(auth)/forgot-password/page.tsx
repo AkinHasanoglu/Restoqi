@@ -5,32 +5,33 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import type { Metadata } from 'next'
-import { Button, Input, Label } from '@stockalert/ui'
+import { Button, Input, Label, TurnstileWidget } from '@stockalert/ui'
 import { toast } from '@stockalert/ui'
-import { createClient } from '@stockalert/database/client'
 import { type Locale } from '@stockalert/i18n'
+import { forgotPasswordAction } from '../../../../actions/auth'
 
 function ForgotPasswordForm() {
   const t = useTranslations('auth')
   const locale = useLocale() as Locale
   const [loading, setLoading] = React.useState(false)
   const [sent, setSent] = React.useState(false)
-  const supabase = createClient()
+  const turnstileSiteKey = process.env['NEXT_PUBLIC_TURNSTILE_SITE_KEY']
+  const [turnstileVerified, setTurnstileVerified] = React.useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
-    const email = (new FormData(e.currentTarget)).get('email') as string
+    const formData = new FormData(e.currentTarget)
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/${locale}/reset-password`,
-    })
+    const result = await forgotPasswordAction(formData, window.location.origin, locale)
 
-    if (error) {
-      toast.error(t('errors.emailNotFound'))
-    } else {
-      setSent(true)
+    // Always shows the same "sent" state, success or failure (including
+    // rate-limited) — an error here would be a direct "is this email
+    // registered" oracle. See 2nd security audit item 7.
+    if (!result.success) {
+      console.error('[forgot-password]', result.error)
     }
+    setSent(true)
     setLoading(false)
   }
 
@@ -56,7 +57,14 @@ function ForgotPasswordForm() {
           <Label htmlFor="email">{t('forgotPassword.email')}</Label>
           <Input id="email" name="email" type="email" required />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
+
+        {/* Bot check — see apps/dashboard/src/lib/turnstile.ts; hidden and
+            skipped server-side when no site key is configured. */}
+        {turnstileSiteKey ? (
+          <TurnstileWidget siteKey={turnstileSiteKey} onVerify={() => setTurnstileVerified(true)} onExpire={() => setTurnstileVerified(false)} />
+        ) : null}
+
+        <Button type="submit" className="w-full" disabled={loading || (!!turnstileSiteKey && !turnstileVerified)}>
           {loading ? '…' : t('forgotPassword.submit')}
         </Button>
       </form>

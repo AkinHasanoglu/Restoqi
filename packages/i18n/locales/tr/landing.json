@@ -5,7 +5,29 @@
     "subtitle": "Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada ve AliExpress için gerçek zamanlı stok uyarıları — yapay zeka destekli tahminlerle.",
     "cta": "Ücretsiz dene",
     "ctaSecondary": "Nasıl çalıştığını gör",
-    "trustedBy": "Dünya genelinde {count}+ satıcının güveni"
+    "trustSignals": "{marketplaces} pazaryeri · Kredi kartsız {trialDays} günlük deneme · {languages} dil",
+    "mockup": {
+      "nav": {
+        "overview": "Genel Bakış",
+        "products": "Ürünler",
+        "alerts": "Uyarılar",
+        "rules": "Kurallar",
+        "integrations": "Entegrasyonlar"
+      },
+      "stats": {
+        "products": "Ürün",
+        "lowStock": "Düşük stok",
+        "stores": "Mağaza",
+        "uptime": "Çalışma süresi"
+      },
+      "live": "Canlı",
+      "chartTitle": "Stok trendi — son 15 gün",
+      "healthy": "Sağlıklı",
+      "low": "Düşük",
+      "recentAlerts": "Son uyarılar",
+      "newCount": "{count} yeni",
+      "qtyLeft": "{count} kaldı"
+    }
   },
   "features": {
     "title": "Stokta kalmak için ihtiyacınız olan her şey",
@@ -39,60 +61,159 @@
   },
   "pricing": {
     "title": "Basit, şeffaf fiyatlandırma",
-    "subtitle": "Ücretsiz başlayın. Büyüdükçe yükseltin.",
+    "subtitle": "Growth planını 14 gün kredi kartsız deneyin. Büyüdükçe yükseltin.",
     "monthly": "Aylık",
     "annual": "Yıllık",
-    "save": "%20 tasarruf",
+    "save": "2 ay ücretsiz",
     "perMonth": "/ay",
     "startTrial": "14 günlük ücretsiz deneme başlat",
-    "contactSales": "Satış ekibiyle iletişime geç",
     "popular": "En popüler",
     "plans": {
       "starter": {
         "name": "Başlangıç",
-        "price": "29",
-        "description": "Bireysel satıcılar için ideal.",
+        "description": "Tek mağazayla yeni başlayanlar için ideal.",
         "features": [
-          "2 bağlı mağaza",
-          "500 ürün",
-          "3 uyarı kuralı",
-          "E-posta ve Webhook uyarıları",
-          "7 günlük geçmiş"
+          "1 bağlı mağaza",
+          "500 SKU takibi",
+          "5 uyarı kuralı",
+          "Ayda 100 uyarı",
+          "5 dakikada bir senkronizasyon + anlık webhook güncellemeleri",
+          "E-posta ve Telegram uyarıları",
+          "1 takım üyesi"
         ]
       },
-      "business": {
-        "name": "İş",
-        "price": "79",
-        "description": "Büyüyen takımlar ve çoklu mağazalar için.",
+      "growth": {
+        "name": "Growth",
+        "description": "Çoklu mağazada büyüyen takımlar için.",
+        "features": [
+          "3 bağlı mağaza",
+          "2.500 SKU takibi",
+          "25 uyarı kuralı",
+          "Ayda 1.000 uyarı",
+          "5 dakikada bir senkronizasyon + anlık webhook güncellemeleri",
+          "E-posta, Telegram ve Slack uyarıları",
+          "Ürün bazlı özel eşikler",
+          "CSV / Excel dışa aktarma",
+          "3 takım üyesi"
+        ]
+      },
+      "scale": {
+        "name": "Scale",
+        "description": "Yüksek hacimli, çoklu mağaza operasyonları için.",
         "features": [
           "10 bağlı mağaza",
-          "Sınırsız ürün",
+          "15.000 SKU takibi",
           "Sınırsız uyarı kuralı",
-          "Tüm bildirim kanalları",
-          "Yapay zeka tahminleri",
-          "5 takım üyesi",
-          "90 günlük geçmiş"
+          "Sınırsız uyarı",
+          "5 dakikada bir senkronizasyon + anlık webhook güncellemeleri",
+          "SMS dahil tüm kanallar + özel webhook'lar (n8n / Make / ERP)",
+          "Satış hızına dayalı stok tükenme tahmini",
+          "10 takım üyesi"
         ]
+      }
+    },
+    "billedAnnually": "Yıllık ${yearly} olarak faturalandırılır · aylık karşılığı ${monthly} idi",
+    "trialExplainer": "{days} gün boyunca Growth planının tamamı, kredi kartı istenmez. Deneme süresi bitince hesabınız salt-okunur moda geçer; verileriniz silinmez.",
+    "comparisonTitle": "Planları detaylı karşılaştırın",
+    "comparison": {
+      "stores": "Bağlı mağaza",
+      "products": "Takip edilen SKU",
+      "rules": "Uyarı kuralı",
+      "alertsPerMonth": "Aylık uyarı",
+      "seats": "Takım üyesi",
+      "channels": "Uyarı kanalları",
+      "customThresholds": "Özel eşikler",
+      "velocityPrediction": "Stok tükenme tahmini",
+      "csvExport": "CSV / Excel dışa aktarma",
+      "unlimited": "Sınırsız",
+      "yes": "Dahil",
+      "no": "—"
+    },
+    "faq": {
+      "currency": {
+        "q": "Hangi para biriminden ücretlendiriliyorum, vergi dahil mi?",
+        "a": "Ödeme, Merchant of Record'umuz Paddle üzerinden alınır — yerel para biriminizden tahsilat yapar ve KDV/satış vergisini otomatik olarak hesaba katar."
       },
-      "enterprise": {
-        "name": "Kurumsal",
-        "price": "Özel",
-        "description": "Özel ihtiyaçları olan büyük operasyonlar için.",
-        "features": [
-          "Sınırsız mağaza",
-          "Sınırsız ürün",
-          "Sınırsız takım üyesi",
-          "Özel destek",
-          "SLA garantisi",
-          "Özel entegrasyonlar",
-          "Tam denetim logları"
-        ]
+      "planChange": {
+        "q": "Planımı sonradan değiştirebilir miyim?",
+        "a": "Evet, Ayarlar → Faturalandırma'dan istediğiniz zaman yükseltebilir veya düşürebilirsiniz; ücret farkı otomatik olarak orantılı hesaplanır."
+      },
+      "cancel": {
+        "q": "İptal edersem ne olur?",
+        "a": "Fatura döneminizin sonuna kadar erişiminiz devam eder, ardından hesabınız salt-okunur moda geçer. Verileriniz silinmez."
       }
     }
   },
   "solutions": {
     "title": "Mağazalarınızı bağlayın",
     "subtitle": "StockAlert tüm büyük pazar yerleriyle entegre olur."
+  },
+  "howItWorks": {
+    "title": "Nasıl çalışır",
+    "subtitle": "Dört basit adımda mağazanı bağla, stoklarını kontrol altına al.",
+    "steps": {
+      "connect": {
+        "title": "Mağazanı bağla",
+        "description": "Shopify, Trendyol, Amazon ve daha fazlasını birkaç tıkla bağla."
+      },
+      "import": {
+        "title": "Stoklarını gir",
+        "description": "Mevcut envanterini içe aktar veya elle gir, hepsi tek yerde."
+      },
+      "sync": {
+        "title": "Anlık güncellensin",
+        "description": "Her satışta stok seviyeleri otomatik ve anlık olarak güncellenir."
+      },
+      "alert": {
+        "title": "Eşik altına düşünce uyar",
+        "description": "Belirlediğin sayının altına düşen ürün için anında bildirim al."
+      }
+    },
+    "ctaTitle": "Kendin dene, ne kadar kolay olduğunu gör"
+  },
+  "integrations": {
+    "title": "Kullandığın platformlara bağlan",
+    "subtitle": "Her entegrasyon birkaç dakikada kurulur, kod yazmana gerek yok.",
+    "cards": {
+      "shopify": "Uygulama mağazasından yükle, API anahtarınla 2 dakikada bağlan.",
+      "trendyol": "Satıcı panelinden API bilgilerini gir, otomatik senkronize olsun.",
+      "amazon": "Seller Central hesabını bağla, tüm SKU'ların anlık takip edilsin.",
+      "etsy": "Mağazanı yetkilendir, listelemelerin stok verisi otomatik aksın.",
+      "ebay": "API erişimini onayla, çoklu hesap desteğiyle tek panelden yönet.",
+      "hepsiburada": "Satıcı bilgilerini gir, envanterin gerçek zamanlı senkronize olsun."
+    },
+    "ctaTitle": "Mağazanı bugün bağla"
+  },
+  "faq": {
+    "title": "Sık sorulan sorular",
+    "items": [
+      {
+        "q": "Ücretsiz deneme var mı, kredi kartı gerekiyor mu?",
+        "a": "14 gün ücretsiz deneyebilirsiniz, deneme süresi için kredi kartı bilgisi istemiyoruz."
+      },
+      {
+        "q": "Mağazamı bağlamak ne kadar sürer?",
+        "a": "Çoğu entegrasyon API anahtarınızla 2-3 dakika içinde bağlanır, kod yazmanıza gerek yok."
+      },
+      {
+        "q": "Verilerim ne kadar güvende?",
+        "a": "Tüm veriler şifrelenerek saklanır ve hesaba özel izole edilir; yedekleme düzenli olarak alınır."
+      },
+      {
+        "q": "İstediğim zaman iptal edebilir miyim?",
+        "a": "Aylık planlarda taahhüt yoktur, istediğiniz an iptal edebilirsiniz. Yıllık planlarda ek indirim sunuyoruz."
+      },
+      {
+        "q": "Hangi platformları destekliyorsunuz?",
+        "a": "Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada ve AliExpress dahil birçok platformu destekliyoruz."
+      },
+      {
+        "q": "API veya özel entegrasyon mümkün mü?",
+        "a": "Growth ve üzeri planlarda REST API ve webhook desteği sunuyoruz."
+      }
+    ],
+    "ctaTitle": "Başka sorun mu var?",
+    "ctaSubtitle": "14 gün ücretsiz dene, sorularını kullanırken de yanıtlayalım."
   },
   "footer": {
     "product": "Ürün",
@@ -101,6 +222,131 @@
     "copyright": "© {year} StockAlert. Tüm hakları saklıdır.",
     "terms": "Kullanım Şartları",
     "privacy": "Gizlilik Politikası",
-    "dpa": "Veri İşleme Sözleşmesi"
+    "dpa": "Veri İşleme Sözleşmesi",
+    "tagline": "E-ticaret satıcıları için gerçek zamanlı stok uyarıları.",
+    "about": "Hakkımızda",
+    "blog": "Blog",
+    "contact": "İletişim",
+    "cookies": "Çerez Politikası",
+    "subprocessors": "Alt İşleyiciler"
+  },
+  "trust": {
+    "title": "Güvenebileceğiniz bir altyapı üzerine kurulu",
+    "subtitle": "Güvenlik burada bir onay kutusu değil, ürünün inşa ediliş şekli.",
+    "items": {
+      "dataIsolation": {
+        "title": "Takım bazlı veri izolasyonu",
+        "description": "Her takımın verisi veritabanı seviyesinde satır bazlı güvenlik (RLS) ile izole edilir — takımlar arası erişim mümkün değildir."
+      },
+      "auditTrail": {
+        "title": "Tam denetim izi",
+        "description": "Her kural değişikliği ve mağaza işlemi kayıt altına alınır ve sadece dahili değil, çalışma alanınızda da görünür."
+      },
+      "encryptedCredentials": {
+        "title": "Şifreli mağaza kimlik bilgileri",
+        "description": "Bağlı her pazaryerinin API anahtarları ve token'ları şifrelenmiş olarak saklanır, asla düz metin olarak tutulmaz."
+      },
+      "rateLimiting": {
+        "title": "Hız sınırlama ve bot koruması",
+        "description": "Kimlik doğrulama ve genel uç noktalar, hız sınırlama ve Cloudflare Turnstile ile kötüye kullanıma karşı korunur."
+      },
+      "errorTracking": {
+        "title": "Proaktif hata izleme",
+        "description": "Sentry hem dashboard'u hem senkronizasyon worker'larını izler; sorunlar bir stok tükenmesine mal olmadan önce fark edilir."
+      },
+      "billing": {
+        "title": "PCI uyumlu faturalandırma",
+        "description": "Ödemeler Merchant of Record'umuz Paddle üzerinden geçer — kart bilgileriniz asla sunucularımıza dokunmaz."
+      }
+    }
+  },
+  "legal": {
+    "title": "Yasal",
+    "subtitle": "StockAlert için kullanım şartları, gizlilik ve veri işleme bilgileri.",
+    "draftNotice": "Taslak — hukuki incelemesi bekliyor. Bu sayfa henüz bağlayıcı değildir.",
+    "backToLegal": "Yasal sayfaya dön",
+    "lastUpdated": "Son güncelleme"
+  },
+  "blogPage": {
+    "title": "Blog",
+    "subtitle": "Ürün güncellemeleri, stok yönetimi ipuçları ve e-ticaret içgörüleri.",
+    "emptyState": "İlk yazılarımızı hazırlıyoruz — yakında burada olacak."
+  },
+  "docsPage": {
+    "title": "Dokümantasyon",
+    "subtitle": "Mağaza bağlama, uyarı kuralları kurma ve API kullanımı için rehberler.",
+    "emptyState": "Kapsamlı dokümantasyon üzerinde çalışıyoruz — bu sırada İletişim üzerinden bize ulaşabilirsiniz, doğrudan yardımcı oluruz."
+  },
+  "about": {
+    "title": "StockAlert Hakkında",
+    "subtitle": "Bir stok tükenmesini müşteriden öğrenmeyi göze alamayan e-ticaret satıcıları için Lavanchor tarafından geliştirildi.",
+    "body": "StockAlert, halihazırda satış yaptığınız pazaryerlerine bağlanır ve stok seviyelerini kesintisiz izler; böylece düşük stok ve stok tükenmesi durumları müşterilerinize ulaşmadan önce ekibinize ulaşır. Daha büyük bir platformun yan özelliği değil, tek bir amaca odaklanmış bağımsız bir araç olarak inşa edildi — stok uyarısı, ürünün tamamıdır."
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Kaydolmadan önce bir sorunuz mu var, ya da hesabınızla ilgili yardıma mı ihtiyacınız var? Bize ulaşın — her mesajı okuyoruz.",
+    "emailLabel": "E-posta gönderin",
+    "supportNote": "Genellikle 1 iş günü içinde yanıt veriyoruz."
+  },
+  "meta": {
+    "home": {
+      "title": "StockAlert — E-Ticaret için Gerçek Zamanlı Stok Uyarıları"
+    },
+    "pricing": {
+      "title": "Fiyatlandırma",
+      "description": "Starter, Growth ve Scale için basit, şeffaf fiyatlandırma — 14 günlük ücretsiz deneme, kart gerekmez."
+    },
+    "about": {
+      "title": "Hakkımızda",
+      "description": "StockAlert'i kimler, neden geliştiriyor."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Ürün güncellemeleri, stok yönetimi ipuçları ve e-ticaret içgörüleri."
+    },
+    "contact": {
+      "title": "İletişim",
+      "description": "StockAlert ekibiyle iletişime geçin."
+    },
+    "docs": {
+      "title": "Dokümantasyon",
+      "description": "Mağaza bağlama, uyarı kuralları kurma ve API kullanımı için rehberler."
+    },
+    "faq": {
+      "title": "SSS",
+      "description": "Deneme süresi, güvenlik, iptal ve platform desteğiyle ilgili sık sorulan sorular."
+    },
+    "howItWorks": {
+      "title": "Nasıl Çalışır",
+      "description": "Mağazanızı bağlayın ve stoklarınızı dört basit adımda kontrol altına alın."
+    },
+    "integrations": {
+      "title": "Entegrasyonlar",
+      "description": "Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada ve AliExpress'i dakikalar içinde bağlayın — kod gerekmez."
+    },
+    "legal": {
+      "title": "Yasal",
+      "description": "StockAlert için şartlar, gizlilik ve veri işleme bilgileri."
+    },
+    "legalCookies": {
+      "title": "Çerez Politikası",
+      "description": "StockAlert'in kullandığı çerezler ve tercihinizi nasıl değiştireceğiniz."
+    },
+    "legalDpa": {
+      "title": "Veri İşleme Sözleşmesi",
+      "description": "StockAlert'in müşteriler adına kişisel verileri nasıl işlediğini düzenleyen şartlar."
+    },
+    "legalPrivacy": {
+      "title": "Gizlilik Politikası",
+      "description": "StockAlert verilerinizi nasıl topluyor, kullanıyor ve koruyor."
+    },
+    "legalSubprocessors": {
+      "title": "Alt İşleyiciler",
+      "description": "StockAlert'in müşteri verilerini işlemek için kullandığı her üçüncü taraf ve nedeni."
+    },
+    "legalTerms": {
+      "title": "Kullanım Şartları",
+      "description": "StockAlert Kullanım Şartları."
+    }
   }
 }

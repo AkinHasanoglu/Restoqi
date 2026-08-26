@@ -2,47 +2,73 @@ import {
   Body, Container, Head, Heading, Hr, Html, Link, Preview, Section, Text,
 } from '@react-email/components'
 import * as React from 'react'
+import { getEmailTranslator, defaultLocale, type Locale } from '../i18n'
+import { EmailHeader } from '../components/email-header'
+import { EmailFooter } from '../components/email-footer'
+
+export type ThresholdUnit = 'absolute' | 'percentage' | 'days_of_supply'
 
 interface LowStockAlertProps {
+  locale?: Locale
   productName: string
   storeName: string
   currentQuantity: number
   threshold: number
+  thresholdUnit?: ThresholdUnit
   productUrl?: string
   dashboardUrl: string
+  logoUrl?: string
+  companyAddress?: string
+}
+
+const UNIT_KEY: Record<ThresholdUnit, string> = {
+  absolute: 'lowStockAlert.unitAbsolute',
+  percentage: 'lowStockAlert.unitPercentage',
+  days_of_supply: 'lowStockAlert.unitDaysOfSupply',
 }
 
 export function LowStockAlert({
+  locale = defaultLocale,
   productName = 'Product Name',
   storeName = 'My Store',
   currentQuantity = 5,
   threshold = 10,
+  thresholdUnit = 'absolute',
   productUrl,
   dashboardUrl = 'https://app.example.com',
+  logoUrl,
+  companyAddress,
 }: LowStockAlertProps) {
+  const t = getEmailTranslator(locale)
+  const unit = t(UNIT_KEY[thresholdUnit])
+
   return (
     <Html>
       <Head />
-      <Preview>Low stock alert: {productName} has only {String(currentQuantity)} units remaining</Preview>
+      <Preview>{t('lowStockAlert.preview', { productName, quantity: currentQuantity })}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>⚠️ Low Stock Alert</Heading>
-          <Text style={text}>
-            <strong>{productName}</strong> in <strong>{storeName}</strong> is running low.
-          </Text>
+          <EmailHeader logoUrl={logoUrl} />
+          <Heading style={h1}>{t('lowStockAlert.heading')}</Heading>
+          <Text style={text}>{t('lowStockAlert.body', { productName, storeName })}</Text>
           <Section style={alertBox}>
-            <Text style={alertText}>Current quantity: <strong>{String(currentQuantity)}</strong></Text>
-            <Text style={alertText}>Threshold: <strong>{String(threshold)}</strong></Text>
+            <Text style={alertText}>
+              {t('lowStockAlert.currentQuantity')}: <strong>{String(currentQuantity)}</strong>
+            </Text>
+            <Text style={alertText}>
+              {t('lowStockAlert.threshold')}: <strong>{String(threshold)} {unit}</strong>
+            </Text>
           </Section>
           {productUrl && (
             <Text style={text}>
-              <Link href={productUrl}>View product →</Link>
+              <Link href={productUrl}>{t('lowStockAlert.viewProduct')}</Link>
             </Text>
           )}
           <Hr style={hr} />
           <Text style={footer}>
-            <Link href={dashboardUrl}>Manage your alerts in StockAlert</Link>
+            <Link href={dashboardUrl}>{t('lowStockAlert.manageAlerts')}</Link>
           </Text>
+          <EmailFooter footerText={t('common.footer')} companyAddress={companyAddress} />
         </Container>
       </Body>
     </Html>
