@@ -13,15 +13,17 @@ import { toast } from '@stockalert/ui'
 import { createAlertRule, deleteAlertRule, toggleAlertRule } from '../../actions/alerts'
 
 type Store = { id: string; store_name: string; platform: string }
-type Channel = { id: string; name: string; type: string }
+type Channel = { id: string; name: string; channel_type: string }
 type Rule = {
   id: string
   name: string
   threshold_type: string
   threshold_value: number
-  channels: string[]
-  all_products: boolean
-  enabled: boolean
+  channel_ids: string[]
+  scope_product_ids: string[] | null
+  scope_store_ids: string[] | null
+  scope_tags: string[] | null
+  is_active: boolean
   created_at: string
 }
 
@@ -29,15 +31,6 @@ const THRESHOLD_LABELS = {
   absolute: 'Units below',
   percentage: 'Percentage below',
   days_of_supply: 'Days of supply below',
-}
-
-const CHANNEL_LABELS = {
-  email: 'Email',
-  slack: 'Slack',
-  telegram: 'Telegram',
-  sms: 'SMS',
-  webhook: 'Webhook',
-  n8n: 'n8n',
 }
 
 interface AlertRulesClientProps {
@@ -54,38 +47,49 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
   const [name, setName] = React.useState('')
   const [thresholdType, setThresholdType] = React.useState<'absolute' | 'percentage' | 'days_of_supply'>('absolute')
   const [thresholdValue, setThresholdValue] = React.useState('10')
-  const [selectedChannelTypes, setSelectedChannelTypes] = React.useState<string[]>(['email'])
   const [selectedChannelIds, setSelectedChannelIds] = React.useState<string[]>([])
-  const [throttleMinutes, setThrottleMinutes] = React.useState('60')
+  const [cooldownMinutes, setCooldownMinutes] = React.useState('240')
 
   function resetForm() {
     setName('')
     setThresholdType('absolute')
     setThresholdValue('10')
-    setSelectedChannelTypes(['email'])
     setSelectedChannelIds([])
-    setThrottleMinutes('60')
+    setCooldownMinutes('240')
+  }
+
+  function channelNames(channelIds: string[]) {
+    return channelIds
+      .map((id) => channels.find((c) => c.id === id)?.name)
+      .filter((name): name is string => Boolean(name))
+  }
+
+  function isAllProducts(rule: Rule) {
+    return !rule.scope_product_ids?.length && !rule.scope_store_ids?.length && !rule.scope_tags?.length
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (selectedChannelIds.length === 0) {
+      toast.error('Select at least one notification channel')
+      return
+    }
+
     const fd = new FormData()
     fd.set('name', name)
     fd.set('thresholdType', thresholdType)
     fd.set('thresholdValue', thresholdValue)
-    fd.set('channels', JSON.stringify(selectedChannelTypes))
-    fd.set('allProducts', 'true')
+    fd.set('channelIds', JSON.stringify(selectedChannelIds))
     fd.set('storeIds', '[]')
     fd.set('productIds', '[]')
     fd.set('tags', '[]')
     fd.set('silenceWindowMinutes', '0')
-    fd.set('throttleMinutes', throttleMinutes)
-    fd.set('notificationChannelIds', JSON.stringify(selectedChannelIds))
-    fd.set('enabled', 'true')
+    fd.set('cooldownMinutes', cooldownMinutes)
+    fd.set('isActive', 'true')
 
     startTransition(async () => {
       const result = await createAlertRule(fd)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else {
         toast.success('Alert rule created!')
         resetForm()
@@ -94,9 +98,10 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
     })
   }
 
-  function handleToggle(ruleId: string, enabled: boolean) {
+  function handleToggle(ruleId: string, isActive: boolean) {
     startTransition(async () => {
-      await toggleAlertRule(ruleId, !enabled)
+      const result = await toggleAlertRule(ruleId, !isActive)
+      if (!result.success) toast.error(result.error)
     })
   }
 
@@ -104,15 +109,9 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
     if (!confirm('Delete this alert rule?')) return
     startTransition(async () => {
       const result = await deleteAlertRule(ruleId)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else toast.success('Rule deleted')
     })
-  }
-
-  function toggleChannelType(ch: string) {
-    setSelectedChannelTypes((prev) =>
-      prev.includes(ch) ? prev.filter((c) => c !== ch) : [...prev, ch]
-    )
   }
 
   return (
@@ -157,32 +156,32 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
                       {THRESHOLD_LABELS[rule.threshold_type as keyof typeof THRESHOLD_LABELS] ?? rule.threshold_type}: {String(rule.threshold_value)}
                     </CardDescription>
                   </div>
-                  <Badge variant={rule.enabled ? 'default' : 'secondary'}>
-                    {rule.enabled ? 'Active' : 'Paused'}
+                  <Badge variant={rule.is_active ? 'default' : 'secondary'}>
+                    {rule.is_active ? 'Active' : 'Paused'}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex flex-wrap gap-1">
-                  {rule.channels.map((ch) => (
-                    <Badge key={ch} variant="outline" className="text-xs">
-                      {CHANNEL_LABELS[ch as keyof typeof CHANNEL_LABELS] ?? ch}
+                  {channelNames(rule.channel_ids).map((name) => (
+                    <Badge key={name} variant="outline" className="text-xs">
+                      {name}
                     </Badge>
                   ))}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {rule.all_products ? 'All products' : 'Selected products'}
+                  {isAllProducts(rule) ? 'All products' : 'Selected products'}
                 </p>
                 {canEdit && (
                   <div className="flex gap-2">
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleToggle(rule.id, rule.enabled)}
+                      onClick={() => handleToggle(rule.id, rule.is_active)}
                       disabled={isPending}
                       className="gap-1"
                     >
-                      {rule.enabled
+                      {rule.is_active
                         ? <><ToggleLeft className="h-4 w-4" /> Pause</>
                         : <><ToggleRight className="h-4 w-4" /> Enable</>
                       }
@@ -249,27 +248,11 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
 
             <div className="space-y-2">
               <Label>Notification channels</Label>
-              <div className="flex flex-wrap gap-2">
-                {(Object.keys(CHANNEL_LABELS) as Array<keyof typeof CHANNEL_LABELS>).map((ch) => (
-                  <button
-                    key={ch}
-                    type="button"
-                    onClick={() => toggleChannelType(ch)}
-                    className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                      selectedChannelTypes.includes(ch)
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border hover:bg-accent'
-                    }`}
-                  >
-                    {CHANNEL_LABELS[ch]}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {channels.length > 0 && (
-              <div className="space-y-2">
-                <Label>Linked notification channels</Label>
+              {channels.length === 0 ? (
+                <p className="text-xs text-muted-foreground">
+                  No notification channels configured yet — create one first.
+                </p>
+              ) : (
                 <div className="space-y-1">
                   {channels.map((ch) => (
                     <label key={ch.id} className="flex items-center gap-2 text-sm">
@@ -281,21 +264,21 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
                           )
                         }
                       />
-                      {ch.name} <span className="text-xs text-muted-foreground">({ch.type})</span>
+                      {ch.name} <span className="text-xs text-muted-foreground">({ch.channel_type})</span>
                     </label>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             <div className="space-y-2">
-              <Label htmlFor="throttle">Re-alert after (minutes)</Label>
+              <Label htmlFor="cooldown">Re-alert after (minutes)</Label>
               <Input
-                id="throttle"
+                id="cooldown"
                 type="number"
                 min="0"
-                value={throttleMinutes}
-                onChange={(e) => setThrottleMinutes(e.target.value)}
+                value={cooldownMinutes}
+                onChange={(e) => setCooldownMinutes(e.target.value)}
               />
             </div>
 
@@ -303,7 +286,7 @@ export function AlertRulesClient({ rules, stores: _stores, channels, canEdit }: 
               <Button type="button" variant="ghost" onClick={() => { resetForm(); setDialogOpen(false) }}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isPending || selectedChannelTypes.length === 0}>
+              <Button type="submit" disabled={isPending || selectedChannelIds.length === 0}>
                 {isPending ? 'Creating…' : 'Create rule'}
               </Button>
             </DialogFooter>

@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@stockalert/config": "workspace:*",
-    "typescript": "^5.6.3"
+    "@types/node": "^22.9.1",
+    "typescript": "catalog:"
   }
 }

@@ -23,9 +23,9 @@ export default async function IntegrationsPage() {
   const { data: stores } = teamId
     ? await supabase
         .from('connected_stores')
-        .select('id, platform, store_name, status, created_at')
+        .select('id, platform, store_name, is_active, sync_error, created_at')
         .eq('team_id', teamId)
-        .neq('status', 'disconnected')
+        .eq('is_active', true)
         .order('created_at')
     : { data: [] }
 

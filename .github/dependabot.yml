@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # pnpm workspace — a single root entry covers every package/app in the
+  # monorepo (Dependabot resolves the workspace graph from the root
+  # pnpm-lock.yaml, not one entry per package).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      # Security patches land immediately as individual PRs (not grouped)
+      # so they're not blocked behind an unrelated routine-update PR
+      # sitting in review. Everything else groups into one weekly PR per
+      # bucket to keep the PR queue reviewable.
+      production-dependencies:
+        applies-to: version-updates
+        dependency-type: "production"
+      development-dependencies:
+        applies-to: version-updates
+        dependency-type: "development"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

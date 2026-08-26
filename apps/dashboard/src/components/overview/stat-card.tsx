@@ -3,18 +3,17 @@
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown } from 'lucide-react'
 import { Card, CardContent, cn } from '@stockalert/ui'
-import type { LucideIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 interface StatCardProps {
   label: string
   value: number | string
-  icon: LucideIcon
-  iconColor: string
+  icon: ReactNode
   iconBg: string
   trend?: { direction: 'up' | 'down'; label: string }
 }
 
-export function StatCard({ label, value, icon: Icon, iconColor, iconBg, trend }: StatCardProps) {
+export function StatCard({ label, value, icon, iconBg, trend }: StatCardProps) {
   return (
     <motion.div
       whileHover={{ y: -2 }}
@@ -43,7 +42,7 @@ export function StatCard({ label, value, icon: Icon, iconColor, iconBg, trend }:
               className="flex h-11 w-11 items-center justify-center rounded-xl"
               style={{ backgroundColor: iconBg }}
             >
-              <Icon className="h-5 w-5" style={{ color: iconColor }} />
+              {icon}
             </div>
           </div>
         </CardContent>

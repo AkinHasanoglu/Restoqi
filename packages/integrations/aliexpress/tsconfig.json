@@ -1,0 +1,5 @@
+{
+  "extends": "@stockalert/config/tsconfig",
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabaseClient } from '@stockalert/database/server'
 import { AppShell } from '../../../components/layout/app-shell'
+import { getPlanContext } from '../../../lib/plan-limits'
 
 export default async function AppLayout({
   children,
@@ -35,12 +36,21 @@ export default async function AppLayout({
 
   const currentTeamId = teams[0]?.id
 
+  // Read-only lock + trial banner both key off the same resolved plan
+  // context (reverse-trial aware — see resolveEffectivePlan in
+  // @stockalert/plans) so every page under this layout gets the same
+  // answer, not just settings/billing.
+  const planContext = currentTeamId ? await getPlanContext(supabase, currentTeamId) : null
+
   return (
     <AppShell
       userEmail={userEmail}
       userName={userName}
       teams={teams}
       currentTeamId={currentTeamId}
+      isTrialActive={planContext?.isTrialActive ?? false}
+      trialDaysLeft={planContext?.trialDaysLeft ?? null}
+      isAccessAllowed={planContext?.isAccessAllowed ?? true}
     >
       {children}
     </AppShell>

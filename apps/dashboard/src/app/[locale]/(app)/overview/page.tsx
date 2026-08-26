@@ -4,57 +4,85 @@ import { Card, CardContent, CardHeader, CardTitle } from '@stockalert/ui'
 import { Store, Package, SlidersHorizontal, Bell, AlertTriangle, CheckCircle2, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { StatCard } from '../../../../components/overview/stat-card'
-import { StockChart } from '../../../../components/overview/stock-chart'
+import { StockChart } from '../../../../components/overview/stock-chart-lazy'
 import { AnimatedGrid, AnimatedGridItem } from '../../../../components/overview/animated-grid'
 
 export const metadata: Metadata = { title: 'Genel Bakış' }
 
-// Mock chart data — TODO: replace with real stock_history query
-function getMockChartData() {
-  const days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
-  return days.map((date, i) => ({
-    date,
-    quantity: Math.max(5, Math.floor(80 - i * 8 + Math.random() * 20)),
-  }))
+// Daily-aggregated stock trend from real inventory_snapshots (last 30 days),
+// scoped by team via inventory_snapshots_team_idx (team_id, recorded_at desc).
+async function StockTrend({ teamId }: { teamId: string }) {
+  const supabase = await createServerSupabaseClient()
+  const since = new Date(Date.now() - 30 * 86_400_000).toISOString()
+
+  const { data: snapshots } = await supabase
+    .from('inventory_snapshots')
+    .select('product_id, quantity, recorded_at')
+    .eq('team_id', teamId)
+    .gte('recorded_at', since)
+    .order('recorded_at', { ascending: true })
+
+  if (!snapshots?.length) {
+    return <StockChart data={[]} />
+  }
+
+  // Keep only the latest snapshot per (product_id, day) so a product polled
+  // multiple times a day isn't double-counted in the daily total.
+  const latestByProductDay = new Map<string, number>()
+  for (const s of snapshots) {
+    const day = s.recorded_at.slice(0, 10) // YYYY-MM-DD
+    latestByProductDay.set(`${s.product_id}:${day}`, s.quantity)
+  }
+
+  const totalsByDay = new Map<string, number>()
+  for (const [key, quantity] of latestByProductDay) {
+    const day = key.slice(key.indexOf(':') + 1)
+    totalsByDay.set(day, (totalsByDay.get(day) ?? 0) + quantity)
+  }
+
+  const chartData = [...totalsByDay.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([day, quantity]) => ({
+      date: new Date(day).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' }),
+      quantity,
+    }))
+
+  return <StockChart data={chartData} title="Stok Trendi — Son 30 Gün" />
 }
 
 async function OverviewStats({ teamId }: { teamId: string }) {
   const supabase = await createServerSupabaseClient()
 
   const [storesResult, productsResult, rulesResult, alertsResult] = await Promise.all([
-    supabase.from('connected_stores').select('id', { count: 'exact', head: true }).eq('team_id', teamId).eq('status', 'active'),
+    supabase.from('connected_stores').select('id', { count: 'exact', head: true }).eq('team_id', teamId).eq('is_active', true),
     supabase.from('products').select('id', { count: 'exact', head: true }).eq('team_id', teamId),
-    supabase.from('alert_rules').select('id', { count: 'exact', head: true }).eq('team_id', teamId).eq('enabled', true),
-    supabase.from('alerts').select('id', { count: 'exact', head: true }).eq('team_id', teamId).gte('triggered_at', new Date(Date.now() - 86_400_000).toISOString()),
+    supabase.from('alert_rules').select('id', { count: 'exact', head: true }).eq('team_id', teamId).eq('is_active', true),
+    supabase.from('alerts').select('id', { count: 'exact', head: true }).eq('team_id', teamId).gte('created_at', new Date(Date.now() - 86_400_000).toISOString()),
   ])
 
   const stats = [
     {
       label: 'Bağlı Mağazalar',
       value: storesResult.count ?? 0,
-      icon: Store,
-      iconColor: '#3b82f6',
+      icon: <Store className="h-5 w-5" style={{ color: '#3b82f6' }} />,
       iconBg: '#3b82f614',
     },
     {
       label: 'Takip Edilen Ürünler',
       value: productsResult.count ?? 0,
-      icon: Package,
-      iconColor: '#f97316',
+      icon: <Package className="h-5 w-5" style={{ color: '#f97316' }} />,
       iconBg: '#f9731614',
     },
     {
       label: 'Aktif Kurallar',
       value: rulesResult.count ?? 0,
-      icon: SlidersHorizontal,
-      iconColor: '#10b981',
+      icon: <SlidersHorizontal className="h-5 w-5" style={{ color: '#10b981' }} />,
       iconBg: '#10b98114',
     },
     {
       label: 'Bugünkü Uyarılar',
       value: alertsResult.count ?? 0,
-      icon: Bell,
-      iconColor: '#f59e0b',
+      icon: <Bell className="h-5 w-5" style={{ color: '#f59e0b' }} />,
       iconBg: '#f59e0b14',
     },
   ]
@@ -121,9 +149,9 @@ async function RecentAlerts({ teamId }: { teamId: string }) {
   const supabase = await createServerSupabaseClient()
   const { data: alerts } = await supabase
     .from('alerts')
-    .select('id, status, triggered_at, products(title), alert_rules(name)')
+    .select('id, status, created_at, products(title), alert_rules(name)')
     .eq('team_id', teamId)
-    .order('triggered_at', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(5)
 
   if (!alerts?.length) {
@@ -154,7 +182,7 @@ async function RecentAlerts({ teamId }: { teamId: string }) {
               <p className="mt-0.5 text-xs text-muted-foreground">{rule?.name ?? ''}</p>
             </div>
             <span className="shrink-0 text-xs text-muted-foreground">
-              {new Date(alert.triggered_at).toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' })}
+              {new Date(alert.created_at).toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' })}
             </span>
           </li>
         )
@@ -191,7 +219,6 @@ export default async function OverviewPage() {
   }
 
   const teamId = membership.team_id
-  const chartData = getMockChartData()
 
   return (
     <div className="space-y-6">
@@ -209,7 +236,7 @@ export default async function OverviewPage() {
             <CardTitle className="text-sm font-medium">Stok Trendi</CardTitle>
           </CardHeader>
           <CardContent>
-            <StockChart data={chartData} />
+            <StockTrend teamId={teamId} />
           </CardContent>
         </Card>
 

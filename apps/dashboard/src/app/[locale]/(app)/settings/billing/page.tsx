@@ -1,21 +1,21 @@
 import type { Metadata } from 'next'
 import { createServerSupabaseClient } from '@stockalert/database/server'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, Badge, Button } from '@stockalert/ui'
+import { PLAN_CONFIGS, type PlanName } from '@stockalert/plans'
 import { ExternalLink } from 'lucide-react'
+import { CheckoutPanel, type CheckoutPlanOption } from '../../../../../components/billing/checkout-panel'
+import { getPlanContext } from '../../../../../lib/plan-limits'
 
 export const metadata: Metadata = { title: 'Billing' }
 
-const PLAN_LIMITS = {
-  starter: { stores: 1, products: 500, alertsPerMonth: 100, rules: 5 },
-  business: { stores: 5, products: 5000, alertsPerMonth: 1000, rules: 25 },
-  enterprise: { stores: -1, products: -1, alertsPerMonth: -1, rules: -1 },
-}
-
-const PLAN_PRICES = {
-  starter: '$29/mo',
-  business: '$89/mo',
-  enterprise: 'Custom',
-}
+// Env var names must match lib/paddle.ts's PLAN_PRICE_ENV_VARS exactly —
+// both read from the same NEXT_PUBLIC_PADDLE_PRICE_ID_* variables the
+// Paddle webhook maps back to a plan.
+const CHECKOUT_PLANS = (Object.keys(PLAN_CONFIGS) as PlanName[]).map((plan) => ({
+  plan,
+  config: PLAN_CONFIGS[plan],
+  envVar: `NEXT_PUBLIC_PADDLE_PRICE_ID_${plan.toUpperCase()}_MONTHLY`,
+}))
 
 export default async function BillingPage() {
   const supabase = await createServerSupabaseClient()
@@ -32,40 +32,41 @@ export default async function BillingPage() {
 
   const teamId = membership?.team_id
 
-  const [subscriptionResult, usageResult] = await Promise.all([
+  const [{ data: portalRow }, planCtx] = await Promise.all([
     teamId
-      ? supabase.from('subscriptions').select('*').eq('team_id', teamId).single()
+      ? supabase.from('subscriptions').select('customer_portal_url').eq('team_id', teamId).maybeSingle()
       : Promise.resolve({ data: null }),
-    teamId
-      ? Promise.all([
-          supabase.from('connected_stores').select('id', { count: 'exact', head: true }).eq('team_id', teamId).eq('status', 'active'),
-          supabase.from('products').select('id', { count: 'exact', head: true }).eq('team_id', teamId),
-          supabase.from('alerts').select('id', { count: 'exact', head: true }).eq('team_id', teamId).gte('triggered_at', new Date(Date.now() - 30 * 86_400_000).toISOString()),
-          supabase.from('alert_rules').select('id', { count: 'exact', head: true }).eq('team_id', teamId),
-        ])
-      : Promise.resolve([{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }]),
+    teamId ? getPlanContext(supabase, teamId) : Promise.resolve(null),
   ])
 
-  const subscription = subscriptionResult.data as {
-    plan: 'starter' | 'business' | 'enterprise'
-    status: string
-    current_period_end: string
-    customer_portal_url: string | null
-    trial_ends_at: string | null
-  } | null
+  // effectivePlan (not the stored plan) drives what's displayed — during
+  // an active trial that's Growth regardless of what the row eventually
+  // falls back to, matching PLAN_CONFIGS/resolveEffectivePlan in
+  // @stockalert/plans (the same source the trial banner and dashboard
+  // lock read from).
+  const effectivePlan = planCtx?.effectivePlan ?? 'starter'
+  const status = planCtx?.status ?? 'trial_expired'
+  const isTrialActive = planCtx?.isTrialActive ?? false
+  const trialDaysLeft = planCtx?.trialDaysLeft ?? null
+  const limits = planCtx?.limits ?? PLAN_CONFIGS.starter.limits
+  const usage = planCtx?.usage ?? { store_count: 0, product_count: 0, rule_count: 0, alerts_this_month: 0, members_count: 0 }
+  const planDisplay = PLAN_CONFIGS[effectivePlan]
+  const supportEmail = process.env['NEXT_PUBLIC_SUPPORT_EMAIL']
 
-  const [storeUsage, productUsage, alertUsage, ruleUsage] = Array.isArray(usageResult)
-    ? usageResult.map((r) => (r as { count: number | null }).count ?? 0)
-    : [0, 0, 0, 0]
+  const checkoutPlans: CheckoutPlanOption[] = CHECKOUT_PLANS.flatMap(({ plan: checkoutPlan, config, envVar }) => {
+    const priceId = process.env[envVar]
+    if (!priceId) return []
+    return [{
+      plan: checkoutPlan,
+      priceId,
+      label: `Subscribe to ${config.displayName} — $${config.monthlyPriceUSD}/mo`,
+      variant: checkoutPlan === 'growth' ? 'default' : 'outline',
+    }]
+  })
 
-  const plan = subscription?.plan ?? 'starter'
-  const limits = PLAN_LIMITS[plan]
-
-  const isTrial = subscription?.status === 'trialing'
-  const trialEndsAt = subscription?.trial_ends_at
-  const trialDaysLeft = trialEndsAt
-    ? Math.max(0, Math.ceil((new Date(trialEndsAt).getTime() - Date.now()) / 86_400_000))
-    : null
+  const badgeVariant = status === 'active' ? 'default'
+    : status === 'trialing' || status === 'past_due' ? 'secondary'
+      : 'destructive'
 
   function usageBar(used: number, limit: number) {
     if (limit < 0) return null
@@ -94,34 +95,43 @@ export default async function BillingPage() {
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
-                <CardTitle className="capitalize">{plan} Plan</CardTitle>
-                <CardDescription>{PLAN_PRICES[plan]}</CardDescription>
+                <CardTitle>{planDisplay.displayName} Plan</CardTitle>
+                <CardDescription>${planDisplay.monthlyPriceUSD}/mo</CardDescription>
               </div>
-              <Badge variant={
-                subscription?.status === 'active' ? 'default'
-                  : subscription?.status === 'trialing' ? 'secondary'
-                    : 'destructive'
-              }>
-                {isTrial ? `Trial — ${String(trialDaysLeft)} days left` : (subscription?.status ?? 'No subscription')}
+              <Badge variant={badgeVariant}>
+                {isTrialActive ? `Trial — ${String(trialDaysLeft)} days left` : status}
               </Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {subscription?.customer_portal_url && (
-              <a href={subscription.customer_portal_url} target="_blank" rel="noopener noreferrer">
+            {portalRow?.customer_portal_url ? (
+              <a href={portalRow.customer_portal_url} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="w-full gap-2">
                   Manage subscription <ExternalLink className="h-4 w-4" />
                 </Button>
               </a>
-            )}
-            {!subscription && (
-              <a
-                href={`${process.env['NEXT_PUBLIC_LEMONSQUEEZY_STORE_URL'] ?? '#'}/checkout`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="w-full">Upgrade plan</Button>
+            ) : status === 'active' && supportEmail ? (
+              // A paid subscription with no portal URL on file means the
+              // customer otherwise has no in-app way to cancel — falling
+              // back to a direct support contact keeps cancellation
+              // possible in as few steps as signing up required, rather
+              // than silently disappearing (compliance audit rule 08).
+              <a href={`mailto:${supportEmail}?subject=Manage my StockAlert subscription`}>
+                <Button variant="outline" className="w-full gap-2">
+                  Manage subscription (contact support) <ExternalLink className="h-4 w-4" />
+                </Button>
               </a>
+            ) : null}
+            {status !== 'active' && teamId && (
+              checkoutPlans.length > 0 ? (
+                <CheckoutPanel teamId={teamId} plans={checkoutPlans} />
+              ) : (
+                <a href={process.env['NEXT_PUBLIC_PRICING_URL'] ?? '#'} target="_blank" rel="noopener noreferrer">
+                  <Button className="w-full gap-2">
+                    View pricing <ExternalLink className="h-4 w-4" />
+                  </Button>
+                </a>
+              )
             )}
           </CardContent>
         </Card>
@@ -133,23 +143,23 @@ export default async function BillingPage() {
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm font-medium">Stores</p>
-              {usageBar(storeUsage, limits.stores)}
-              {limits.stores < 0 && <p className="text-xs text-muted-foreground mt-1">{String(storeUsage)} connected (unlimited)</p>}
+              {usageBar(usage.store_count, limits.stores)}
+              {limits.stores < 0 && <p className="text-xs text-muted-foreground mt-1">{String(usage.store_count)} connected (unlimited)</p>}
             </div>
             <div>
               <p className="text-sm font-medium">Products tracked</p>
-              {usageBar(productUsage, limits.products)}
-              {limits.products < 0 && <p className="text-xs text-muted-foreground mt-1">{String(productUsage)} (unlimited)</p>}
+              {usageBar(usage.product_count, limits.products)}
+              {limits.products < 0 && <p className="text-xs text-muted-foreground mt-1">{String(usage.product_count)} (unlimited)</p>}
             </div>
             <div>
               <p className="text-sm font-medium">Alerts sent</p>
-              {usageBar(alertUsage, limits.alertsPerMonth)}
-              {limits.alertsPerMonth < 0 && <p className="text-xs text-muted-foreground mt-1">{String(alertUsage)} (unlimited)</p>}
+              {usageBar(usage.alerts_this_month, limits.alertsPerMonth)}
+              {limits.alertsPerMonth < 0 && <p className="text-xs text-muted-foreground mt-1">{String(usage.alerts_this_month)} (unlimited)</p>}
             </div>
             <div>
               <p className="text-sm font-medium">Alert rules</p>
-              {usageBar(ruleUsage, limits.rules)}
-              {limits.rules < 0 && <p className="text-xs text-muted-foreground mt-1">{String(ruleUsage)} (unlimited)</p>}
+              {usageBar(usage.rule_count, limits.rules)}
+              {limits.rules < 0 && <p className="text-xs text-muted-foreground mt-1">{String(usage.rule_count)} (unlimited)</p>}
             </div>
           </CardContent>
         </Card>

@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — Inventory alerts for e-commerce sellers"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ Low Stock Alert: {productName} ({quantity} {unit} left)",
+    "preview": "Low stock alert: {productName} has only {quantity} units remaining",
+    "heading": "⚠️ Low Stock Alert",
+    "body": "{productName} in {storeName} is running low.",
+    "currentQuantity": "Current quantity",
+    "threshold": "Threshold",
+    "viewProduct": "View product →",
+    "manageAlerts": "Manage your alerts in StockAlert",
+    "unitAbsolute": "units",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "days of supply"
+  },
+  "passwordReset": {
+    "subject": "Reset your StockAlert password",
+    "preview": "Reset your password",
+    "heading": "Reset your password",
+    "body": "We received a request to reset the password for your StockAlert account.",
+    "cta": "Reset password",
+    "expiry": "This link expires in {minutes} minutes. If you didn't request this, you can safely ignore this email."
+  },
+  "inviteAccepted": {
+    "subject": "{memberName} joined {teamName}",
+    "preview": "{memberName} joined your team",
+    "heading": "New team member",
+    "body": "{memberName} ({memberEmail}) has accepted your invitation and joined {teamName}.",
+    "cta": "View team"
+  },
+  "paymentFailed": {
+    "subject": "Action needed: payment failed for StockAlert",
+    "preview": "Your last payment did not go through",
+    "heading": "Payment failed",
+    "body": "We couldn't process the payment for your StockAlert subscription ({teamName}).",
+    "retryNote": "Please update your payment method to avoid losing access to alerts and integrations.",
+    "cta": "Update payment method"
+  },
+  "weeklyDigest": {
+    "subject": "Your weekly StockAlert summary",
+    "preview": "{alertCount} alerts this week across {productCount} tracked products",
+    "heading": "Weekly summary",
+    "intro": "Here's what happened with your inventory this week.",
+    "trackedProducts": "Tracked products",
+    "alertsTriggered": "Alerts triggered",
+    "topAtRisk": "Most at-risk products",
+    "cta": "Open dashboard",
+    "unsubscribe": "Unsubscribe from the weekly digest"
+  },
+  "policyUpdate": {
+    "subject": "Update to our {policyName}",
+    "preview": "Changes to our {policyName} take effect {effectiveDate}",
+    "heading": "We're updating our {policyName}",
+    "body": "We're notifying you ahead of a material change to our {policyName}, effective {effectiveDate}. Please review it before that date.",
+    "cta": "Read the updated {policyName}"
+  },
+  "trialReminder": {
+    "preview": "Your trial ends in {daysLeft} days",
+    "heading": "Your trial ends in {daysLeft} days",
+    "body": "The free trial for {teamName} is wrapping up soon. When it ends without an active subscription, your account switches to read-only — nothing gets deleted.",
+    "note": "To keep syncing inventory and sending alerts without interruption, pick a plan now.",
+    "cta": "Choose a plan",
+    "subject": "Your StockAlert trial ends in {daysLeft} days"
+  }
+}

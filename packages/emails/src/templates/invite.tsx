@@ -2,12 +2,16 @@ import {
   Body, Container, Head, Heading, Html, Link, Preview, Text,
 } from '@react-email/components'
 import * as React from 'react'
+import { EmailHeader } from '../components/email-header'
+import { EmailFooter } from '../components/email-footer'
 
 interface InviteEmailProps {
   inviterName: string
   teamName: string
   role: string
   acceptUrl: string
+  logoUrl?: string
+  companyAddress?: string
 }
 
 export function InviteEmail({
@@ -15,6 +19,8 @@ export function InviteEmail({
   teamName = 'My Team',
   role = 'member',
   acceptUrl = 'https://app.example.com/accept-invite',
+  logoUrl,
+  companyAddress,
 }: InviteEmailProps) {
   return (
     <Html>
@@ -22,6 +28,7 @@ export function InviteEmail({
       <Preview>{inviterName} invited you to join {teamName} on StockAlert</Preview>
       <Body style={main}>
         <Container style={container}>
+          <EmailHeader logoUrl={logoUrl} />
           <Heading style={h1}>You&apos;ve been invited</Heading>
           <Text style={text}>
             <strong>{inviterName}</strong> has invited you to join{' '}
@@ -29,6 +36,7 @@ export function InviteEmail({
           </Text>
           <Link href={acceptUrl} style={button}>Accept invitation →</Link>
           <Text style={footer}>This invitation expires in 7 days.</Text>
+          <EmailFooter footerText="StockAlert — Inventory alerts for e-commerce sellers" companyAddress={companyAddress} />
         </Container>
       </Body>
     </Html>
