@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — E-ticaret satıcıları için stok uyarıları"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ Düşük Stok Uyarısı: {productName} ({quantity} {unit} kaldı)",
+    "preview": "Düşük stok uyarısı: {productName} ürününden sadece {quantity} adet kaldı",
+    "heading": "⚠️ Düşük Stok Uyarısı",
+    "body": "{storeName} mağazasındaki {productName} stoğu azalıyor.",
+    "currentQuantity": "Mevcut miktar",
+    "threshold": "Eşik değeri",
+    "viewProduct": "Ürünü görüntüle →",
+    "manageAlerts": "Uyarılarınızı StockAlert'te yönetin",
+    "unitAbsolute": "adet",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "günlük stok"
+  },
+  "passwordReset": {
+    "subject": "StockAlert şifrenizi sıfırlayın",
+    "preview": "Şifrenizi sıfırlayın",
+    "heading": "Şifrenizi sıfırlayın",
+    "body": "StockAlert hesabınızın şifresini sıfırlamak için bir istek aldık.",
+    "cta": "Şifreyi sıfırla",
+    "expiry": "Bu bağlantı {minutes} dakika içinde geçerliliğini yitirir. Bu isteği siz yapmadıysanız bu e-postayı görmezden gelebilirsiniz."
+  },
+  "inviteAccepted": {
+    "subject": "{memberName}, {teamName} takımına katıldı",
+    "preview": "{memberName} takımınıza katıldı",
+    "heading": "Yeni takım üyesi",
+    "body": "{memberName} ({memberEmail}) davetinizi kabul etti ve {teamName} takımına katıldı.",
+    "cta": "Takımı görüntüle"
+  },
+  "paymentFailed": {
+    "subject": "Aksiyon gerekli: StockAlert ödemesi başarısız oldu",
+    "preview": "Son ödemeniz gerçekleşmedi",
+    "heading": "Ödeme başarısız",
+    "body": "StockAlert aboneliğiniz ({teamName}) için ödeme işlenemedi.",
+    "retryNote": "Uyarılara ve entegrasyonlara erişiminizi kaybetmemek için lütfen ödeme yönteminizi güncelleyin.",
+    "cta": "Ödeme yöntemini güncelle"
+  },
+  "weeklyDigest": {
+    "subject": "Haftalık StockAlert özetiniz",
+    "preview": "{productCount} takip edilen üründe bu hafta {alertCount} uyarı",
+    "heading": "Haftalık özet",
+    "intro": "Bu hafta envanterinizde neler oldu, işte özeti.",
+    "trackedProducts": "Takip edilen ürünler",
+    "alertsTriggered": "Tetiklenen uyarılar",
+    "topAtRisk": "En riskli ürünler",
+    "cta": "Paneli aç",
+    "unsubscribe": "Haftalık özetten çık"
+  },
+  "policyUpdate": {
+    "subject": "{policyName} güncellemesi",
+    "preview": "{policyName} değişiklikleri {effectiveDate} tarihinde yürürlüğe girecek",
+    "heading": "{policyName}'nı güncelliyoruz",
+    "body": "{policyName}'nda yapılan önemli bir değişiklik hakkında sizi önceden bilgilendiriyoruz; {effectiveDate} tarihinde yürürlüğe girecek. Lütfen bu tarihten önce inceleyin.",
+    "cta": "Güncellenmiş {policyName}'nı oku"
+  },
+  "trialReminder": {
+    "preview": "Deneme süreniz {daysLeft} gün içinde sona eriyor",
+    "heading": "Deneme süreniz {daysLeft} gün içinde sona eriyor",
+    "body": "{teamName} için ücretsiz deneme süreniz yakında sona eriyor. Aktif bir abonelik olmadan süre dolduğunda hesabınız salt okunur duruma geçer — hiçbir şey silinmez.",
+    "note": "Stok senkronizasyonuna ve uyarı gönderimine kesintisiz devam etmek için şimdi bir plan seçin.",
+    "cta": "Plan seç",
+    "subject": "StockAlert deneme süreniz {daysLeft} gün içinde sona eriyor"
+  }
+}

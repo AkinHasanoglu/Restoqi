@@ -11,7 +11,7 @@ import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { type Locale } from '@stockalert/i18n'
-import { createClient } from '@stockalert/database/client'
+import { logoutAction } from '../../actions/auth'
 import { CreateTeamDialog } from '../settings/create-team-dialog'
 
 interface Team {
@@ -35,10 +35,12 @@ export function Topbar({ userEmail, userName, teams = [], currentTeamId, onComma
 
   const currentTeam = teams.find((t) => t.id === currentTeamId) ?? teams[0]
 
+  // Runs server-side (actions/auth.ts) so signOut()'s token revocation is
+  // guaranteed to actually happen and its result is checked/logged, instead
+  // of a client-only signOut() whose failure silently left tokens valid.
+  // See 2nd security audit item 4.
   async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = `/${locale}/login`
+    await logoutAction()
   }
 
   const initials = userName
@@ -105,10 +107,14 @@ export function Topbar({ userEmail, userName, teams = [], currentTeamId, onComma
           <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
         </Button>
 
-        {/* User menu */}
+        {/* User menu — aria-label rather than relying on the avatar
+            initials as the accessible name (WCAG 2.1 AA; compliance
+            audit rule 13). See e2e/dashboard-auth-flow.spec.ts, which
+            previously had to target this as "the last button in the
+            header" for lack of one. */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full" size="icon">
+            <Button variant="ghost" className="relative h-8 w-8 rounded-full" size="icon" aria-label="Kullanıcı menüsü">
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">{initials}</AvatarFallback>
               </Avatar>

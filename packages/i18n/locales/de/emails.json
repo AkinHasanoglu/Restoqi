@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — Lagerbestandswarnungen für E-Commerce-Händler"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ Niedriger Lagerbestand: {productName} (noch {quantity} {unit})",
+    "preview": "Niedriger Lagerbestand: Von {productName} sind nur noch {quantity} Einheiten übrig",
+    "heading": "⚠️ Niedriger Lagerbestand",
+    "body": "{productName} in {storeName} geht zur Neige.",
+    "currentQuantity": "Aktuelle Menge",
+    "threshold": "Schwellenwert",
+    "viewProduct": "Produkt ansehen →",
+    "manageAlerts": "Verwalten Sie Ihre Warnungen in StockAlert",
+    "unitAbsolute": "Einheiten",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "Tage Reichweite"
+  },
+  "passwordReset": {
+    "subject": "Setzen Sie Ihr StockAlert-Passwort zurück",
+    "preview": "Passwort zurücksetzen",
+    "heading": "Passwort zurücksetzen",
+    "body": "Wir haben eine Anfrage zum Zurücksetzen des Passworts für Ihr StockAlert-Konto erhalten.",
+    "cta": "Passwort zurücksetzen",
+    "expiry": "Dieser Link läuft in {minutes} Minuten ab. Falls Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren."
+  },
+  "inviteAccepted": {
+    "subject": "{memberName} ist {teamName} beigetreten",
+    "preview": "{memberName} ist Ihrem Team beigetreten",
+    "heading": "Neues Teammitglied",
+    "body": "{memberName} ({memberEmail}) hat Ihre Einladung angenommen und ist {teamName} beigetreten.",
+    "cta": "Team ansehen"
+  },
+  "paymentFailed": {
+    "subject": "Handlung erforderlich: Zahlung für StockAlert fehlgeschlagen",
+    "preview": "Ihre letzte Zahlung konnte nicht verarbeitet werden",
+    "heading": "Zahlung fehlgeschlagen",
+    "body": "Wir konnten die Zahlung für Ihr StockAlert-Abonnement ({teamName}) nicht verarbeiten.",
+    "retryNote": "Bitte aktualisieren Sie Ihre Zahlungsmethode, um den Zugriff auf Warnungen und Integrationen nicht zu verlieren.",
+    "cta": "Zahlungsmethode aktualisieren"
+  },
+  "weeklyDigest": {
+    "subject": "Ihre wöchentliche StockAlert-Zusammenfassung",
+    "preview": "{alertCount} Warnungen diese Woche bei {productCount} beobachteten Produkten",
+    "heading": "Wöchentliche Zusammenfassung",
+    "intro": "Das ist in dieser Woche in Ihrem Lagerbestand passiert.",
+    "trackedProducts": "Beobachtete Produkte",
+    "alertsTriggered": "Ausgelöste Warnungen",
+    "topAtRisk": "Produkte mit höchstem Risiko",
+    "cta": "Dashboard öffnen",
+    "unsubscribe": "Vom wöchentlichen Digest abmelden"
+  },
+  "policyUpdate": {
+    "subject": "Aktualisierung unserer {policyName}",
+    "preview": "Änderungen an unserer {policyName} treten am {effectiveDate} in Kraft",
+    "heading": "Wir aktualisieren unsere {policyName}",
+    "body": "Wir informieren Sie im Voraus über eine wesentliche Änderung unserer {policyName}, die ab {effectiveDate} gilt. Bitte lesen Sie sie vor diesem Datum durch.",
+    "cta": "Aktualisierte {policyName} lesen"
+  },
+  "trialReminder": {
+    "preview": "Ihre Testphase endet in {daysLeft} Tagen",
+    "heading": "Ihre Testphase endet in {daysLeft} Tagen",
+    "body": "Die kostenlose Testphase für {teamName} endet bald. Danach wird Ihr Konto ohne ein aktives Abonnement auf \"Nur Lesen\" umgestellt — es wird nichts gelöscht.",
+    "note": "Um weiterhin Bestandsänderungen zu synchronisieren und Warnungen zu senden, wählen Sie jetzt einen Plan.",
+    "cta": "Plan auswählen",
+    "subject": "Ihre StockAlert-Testphase endet in {daysLeft} Tagen"
+  }
+}

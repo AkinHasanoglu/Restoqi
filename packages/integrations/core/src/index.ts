@@ -1,5 +1,6 @@
 export type {
   Product,
+  ProductVariant,
   InventoryLevel,
   Page,
   Credentials,
@@ -7,8 +8,12 @@ export type {
   ApiKeyCredentials,
   WebhookTopic,
   MarketplaceConnector,
+  WebhookVerifyInput,
+  WebhookChallengeInput,
+  WebhookChallengeResponse,
 } from './types'
-export { ProductSchema, InventoryLevelSchema } from './types'
-export { fetchWithRetry, buildQuery, hmacSHA256, timingSafeEqual } from './http'
-export type { MarketplaceConnector } from './registry'
-export { SUPPORTED_PLATFORMS } from './registry'
+export { ProductSchema, ProductVariantSchema, InventoryLevelSchema, CredentialsSchema, OAuthCredentialsSchema, ApiKeyCredentialsSchema } from './types'
+export { fetchWithRetry, safeFetch, assertSafeUrl, buildQuery, hmacSHA256, timingSafeEqual } from './http'
+export { SUPPORTED_PLATFORMS, isSupportedPlatform } from './registry'
+export type { PlatformType } from './registry'
+export { requireEnv, requireParam } from './env'

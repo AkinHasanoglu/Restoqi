@@ -17,6 +17,7 @@ export type ProductRow = {
   quantity: number | null
   lastSyncedAt: string | null
   storeName: string
+  daysUntilStockout: number | null
 }
 
 const PLATFORM_LABELS: Record<string, string> = {
@@ -118,6 +119,21 @@ const columns: ColumnDef<ProductRow>[] = [
           {new Date(val).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}
         </span>
       )
+    },
+  },
+  {
+    accessorKey: 'daysUntilStockout',
+    header: ({ column }) => (
+      <Button variant="ghost" size="sm" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        Est. stockout <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const days = row.getValue<number | null>('daysUntilStockout')
+      if (days === null) return <span className="text-xs text-muted-foreground">—</span>
+      if (days <= 3) return <Badge variant="destructive">{String(days)}d</Badge>
+      if (days <= 14) return <Badge variant="secondary" className="bg-orange-100 text-orange-800">{String(days)}d</Badge>
+      return <span className="text-sm text-muted-foreground">{String(days)}d</span>
     },
   },
 ]

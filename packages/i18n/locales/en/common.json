@@ -1,6 +1,9 @@
 {
   "nav": {
-    "solutions": "Solutions",
+    "howItWorks": "How It Works",
+    "features": "Features",
+    "integrations": "Integrations",
+    "faq": "FAQ",
     "pricing": "Pricing",
     "docs": "Docs",
     "blog": "Blog",
@@ -60,8 +63,8 @@
   },
   "plans": {
     "starter": "Starter",
-    "business": "Business",
-    "enterprise": "Enterprise"
+    "growth": "Growth",
+    "scale": "Scale"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -84,5 +87,18 @@
     "hoursAgo": "{count}h ago",
     "daysAgo": "{count}d ago",
     "never": "Never"
+  },
+  "cookieConsent": {
+    "title": "We use cookies",
+    "description": "We use essential cookies to run this site. Analytics cookies are optional and stay off until you accept them — you can change your choice anytime.",
+    "accept": "Accept all",
+    "reject": "Reject all",
+    "learnMore": "Cookie Policy"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Our team has been notified automatically.",
+    "retry": "Try again",
+    "goHome": "Go home"
   }
 }

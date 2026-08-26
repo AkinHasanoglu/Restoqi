@@ -15,6 +15,7 @@ export default function AcceptInvitePage() {
   const [error, setError] = React.useState('')
 
   async function handleAccept() {
+    if (status === 'loading') return
     setStatus('loading')
     const result = await acceptInvite(token)
     if (result.success) {
@@ -47,9 +48,9 @@ export default function AcceptInvitePage() {
         {status === 'error' && (
           <p className="text-sm text-destructive">{error}</p>
         )}
-        {(status === 'idle' || status === 'error') && (
+        {(status === 'idle' || status === 'loading' || status === 'error') && (
           <Button onClick={handleAccept} className="w-full" disabled={status === 'loading'}>
-            Accept invitation
+            {status === 'loading' ? 'Accepting…' : 'Accept invitation'}
           </Button>
         )}
       </CardContent>

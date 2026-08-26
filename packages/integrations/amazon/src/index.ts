@@ -125,8 +125,14 @@ export const amazonConnector: MarketplaceConnector = {
     }))
   },
 
-  verifyWebhookSignature(_headers: Record<string, string>, _body: string, _secret: string): boolean {
-    // Amazon uses SNS message signature verification (complex)
-    return true
+  // SP-API notifications arrive via SQS/EventBridge, not HTTPS webhooks —
+  // there is no inbound POST for this route to receive. Verifying an SNS
+  // message signature (fetch SigningCertURL, validate the host, build the
+  // canonical string, RSA-SHA256 verify) is real work for a delivery path
+  // this app doesn't use; poll-only for now rather than shipping a stub
+  // that pretends to verify. Tracked as a post-launch item.
+  supportsPush: false,
+  async verifyWebhookSignature(): Promise<boolean> {
+    return false
   },
 }
