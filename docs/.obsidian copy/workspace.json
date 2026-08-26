@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "ce9940d268bec025",
+    "type": "split",
+    "children": [
+      {
+        "id": "7f0fa50f9b3a4d8f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cb81f4f9c5956303",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "CLAUDE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CLAUDE"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2999610d0bd45493",
+    "type": "split",
+    "children": [
+      {
+        "id": "3a52c8efccf5beaa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9e9cdcff93e8de33",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "342ac881d7f79c4f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "1264865a8bfe1990",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "dd3d6190ccbec4f9",
+    "type": "split",
+    "children": [
+      {
+        "id": "12ab76bc84c7c19d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "59c596d7db7600c1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "CLAUDE.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Geri Bağlantılar"
+            }
+          },
+          {
+            "id": "1b736e82c10babc6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "CLAUDE.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Giden bağlantılar"
+            }
+          },
+          {
+            "id": "54e944085aad8199",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "e7e5484f69880c09",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "5664f76d7d56391a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "CLAUDE.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Anahat"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "cb81f4f9c5956303",
+  "lastOpenFiles": [
+    "entities/eticaret-gorsel-uretimi.md",
+    "CLAUDE.md",
+    "lint-report.md",
+    "lint-report.md.tmp.22716.7b7df6d0de60",
+    "log.md",
+    "log.md.tmp.22716.b14abaef0bed",
+    "index.md",
+    "index.md.tmp.22716.0206dbbdc042",
+    "syntheses/acik-riskler-ve-bosluklar.md",
+    "syntheses/acik-riskler-ve-bosluklar.md.tmp.22716.e4bd4439f528",
+    "syntheses/monetizasyon-ve-odeme-altyapisi.md",
+    "syntheses/monetizasyon-ve-odeme-altyapisi.md.tmp.22716.280e9318db8a",
+    "syntheses/tekrar-eden-mimari-kararlar.md",
+    "syntheses/tekrar-eden-mimari-kararlar.md.tmp.22716.f820d4abc1db",
+    "syntheses/ortak-teknoloji-yigini.md",
+    "syntheses/ortak-teknoloji-yigini.md.tmp.22716.c35307f09e4c",
+    "syntheses/saas-portfoy-genel-bakis.md",
+    "syntheses/saas-portfoy-genel-bakis.md.tmp.22716.1b4b9ab1873d",
+    "concepts/alert-throttling.md",
+    "concepts/alert-throttling.md.tmp.22716.f0ee146016b9",
+    "concepts/serverless-arka-plan-isleme.md",
+    "concepts/serverless-arka-plan-isleme.md.tmp.22716.56eb2c8f9edf",
+    "concepts/placeholder-enjeksiyonu.md",
+    "concepts/freemium-abonelik-modeli.md",
+    "concepts/i18n.md",
+    "concepts/rate-limiting.md",
+    "concepts/webhook-tabanli-entegrasyon.md",
+    "concepts/rbac.md",
+    "concepts/hub-and-spoke-mimarisi.md",
+    "issues/app-name-esleme-riski.md",
+    "issues/n8n-cors-webhook-sorunu.md",
+    "issues/durum-degerleri-tutarsizligi.md",
+    "decisions/rbac-takim-yonetimi.md",
+    "decisions/durable-throttle-marker.md",
+    "decisions/b2b-toplu-isleme-arka-plan-worker.md",
+    "decisions/lemonsqueezy-odeme-secimi.md"
+  ]
+}

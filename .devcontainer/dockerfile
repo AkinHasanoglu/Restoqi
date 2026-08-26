@@ -1,0 +1,17 @@
+# Temel Node.js ortamı
+FROM node:20-bullseye
+
+# Gerekli sistem araçlarını yükle
+RUN apt-get update && apt-get install -y git curl sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# OpenCode CLI ve ihtiyaç duyduğun diğer global paketleri imaja dahil et
+RUN npm install -g opencode-ai
+
+# Güvenlik için yetkisiz standart kullanıcı ayarı
+ARG USERNAME=node
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER $USERNAME
+WORKDIR /stock_alert

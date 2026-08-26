@@ -14,6 +14,19 @@ export type SyncJobPayload = {
   platform: string
   storeId: string
   teamId: string
+} | {
+  // A single failed alert_deliveries row, re-attempted once out of band
+  // instead of blocking the sync worker's response on a slow/unreachable
+  // channel (see @stockalert/notifications' dispatcher.ts). Deliberately
+  // primitive-typed (no NotificationChannel/AlertPayload import) — queue
+  // stays a leaf package, notifications depends on it, not the reverse.
+  type: 'notification_retry'
+  deliveryId: string
+  teamId: string
+  channelType: string
+  channelConfig: Record<string, string>
+  alertPayload: Record<string, unknown>
+  attempt: number
 }
 
 export function getQStashClient() {
@@ -47,4 +60,16 @@ export async function enqueuePollJob(payload: Extract<SyncJobPayload, { type: 'p
   const client = getQStashClient()
   const workerUrl = process.env['WORKER_URL'] ?? `${process.env['NEXT_PUBLIC_APP_URL']}/api/worker/sync`
   await client.publishJSON({ url: workerUrl, body: payload })
+}
+
+/**
+ * Small fixed delay rather than the sync/poll jobs' immediate dispatch —
+ * most delivery failures (a webhook endpoint mid-deploy, a rate-limited
+ * Slack app) clear up within seconds, and QStash's `delay` is simpler than
+ * standing up a separate backoff scheduler for one retry.
+ */
+export async function enqueueNotificationRetry(payload: Extract<SyncJobPayload, { type: 'notification_retry' }>) {
+  const client = getQStashClient()
+  const workerUrl = process.env['WORKER_URL'] ?? `${process.env['NEXT_PUBLIC_APP_URL']}/api/worker/sync`
+  await client.publishJSON({ url: workerUrl, body: payload, delay: '30s' })
 }

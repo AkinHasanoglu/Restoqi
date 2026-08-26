@@ -1,0 +1,145 @@
+name: E2E
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+# Least-privilege default for the GITHUB_TOKEN. actions/upload-artifact
+# doesn't need an elevated permission to upload to this same run. See 2nd
+# security audit item 23.
+permissions:
+  contents: read
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  HUB_API_KEY: ${{ secrets.HUB_API_KEY }}
+
+jobs:
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: '11'
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@46f7f98c7f948ad727d22c1e67fab04c223a0520 # v3.0.0
+        with:
+          version: latest
+
+      # A real (local) Supabase instance, not a placeholder URL — most of
+      # this suite signs real users up and logs them in, which a fake
+      # Supabase URL can't do at all.
+      - name: Start local Supabase
+        working-directory: packages/database
+        run: supabase start
+
+      - name: Reset database (applies all migrations + seed.sql)
+        working-directory: packages/database
+        run: supabase db reset
+
+      - name: Export local Supabase connection info
+        working-directory: packages/database
+        run: supabase status -o env --override-name api.url=NEXT_PUBLIC_SUPABASE_URL --override-name auth.anon_key=NEXT_PUBLIC_SUPABASE_ANON_KEY --override-name auth.service_role_key=SUPABASE_SERVICE_ROLE_KEY >> "$GITHUB_ENV"
+
+      - name: Build
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3001'
+          NEXT_PUBLIC_LANDING_URL: 'http://127.0.0.1:3000'
+          NEXT_PUBLIC_POSTHOG_KEY: 'placeholder'
+          # Valid 32-byte key (base64) — CI-only, never a real secret. See
+          # ci.yml's build step for why this must be well-formed rather
+          # than SKIP_ENV_VALIDATION'd away.
+          SUPABASE_ENCRYPTION_KEY: 'BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc='
+          RESEND_FROM_EMAIL: 'alerts@placeholder.getlavanchor.com'
+          DATABASE_URL: 'file:./dev.db'
+
+      - name: Run Playwright tests
+        run: pnpm e2e
+        env:
+          HUB_API_KEY: ${{ secrets.HUB_API_KEY || 'test-hub-api-key' }}
+          NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3001'
+          NEXT_PUBLIC_LANDING_URL: 'http://127.0.0.1:3000'
+          SUPABASE_ENCRYPTION_KEY: 'BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc='
+          RESEND_FROM_EMAIL: 'alerts@placeholder.getlavanchor.com'
+          # Internal bearer fallback the worker route accepts (see
+          # lib/worker-auth.ts) — lets dashboard-store-connect.spec.ts and
+          # dashboard-core-alert-flow.spec.ts drive /api/worker/sync
+          # directly instead of waiting on real QStash delivery.
+          WORKER_SECRET: e2e-worker-secret-not-a-real-value
+          # PADDLE_WEBHOOK_SECRET / NEXT_PUBLIC_PADDLE_PRICE_ID_BUSINESS_MONTHLY
+          # aren't set here — dashboard-billing.spec.ts's paid-upgrade case
+          # self-skips (test.skip) when they're absent, matching that this
+          # is optional Track U infrastructure, not required for the rest
+          # of the suite to pass.
+
+      - name: Notify Hub of E2E failure
+        if: failure()
+        continue-on-error: true
+        env:
+          HUB_WEBHOOK_URL: ${{ secrets.HUB_WEBHOOK_URL }}
+          HUB_WEBHOOK_SECRET: ${{ secrets.HUB_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$HUB_WEBHOOK_URL" ] || [ -z "$HUB_WEBHOOK_SECRET" ]; then
+            echo "HUB_WEBHOOK_URL / HUB_WEBHOOK_SECRET secret'ları tanımlı değil, bildirim atlanıyor."
+            exit 0
+          fi
+
+          FAILED_TEST=$(jq -r '[.suites[]?.suites[]?.specs[]? | select(.ok == false) | .title] | first // "bilinmeyen test"' playwright-report/results.json 2>/dev/null || echo "bilinmeyen test")
+
+          PAYLOAD=$(jq -n \
+            --arg app "stockalert-dashboard" \
+            --arg testName "$FAILED_TEST" \
+            --arg repo "${{ github.repository }}" \
+            --arg branch "${{ github.ref_name }}" \
+            --arg commit "${{ github.sha }}" \
+            --arg actor "${{ github.actor }}" \
+            --arg runUrl "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{app: $app, testName: $testName, repo: $repo, branch: $branch, commit: $commit, actor: $actor, runUrl: $runUrl}')
+
+          curl -sS -X POST "$HUB_WEBHOOK_URL/api/webhooks/github" \
+            -H "Authorization: Bearer $HUB_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

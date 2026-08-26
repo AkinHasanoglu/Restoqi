@@ -31,7 +31,8 @@ type StoreRow = {
   id: string
   platform: string
   store_name: string
-  status: string
+  is_active: boolean
+  sync_error: string | null
   created_at: string
   product_count: number
 }
@@ -43,7 +44,7 @@ export function StoreCard({ store }: { store: StoreRow }) {
   function handleSync() {
     startSync(async () => {
       const result = await triggerManualSync(store.id)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else toast.success('Senkronizasyon başlatıldı!')
     })
   }
@@ -54,12 +55,17 @@ export function StoreCard({ store }: { store: StoreRow }) {
       const fd = new FormData()
       fd.set('storeId', store.id)
       const result = await disconnectStore(fd)
-      if (result.error) toast.error(result.error)
+      if (!result.success) toast.error(result.error)
       else toast.success('Mağaza bağlantısı kesildi')
     })
   }
 
-  const isActive = store.status === 'active'
+  // Three-state display: active+healthy, active+sync error, or disconnected.
+  const hasSyncError = store.is_active && Boolean(store.sync_error)
+  const isActive = store.is_active && !hasSyncError
+  const statusLabel = hasSyncError ? 'Senkron hatası' : isActive ? 'Aktif' : 'Bağlantı kesildi'
+  const statusDotClass = hasSyncError ? 'bg-amber-500' : isActive ? 'bg-green-500' : 'bg-muted-foreground'
+  const statusTextClass = hasSyncError ? 'text-amber-600' : isActive ? 'text-green-600' : 'text-muted-foreground'
   const platformColors = PLATFORM_COLORS[store.platform] ?? { color: '#6b7280', bg: '#6b728018' }
 
   return (
@@ -88,11 +94,11 @@ export function StoreCard({ store }: { store: StoreRow }) {
             {/* Animated status dot */}
             <div className="flex items-center gap-1.5 pt-1">
               <span
-                className={`h-2 w-2 rounded-full ${isActive ? 'bg-green-500' : 'bg-muted-foreground'}`}
+                className={`h-2 w-2 rounded-full ${statusDotClass}`}
                 style={isActive ? { animation: 'status-pulse 2s ease-in-out infinite' } : undefined}
               />
-              <span className={`text-xs font-medium ${isActive ? 'text-green-600' : 'text-muted-foreground'}`}>
-                {isActive ? 'Aktif' : store.status}
+              <span className={`text-xs font-medium ${statusTextClass}`}>
+                {statusLabel}
               </span>
             </div>
           </div>
@@ -103,12 +109,17 @@ export function StoreCard({ store }: { store: StoreRow }) {
             <span className="font-semibold text-foreground">{String(store.product_count)}</span>{' '}
             {store.product_count !== 1 ? 'ürün' : 'ürün'} takip ediliyor
           </p>
+          {hasSyncError && (
+            <p className="rounded-md bg-amber-500/10 px-2.5 py-1.5 text-xs text-amber-600">
+              {store.sync_error}
+            </p>
+          )}
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={handleSync}
-              disabled={isSyncing || !isActive}
+              disabled={isSyncing || !store.is_active}
               className="gap-1.5 border-border/60"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? 'animate-spin' : ''}`} />

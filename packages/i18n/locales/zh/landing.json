@@ -5,7 +5,29 @@
     "subtitle": "Real-time inventory alerts for Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada and AliExpress — with AI-powered predictions.",
     "cta": "Start free trial",
     "ctaSecondary": "See how it works",
-    "trustedBy": "Trusted by {count}+ sellers worldwide"
+    "trustSignals": "{marketplaces} 个电商平台 · {trialDays} 天免费试用，无需信用卡 · 支持 {languages} 种语言",
+    "mockup": {
+      "nav": {
+        "overview": "概览",
+        "products": "产品",
+        "alerts": "预警",
+        "rules": "规则",
+        "integrations": "集成"
+      },
+      "stats": {
+        "products": "产品",
+        "lowStock": "低库存",
+        "stores": "店铺",
+        "uptime": "可用率"
+      },
+      "live": "实时",
+      "chartTitle": "库存趋势 — 近15天",
+      "healthy": "健康",
+      "low": "偏低",
+      "recentAlerts": "最新预警",
+      "newCount": "新增 {count} 条",
+      "qtyLeft": "剩余 {count}"
+    }
   },
   "features": {
     "title": "Everything you need to stay in stock",
@@ -39,60 +61,159 @@
   },
   "pricing": {
     "title": "Simple, transparent pricing",
-    "subtitle": "Start for free. Upgrade as you grow.",
+    "subtitle": "Try Growth free for 14 days — no card required. Upgrade as you grow.",
     "monthly": "Monthly",
     "annual": "Annual",
-    "save": "Save 20%",
+    "save": "2 months free",
     "perMonth": "/mo",
     "startTrial": "Start 14-day free trial",
-    "contactSales": "Contact sales",
     "popular": "Most popular",
     "plans": {
       "starter": {
         "name": "Starter",
-        "price": "29",
-        "description": "Perfect for individual sellers.",
+        "description": "Perfect for a single store getting started.",
         "features": [
-          "2 connected stores",
-          "500 products",
-          "3 alert rules",
-          "Email & Webhook alerts",
-          "7-day history"
+          "1 个已连接店铺",
+          "跟踪 500 个 SKU",
+          "5 条预警规则",
+          "每月 100 条预警",
+          "每 5 分钟自动同步 + 实时 Webhook 更新",
+          "邮件与 Telegram 预警",
+          "1 个团队席位"
         ]
       },
-      "business": {
-        "name": "Business",
-        "price": "79",
-        "description": "For growing teams and multiple stores.",
+      "growth": {
+        "name": "Growth",
+        "description": "For growing teams selling across multiple stores.",
         "features": [
-          "10 connected stores",
-          "Unlimited products",
-          "Unlimited alert rules",
-          "All notification channels",
-          "AI predictions",
-          "5 team members",
-          "90-day history"
+          "3 个已连接店铺",
+          "跟踪 2,500 个 SKU",
+          "25 条预警规则",
+          "每月 1,000 条预警",
+          "每 5 分钟自动同步 + 实时 Webhook 更新",
+          "邮件、Telegram 与 Slack 预警",
+          "按产品自定义阈值",
+          "CSV / Excel 导出",
+          "3 个团队席位"
         ]
       },
-      "enterprise": {
-        "name": "Enterprise",
-        "price": "Custom",
-        "description": "For large operations with custom needs.",
+      "scale": {
+        "name": "Scale",
+        "description": "For high-volume, multi-store operations.",
         "features": [
-          "Unlimited stores",
-          "Unlimited products",
-          "Unlimited team members",
-          "Dedicated support",
-          "SLA guarantee",
-          "Custom integrations",
-          "Full audit logs"
+          "10 个已连接店铺",
+          "跟踪 15,000 个 SKU",
+          "预警规则无限制",
+          "预警数量无限制",
+          "每 5 分钟自动同步 + 实时 Webhook 更新",
+          "含 SMS 的全部渠道 + 自定义 Webhook（n8n / Make / ERP）",
+          "基于销售速度的缺货预测",
+          "10 个团队席位"
         ]
+      }
+    },
+    "billedAnnually": "按年计费 ${yearly}/年 · 原价 ${monthly}/月",
+    "trialExplainer": "{days} 天完整体验 Growth 版全部功能，无需信用卡。试用结束后账户将转为只读模式，数据不会被删除。",
+    "comparisonTitle": "详细比较各版本",
+    "comparison": {
+      "stores": "已连接店铺",
+      "products": "已跟踪 SKU",
+      "rules": "预警规则",
+      "alertsPerMonth": "每月预警数",
+      "seats": "团队席位",
+      "channels": "预警渠道",
+      "customThresholds": "自定义阈值",
+      "velocityPrediction": "缺货预测",
+      "csvExport": "CSV / Excel 导出",
+      "unlimited": "无限制",
+      "yes": "包含",
+      "no": "—"
+    },
+    "faq": {
+      "currency": {
+        "q": "以什么货币计费？是否含税？",
+        "a": "结账由我们的记录商户 Paddle 处理——按您当地货币计费，并自动处理增值税/销售税。"
+      },
+      "planChange": {
+        "q": "之后可以更改套餐吗？",
+        "a": "可以，随时可在「设置 → 账单」中升级或降级，费用会自动按比例结算。"
+      },
+      "cancel": {
+        "q": "取消订阅会怎样？",
+        "a": "您可以继续使用至本计费周期结束，此后账户将转为只读模式。您的数据不会被删除。"
       }
     }
   },
   "solutions": {
     "title": "Connect your stores",
     "subtitle": "StockAlert integrates with all major marketplaces."
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Connect your store and get your inventory under control in four simple steps.",
+    "steps": {
+      "connect": {
+        "title": "Connect your store",
+        "description": "Link Shopify, Trendyol, Amazon and more in just a few clicks."
+      },
+      "import": {
+        "title": "Import your stock",
+        "description": "Bring in your existing inventory or add it manually — all in one place."
+      },
+      "sync": {
+        "title": "Stay in sync",
+        "description": "Stock levels update automatically and instantly with every sale."
+      },
+      "alert": {
+        "title": "Get alerted below threshold",
+        "description": "Get notified the moment a product drops below the level you set."
+      }
+    },
+    "ctaTitle": "Try it yourself, see how easy it is"
+  },
+  "integrations": {
+    "title": "Connect to the platforms you use",
+    "subtitle": "Every integration takes minutes to set up — no code required.",
+    "cards": {
+      "shopify": "Install from the App Store and connect with your API key in 2 minutes.",
+      "trendyol": "Enter your API details from the seller panel for automatic sync.",
+      "amazon": "Connect your Seller Central account and track every SKU in real time.",
+      "etsy": "Authorize your shop and let listing stock data flow in automatically.",
+      "ebay": "Approve API access and manage multiple accounts from one panel.",
+      "hepsiburada": "Enter your seller details and sync inventory in real time."
+    },
+    "ctaTitle": "Connect your store today"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "q": "Is there a free trial, and do I need a credit card?",
+        "a": "You can try it free for 14 days — no credit card required for the trial."
+      },
+      {
+        "q": "How long does it take to connect my store?",
+        "a": "Most integrations connect in 2-3 minutes with your API key, no code required."
+      },
+      {
+        "q": "How secure is my data?",
+        "a": "All data is encrypted at rest and isolated per account; backups are taken regularly."
+      },
+      {
+        "q": "Can I cancel anytime?",
+        "a": "Monthly plans have no commitment — cancel whenever you like. Annual plans come with an extra discount."
+      },
+      {
+        "q": "Which platforms do you support?",
+        "a": "We support Shopify, Trendyol, Amazon, Etsy, eBay, Hepsiburada, AliExpress and more."
+      },
+      {
+        "q": "Is a custom integration or API possible?",
+        "a": "Growth plans and above include REST API and webhook support."
+      }
+    ],
+    "ctaTitle": "Still have questions?",
+    "ctaSubtitle": "Try it free for 14 days — we'll help answer your questions as you go."
   },
   "footer": {
     "product": "Product",
@@ -101,6 +222,131 @@
     "copyright": "© {year} StockAlert. All rights reserved.",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
-    "dpa": "Data Processing Agreement"
+    "dpa": "Data Processing Agreement",
+    "tagline": "面向电商卖家的实时库存预警。",
+    "about": "关于我们",
+    "blog": "博客",
+    "contact": "联系我们",
+    "cookies": "Cookie Policy",
+    "subprocessors": "Sub-processors"
+  },
+  "trust": {
+    "title": "构建于值得信赖的基础设施之上",
+    "subtitle": "在这里，安全不是打勾的选项，而是产品架构本身的一部分。",
+    "items": {
+      "dataIsolation": {
+        "title": "团队级数据隔离",
+        "description": "每个团队的数据都在数据库层通过行级安全策略隔离，团队间无法互相访问。"
+      },
+      "auditTrail": {
+        "title": "完整审计日志",
+        "description": "每一次规则变更和店铺操作都会被记录，并在您的工作区中可见，而不仅仅是内部留存。"
+      },
+      "encryptedCredentials": {
+        "title": "加密的店铺凭证",
+        "description": "每个已连接平台的 API 密钥与令牌均以加密方式存储，绝不以明文保存。"
+      },
+      "rateLimiting": {
+        "title": "速率限制与机器人防护",
+        "description": "认证与公开接口通过速率限制和 Cloudflare Turnstile 防止滥用。"
+      },
+      "errorTracking": {
+        "title": "主动错误监控",
+        "description": "Sentry 同时监控仪表盘与同步任务，问题会在造成缺货之前被发现。"
+      },
+      "billing": {
+        "title": "符合 PCI 标准的账单系统",
+        "description": "支付通过记录商户 Paddle 处理——您的银行卡信息永远不会经过我们的服务器。"
+      }
+    }
+  },
+  "legal": {
+    "title": "法律信息",
+    "subtitle": "StockAlert 的服务条款、隐私政策与数据处理说明。",
+    "draftNotice": "草案 — 待法律审核，本页尚不具有法律约束力。",
+    "backToLegal": "返回法律信息",
+    "lastUpdated": "最近更新"
+  },
+  "blogPage": {
+    "title": "博客",
+    "subtitle": "产品更新、库存管理技巧与电商行业洞察。",
+    "emptyState": "首批文章正在撰写中，敬请期待。"
+  },
+  "docsPage": {
+    "title": "文档",
+    "subtitle": "关于连接店铺、设置预警规则和使用 API 的指南。",
+    "emptyState": "完整文档正在编写中——在此之前欢迎通过「联系我们」直接联系我们获取帮助。"
+  },
+  "about": {
+    "title": "关于 StockAlert",
+    "subtitle": "由 Lavanchor 打造，服务于那些不愿意从客户口中才得知缺货的电商卖家。",
+    "body": "StockAlert 连接您已经在使用的各大电商平台，全天候监控库存水位，让低库存和缺货情况先触达您的团队，而不是先被客户发现。它是一款专注单一用途的工具，而非某个大平台的附加功能——库存预警就是产品的全部。"
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "注册前有疑问，或账户需要帮助？欢迎联系我们——每条消息我们都会认真阅读。",
+    "emailLabel": "发送邮件",
+    "supportNote": "我们通常在 1 个工作日内回复。"
+  },
+  "meta": {
+    "home": {
+      "title": "StockAlert — 电商实时库存提醒"
+    },
+    "pricing": {
+      "title": "定价",
+      "description": "Starter、Growth 和 Scale 的简单透明定价 — 14 天免费试用，无需信用卡。"
+    },
+    "about": {
+      "title": "关于我们",
+      "description": "StockAlert 由谁打造，为何而做。"
+    },
+    "blog": {
+      "title": "博客",
+      "description": "产品更新、库存管理技巧和电商洞察。"
+    },
+    "contact": {
+      "title": "联系我们",
+      "description": "与 StockAlert 团队取得联系。"
+    },
+    "docs": {
+      "title": "文档",
+      "description": "关于连接店铺、设置提醒规则和使用 API 的指南。"
+    },
+    "faq": {
+      "title": "常见问题",
+      "description": "关于试用、安全、取消和平台支持的常见问题解答。"
+    },
+    "howItWorks": {
+      "title": "使用方法",
+      "description": "连接您的店铺，通过四个简单步骤掌控库存。"
+    },
+    "integrations": {
+      "title": "集成",
+      "description": "几分钟内连接 Shopify、Trendyol、Amazon、Etsy、eBay、Hepsiburada 和 AliExpress — 无需代码。"
+    },
+    "legal": {
+      "title": "法律信息",
+      "description": "StockAlert 的条款、隐私和数据处理信息。"
+    },
+    "legalCookies": {
+      "title": "Cookie 政策",
+      "description": "StockAlert 使用哪些 Cookie，以及如何更改您的选择。"
+    },
+    "legalDpa": {
+      "title": "数据处理协议",
+      "description": "规范 StockAlert 代表客户处理个人数据方式的条款。"
+    },
+    "legalPrivacy": {
+      "title": "隐私政策",
+      "description": "StockAlert 如何收集、使用和保护您的数据。"
+    },
+    "legalSubprocessors": {
+      "title": "分处理者",
+      "description": "StockAlert 用于处理客户数据的每个第三方及其原因。"
+    },
+    "legalTerms": {
+      "title": "服务条款",
+      "description": "StockAlert 服务条款。"
+    }
   }
 }

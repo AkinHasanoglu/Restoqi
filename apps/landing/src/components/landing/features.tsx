@@ -5,12 +5,12 @@ import { motion } from 'framer-motion'
 import { Webhook, BrainCircuit, Users, Bell, SlidersHorizontal, ScrollText } from 'lucide-react'
 
 const FEATURES = [
-  { key: 'realtime', Icon: Webhook, accent: '#f97316', bg: '#f9731614' },
-  { key: 'ai', Icon: BrainCircuit, accent: '#8b5cf6', bg: '#8b5cf614' },
-  { key: 'teams', Icon: Users, accent: '#10b981', bg: '#10b98114' },
-  { key: 'channels', Icon: Bell, accent: '#f59e0b', bg: '#f59e0b14' },
-  { key: 'rules', Icon: SlidersHorizontal, accent: '#ef4444', bg: '#ef444414' },
-  { key: 'audit', Icon: ScrollText, accent: '#6366f1', bg: '#6366f114' },
+  { key: 'realtime', Icon: Webhook, sage: false },
+  { key: 'ai', Icon: BrainCircuit, sage: true },
+  { key: 'teams', Icon: Users, sage: false },
+  { key: 'channels', Icon: Bell, sage: true },
+  { key: 'rules', Icon: SlidersHorizontal, sage: false },
+  { key: 'audit', Icon: ScrollText, sage: true },
 ] as const
 
 const container = {
@@ -31,7 +31,7 @@ export function Features() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+          <h2 className="font-heading text-4xl sm:text-5xl">
             {t('title')}
           </h2>
           <p className="mt-5 text-lg text-muted-foreground">{t('subtitle')}</p>
@@ -45,35 +45,33 @@ export function Features() {
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {FEATURES.map(({ key, Icon, accent, bg }, i) => (
+          {FEATURES.map(({ key, Icon, sage }, i) => (
             <motion.div
               key={key}
               variants={item}
-              whileHover={{ y: -4, boxShadow: `0 12px 40px ${accent}20` }}
+              whileHover={{ y: -4 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card p-6 cursor-default"
+              className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card p-6 cursor-default"
             >
-              {/* Subtle corner gradient on hover */}
+              {/* Subtle corner tint on hover */}
               <div
-                className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
-                style={{ backgroundColor: accent }}
+                className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${sage ? 'bg-accent-2' : 'bg-primary'}`}
                 aria-hidden
               />
 
               {/* Number + icon */}
               <div className="mb-4 flex items-start justify-between">
                 <div
-                  className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                  style={{ backgroundColor: bg, border: `1px solid ${accent}22` }}
+                  className={`flex h-11 w-11 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 ${sage ? 'bg-accent-2/15' : 'bg-primary/15'}`}
                 >
-                  <Icon className="h-5 w-5" style={{ color: accent }} />
+                  <Icon className={`h-5 w-5 ${sage ? 'text-accent-2' : 'text-primary'}`} strokeWidth={2.75} />
                 </div>
-                <span className="font-mono text-xs font-bold text-muted-foreground/30">
+                <span className="font-heading text-xs text-muted-foreground/40">
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
 
-              <h3 className="mb-2 text-[15px] font-semibold leading-snug">
+              <h3 className="mb-2 text-[16px] font-semibold leading-snug">
                 {t(`items.${key}.title`)}
               </h3>
               <p className="text-sm leading-relaxed text-muted-foreground">

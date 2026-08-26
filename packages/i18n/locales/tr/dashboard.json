@@ -151,6 +151,18 @@
       "testChannel": "Test Et"
     }
   },
+  "trial": {
+    "banner": {
+      "message": "Growth deneme sürümündesiniz — {days} gün kaldı.",
+      "cta": "Şimdi abone ol"
+    },
+    "expired": {
+      "title": "14 günlük deneme süreniz sona erdi",
+      "body": "Mağaza senkronizasyonunuzun, bildirimlerinizin ve uyarılarınızın kesintisiz devam etmesi için lütfen bir plan seçin.",
+      "cta": "Planları görüntüle",
+      "contactSupport": "Bu doğru görünmüyorsa (örneğin işlenmemiş bir ödeme varsa) destek ekibiyle iletişime geçin"
+    }
+  },
   "onboarding": {
     "welcome": "StockAlert'e hoş geldiniz!",
     "steps": {

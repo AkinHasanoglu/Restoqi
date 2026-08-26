@@ -2,62 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Organic design system — warm cream ground, terracotta accent, sage second
+   accent. Values are the design's hex tokens converted to HSL so they slot
+   into the existing hsl(var(--x)) color scale untouched. */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 24 100% 96%;
-    --accent-foreground: 24 100% 30%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 24 100% 50%;
-    --radius: 0.5rem;
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 98%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 98%;
-    --info: 221 83% 53%;
-    --info-foreground: 0 0% 98%;
+    --background: 37 59% 90%;
+    --foreground: 20 5% 12%;
+    --card: 35 50% 95%;
+    --card-foreground: 20 5% 12%;
+    --popover: 35 50% 95%;
+    --popover-foreground: 20 5% 12%;
+    --primary: 24 55% 50%;
+    --primary-foreground: 35 50% 95%;
+    --secondary: 84 71% 93%;
+    --secondary-foreground: 81 25% 22%;
+    --muted: 38 49% 85%;
+    --muted-foreground: 37 10% 46%;
+    --accent: 21 100% 96%;
+    --accent-foreground: 24 69% 23%;
+    --accent-2: 82 19% 45%;
+    --accent-2-foreground: 35 50% 95%;
+    --destructive: 5 65% 48%;
+    --destructive-foreground: 35 50% 95%;
+    --border: 37 26% 82%;
+    --input: 37 26% 82%;
+    --ring: 24 55% 50%;
+    --radius: 1rem;
+    --success: 82 22% 32%;
+    --success-foreground: 35 50% 95%;
+    --warning: 23 63% 56%;
+    --warning-foreground: 35 50% 95%;
+    --info: 82 19% 45%;
+    --info-foreground: 35 50% 95%;
+    --font-heading: 'Caprasimo', system-ui, sans-serif;
+    --font-body: 'Figtree', system-ui, sans-serif;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 24 95% 55%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 98%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 240 5.9% 10%;
-    --info: 221 83% 53%;
-    --info-foreground: 0 0% 98%;
+    --background: 40 11% 16%;
+    --foreground: 35 50% 95%;
+    --card: 40 12% 25%;
+    --card-foreground: 35 50% 95%;
+    --popover: 40 12% 25%;
+    --popover-foreground: 35 50% 95%;
+    --primary: 23 63% 56%;
+    --primary-foreground: 24 60% 16%;
+    --secondary: 81 25% 22%;
+    --secondary-foreground: 84 71% 93%;
+    --muted: 36 11% 35%;
+    --muted-foreground: 38 18% 70%;
+    --accent: 24 69% 23%;
+    --accent-foreground: 22 100% 91%;
+    --accent-2: 83 50% 87%;
+    --accent-2-foreground: 81 25% 22%;
+    --destructive: 5 55% 40%;
+    --destructive-foreground: 35 50% 95%;
+    --border: 36 11% 35%;
+    --input: 36 11% 35%;
+    --ring: 23 63% 56%;
+    --success: 83 50% 87%;
+    --success-foreground: 81 25% 22%;
+    --warning: 23 63% 56%;
+    --warning-foreground: 24 60% 16%;
+    --info: 83 50% 87%;
+    --info-foreground: 81 25% 22%;
   }
 }
 
@@ -67,5 +76,15 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
   }
 }

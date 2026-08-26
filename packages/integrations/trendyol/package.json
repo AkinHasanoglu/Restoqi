@@ -6,14 +6,17 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@stockalert/integrations-core": "workspace:*",
-    "zod": "^3.23.8"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@stockalert/config": "workspace:*",
-    "typescript": "^5.6.3"
+    "@types/node": "^22.9.1",
+    "typescript": "catalog:",
+    "vitest": "^2.1.6"
   }
 }

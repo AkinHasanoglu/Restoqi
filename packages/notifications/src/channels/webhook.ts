@@ -1,7 +1,14 @@
 import type { AlertPayload } from '../types'
+import { safeFetch } from '@stockalert/integrations-core'
 
+// webhookUrl comes from notification_channels.config, entered by a team
+// admin via createNotificationChannel — no server-side URL validation
+// existed before this, so an admin (or anyone who compromises an admin
+// session) could point a channel at an internal service and have the
+// sync worker fetch it. safeFetch enforces https + rejects
+// private/loopback/link-local/metadata addresses.
 export async function sendWebhookAlert(payload: AlertPayload, webhookUrl: string) {
-  const res = await fetch(webhookUrl, {
+  const res = await safeFetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

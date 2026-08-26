@@ -12,8 +12,7 @@ interface StockChartProps {
   title?: string
 }
 
-// TODO: stock_history tablosu eklenince gerçek veri kullan
-export function StockChart({ data, title = 'Stok Trendi — Son 7 Gün' }: StockChartProps) {
+export function StockChart({ data, title = 'Stok Trendi — Son 30 Gün' }: StockChartProps) {
   if (!data.length) {
     return (
       <div className="flex h-[160px] items-center justify-center text-sm text-muted-foreground">

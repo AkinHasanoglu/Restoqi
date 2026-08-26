@@ -10,7 +10,22 @@ const connectors: Record<string, () => Promise<MarketplaceConnector>> = {
   aliexpress: () => import('@stockalert/integrations-aliexpress').then((m) => m.aliexpressConnector),
 }
 
+/**
+ * Never true in production, even if the env var is somehow set there —
+ * this bypasses every real marketplace API call, so it must only ever be
+ * reachable from the Playwright e2e suite's own test run (see
+ * playwright.config.ts's webServer env and e2e/dashboard-store-connect.spec.ts).
+ */
+function isMockMarketplaceEnabled(): boolean {
+  return process.env['NODE_ENV'] !== 'production' && process.env['MOCK_MARKETPLACE'] === '1'
+}
+
 export async function getConnector(platform: string): Promise<MarketplaceConnector> {
+  if (isMockMarketplaceEnabled()) {
+    const { mockMarketplaceConnector } = await import('./mock-marketplace-connector')
+    return mockMarketplaceConnector
+  }
+
   const loader = connectors[platform]
   if (!loader) throw new Error(`Unknown platform: ${platform}`)
   return loader()

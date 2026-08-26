@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Sidebar } from './sidebar'
 import { Topbar } from './topbar'
 import { CommandPalette } from '../command-palette'
+import { TrialBanner } from '../billing/trial-banner'
+import { TrialExpiredDialog } from '../billing/trial-expired-dialog'
 
 interface AppShellProps {
   children: React.ReactNode
@@ -13,9 +15,16 @@ interface AppShellProps {
   userName?: string
   teams?: Array<{ id: string; name: string; slug: string }>
   currentTeamId?: string
+  /** Reverse-trial state resolved server-side in (app)/layout.tsx via getPlanContext — see @stockalert/plans' resolveEffectivePlan. */
+  isTrialActive?: boolean
+  trialDaysLeft?: number | null
+  isAccessAllowed?: boolean
 }
 
-export function AppShell({ children, userEmail, userName, teams, currentTeamId }: AppShellProps) {
+export function AppShell({
+  children, userEmail, userName, teams, currentTeamId,
+  isTrialActive = false, trialDaysLeft = null, isAccessAllowed = true,
+}: AppShellProps) {
   const [cmdOpen, setCmdOpen] = React.useState(false)
   const pathname = usePathname()
 
@@ -34,6 +43,7 @@ export function AppShell({ children, userEmail, userName, teams, currentTeamId }
     <div className="flex h-screen overflow-hidden">
       <Sidebar onCommandPaletteOpen={() => setCmdOpen(true)} />
       <div className="flex flex-1 flex-col overflow-hidden">
+        {isTrialActive && trialDaysLeft !== null && <TrialBanner trialDaysLeft={trialDaysLeft} />}
         <Topbar
           userEmail={userEmail}
           userName={userName}
@@ -56,6 +66,7 @@ export function AppShell({ children, userEmail, userName, teams, currentTeamId }
         </main>
       </div>
       <CommandPalette open={cmdOpen} onOpenChange={setCmdOpen} />
+      <TrialExpiredDialog open={!isAccessAllowed} />
     </div>
   )
 }
