@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — 面向电商卖家的库存预警服务"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ 库存不足提醒：{productName}（剩余 {quantity} {unit}）",
+    "preview": "库存不足提醒：{productName} 仅剩 {quantity} 件",
+    "heading": "⚠️ 库存不足提醒",
+    "body": "{storeName} 中的 {productName} 库存不足。",
+    "currentQuantity": "当前库存",
+    "threshold": "预警阈值",
+    "viewProduct": "查看商品 →",
+    "manageAlerts": "在 StockAlert 中管理您的预警",
+    "unitAbsolute": "件",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "天库存"
+  },
+  "passwordReset": {
+    "subject": "重置您的 StockAlert 密码",
+    "preview": "重置密码",
+    "heading": "重置密码",
+    "body": "我们收到了重置您 StockAlert 账户密码的请求。",
+    "cta": "重置密码",
+    "expiry": "此链接将在 {minutes} 分钟后失效。如果这不是您本人的请求，可以忽略此邮件。"
+  },
+  "inviteAccepted": {
+    "subject": "{memberName} 已加入 {teamName}",
+    "preview": "{memberName} 已加入您的团队",
+    "heading": "新团队成员",
+    "body": "{memberName}（{memberEmail}）已接受您的邀请并加入 {teamName}。",
+    "cta": "查看团队"
+  },
+  "paymentFailed": {
+    "subject": "需要处理：StockAlert 付款失败",
+    "preview": "您最近一次付款未能完成",
+    "heading": "付款失败",
+    "body": "我们无法处理您的 StockAlert 订阅（{teamName}）付款。",
+    "retryNote": "请更新您的付款方式，以免失去预警和集成功能的访问权限。",
+    "cta": "更新付款方式"
+  },
+  "weeklyDigest": {
+    "subject": "您的 StockAlert 每周摘要",
+    "preview": "本周 {productCount} 个跟踪商品中触发了 {alertCount} 次预警",
+    "heading": "每周摘要",
+    "intro": "以下是本周您库存的动态摘要。",
+    "trackedProducts": "跟踪商品数",
+    "alertsTriggered": "触发的预警",
+    "topAtRisk": "风险最高的商品",
+    "cta": "打开控制台",
+    "unsubscribe": "取消订阅每周摘要"
+  },
+  "policyUpdate": {
+    "subject": "我们的{policyName}更新通知",
+    "preview": "{policyName}的变更将于{effectiveDate}生效",
+    "heading": "我们正在更新{policyName}",
+    "body": "我们提前通知您{policyName}的重大变更，将于{effectiveDate}生效。请在此日期之前查看。",
+    "cta": "查看更新后的{policyName}"
+  },
+  "trialReminder": {
+    "preview": "您的试用将在{daysLeft}天后结束",
+    "heading": "您的试用将在{daysLeft}天后结束",
+    "body": "{teamName}的免费试用即将结束。若届时没有有效订阅，您的账户将切换为只读模式——不会删除任何数据。",
+    "note": "为了不中断库存同步和提醒发送，请现在选择一个套餐。",
+    "cta": "选择套餐",
+    "subject": "您的StockAlert试用将在{daysLeft}天后结束"
+  }
+}

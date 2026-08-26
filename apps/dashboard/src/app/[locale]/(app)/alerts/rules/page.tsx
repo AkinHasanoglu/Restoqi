@@ -25,16 +25,16 @@ export default async function RulesPage() {
       ? supabase.from('alert_rules').select('*').eq('team_id', teamId).order('created_at')
       : Promise.resolve({ data: [] }),
     teamId
-      ? supabase.from('connected_stores').select('id, store_name, platform').eq('team_id', teamId).eq('status', 'active')
+      ? supabase.from('connected_stores').select('id, store_name, platform').eq('team_id', teamId).eq('is_active', true)
       : Promise.resolve({ data: [] }),
     teamId
-      ? supabase.from('notification_channels').select('*').eq('team_id', teamId).eq('enabled', true)
+      ? supabase.from('notification_channels').select('*').eq('team_id', teamId).eq('is_active', true)
       : Promise.resolve({ data: [] }),
   ])
 
   return (
     <AlertRulesClient
-      rules={(rulesResult.data ?? []) as never[]}
+      rules={rulesResult.data ?? []}
       stores={storesResult.data ?? []}
       channels={channelsResult.data ?? []}
       canEdit={canEdit}

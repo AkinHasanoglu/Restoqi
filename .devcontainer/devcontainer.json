@@ -1,0 +1,17 @@
+{
+  "name": "E-Ticaret Stok Uyarı Sistemi",
+  "build": { "dockerfile": "Dockerfile" },
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteUser": "node",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/stock_alert,type=bind",
+  "workspaceFolder": "/stock_alert",
+  "postCreateCommand": "npm install"
+}

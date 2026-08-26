@@ -19,7 +19,8 @@ type StoreRow = {
   id: string
   platform: string
   store_name: string
-  status: string
+  is_active: boolean
+  sync_error: string | null
   created_at: string
   product_count: number
 }

@@ -151,6 +151,18 @@
       "testChannel": "Test"
     }
   },
+  "trial": {
+    "banner": {
+      "message": "You're on a Growth trial — {days} days left.",
+      "cta": "Subscribe now"
+    },
+    "expired": {
+      "title": "Your 14-day trial has ended",
+      "body": "To keep store sync, notifications, and alerts running without interruption, choose a plan to continue.",
+      "cta": "View plans",
+      "contactSupport": "Если это выглядит неверно (например, платёж не был учтён), обратитесь в поддержку"
+    }
+  },
   "onboarding": {
     "welcome": "Welcome to StockAlert!",
     "steps": {

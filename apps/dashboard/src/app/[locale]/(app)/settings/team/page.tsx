@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { createServerSupabaseClient } from '@stockalert/database/server'
 import { TeamMembersTable } from '../../../../../components/settings/team-members-table'
 import { InviteMemberForm } from '../../../../../components/settings/invite-member-form'
+import { TeamLocaleForm } from '../../../../../components/settings/team-locale-form'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@stockalert/ui'
+import type { Locale } from '@stockalert/i18n'
 
 export const metadata: Metadata = { title: 'Team Settings' }
 
@@ -23,7 +25,7 @@ export default async function TeamSettingsPage() {
   const teamId = membership.team_id
 
   const [teamResult, membersResult, invitesResult] = await Promise.all([
-    supabase.from('teams').select('name, slug, plan').eq('id', teamId).single(),
+    supabase.from('teams').select('name, slug, plan, locale').eq('id', teamId).single(),
     supabase.from('team_members').select('id, role, user_id, joined_at').eq('team_id', teamId).order('joined_at'),
     supabase.from('team_invitations').select('id, email, role, expires_at, created_at')
       .eq('team_id', teamId).is('accepted_at', null)
@@ -69,6 +71,20 @@ export default async function TeamSettingsPage() {
           </CardHeader>
           <CardContent>
             <InviteMemberForm teamId={teamId} />
+          </CardContent>
+        </Card>
+      )}
+
+      {isAdmin && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Notification language</CardTitle>
+            <CardDescription>
+              The language low-stock, billing, and digest emails are sent in for this team
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TeamLocaleForm teamId={teamId} currentLocale={(team?.locale ?? 'tr') as Locale} />
           </CardContent>
         </Card>
       )}

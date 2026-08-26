@@ -1,0 +1,19 @@
+{
+  "name": "@stockalert/plans",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@stockalert/config": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "^2.1.6",
+    "@vitest/coverage-v8": "^2.1.6"
+  }
+}

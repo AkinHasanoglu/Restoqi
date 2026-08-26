@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — Alertes de stock pour les vendeurs e-commerce"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ Stock faible : {productName} (encore {quantity} {unit})",
+    "preview": "Stock faible : il ne reste que {quantity} unités de {productName}",
+    "heading": "⚠️ Alerte de stock faible",
+    "body": "{productName} dans {storeName} devient rare.",
+    "currentQuantity": "Quantité actuelle",
+    "threshold": "Seuil",
+    "viewProduct": "Voir le produit →",
+    "manageAlerts": "Gérez vos alertes dans StockAlert",
+    "unitAbsolute": "unités",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "jours de stock"
+  },
+  "passwordReset": {
+    "subject": "Réinitialisez votre mot de passe StockAlert",
+    "preview": "Réinitialisez votre mot de passe",
+    "heading": "Réinitialisez votre mot de passe",
+    "body": "Nous avons reçu une demande de réinitialisation du mot de passe de votre compte StockAlert.",
+    "cta": "Réinitialiser le mot de passe",
+    "expiry": "Ce lien expire dans {minutes} minutes. Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail."
+  },
+  "inviteAccepted": {
+    "subject": "{memberName} a rejoint {teamName}",
+    "preview": "{memberName} a rejoint votre équipe",
+    "heading": "Nouveau membre de l'équipe",
+    "body": "{memberName} ({memberEmail}) a accepté votre invitation et a rejoint {teamName}.",
+    "cta": "Voir l'équipe"
+  },
+  "paymentFailed": {
+    "subject": "Action requise : échec du paiement StockAlert",
+    "preview": "Votre dernier paiement n'a pas abouti",
+    "heading": "Échec du paiement",
+    "body": "Nous n'avons pas pu traiter le paiement de votre abonnement StockAlert ({teamName}).",
+    "retryNote": "Veuillez mettre à jour votre moyen de paiement pour ne pas perdre l'accès aux alertes et aux intégrations.",
+    "cta": "Mettre à jour le moyen de paiement"
+  },
+  "weeklyDigest": {
+    "subject": "Votre résumé hebdomadaire StockAlert",
+    "preview": "{alertCount} alertes cette semaine sur {productCount} produits suivis",
+    "heading": "Résumé hebdomadaire",
+    "intro": "Voici ce qui s'est passé avec votre inventaire cette semaine.",
+    "trackedProducts": "Produits suivis",
+    "alertsTriggered": "Alertes déclenchées",
+    "topAtRisk": "Produits les plus à risque",
+    "cta": "Ouvrir le tableau de bord",
+    "unsubscribe": "Se désabonner du résumé hebdomadaire"
+  },
+  "policyUpdate": {
+    "subject": "Mise à jour de notre {policyName}",
+    "preview": "Les modifications de notre {policyName} prennent effet le {effectiveDate}",
+    "heading": "Nous mettons à jour notre {policyName}",
+    "body": "Nous vous informons à l'avance d'un changement important apporté à notre {policyName}, qui entrera en vigueur le {effectiveDate}. Merci de la consulter avant cette date.",
+    "cta": "Lire la {policyName} mise à jour"
+  },
+  "trialReminder": {
+    "preview": "Votre essai se termine dans {daysLeft} jours",
+    "heading": "Votre essai se termine dans {daysLeft} jours",
+    "body": "L'essai gratuit de {teamName} touche bientôt à sa fin. Sans abonnement actif, votre compte passera en lecture seule — rien ne sera supprimé.",
+    "note": "Pour continuer à synchroniser votre inventaire et recevoir des alertes sans interruption, choisissez un forfait dès maintenant.",
+    "cta": "Choisir un forfait",
+    "subject": "Votre essai StockAlert se termine dans {daysLeft} jours"
+  }
+}

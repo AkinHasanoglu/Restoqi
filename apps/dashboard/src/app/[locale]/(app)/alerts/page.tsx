@@ -31,9 +31,9 @@ export default async function AlertsPage() {
   const { data: alerts } = teamId
     ? await supabase
         .from('alerts')
-        .select('id, status, current_quantity, threshold_value, triggered_at, rule_id, product_id, alert_rules(name), products(title, platform)')
+        .select('id, status, quantity, threshold_value, created_at, rule_id, product_id, alert_rules(name), products(title, platform)')
         .eq('team_id', teamId)
-        .order('triggered_at', { ascending: false })
+        .order('created_at', { ascending: false })
         .limit(100)
     : { data: [] }
 
@@ -87,7 +87,7 @@ export default async function AlertsPage() {
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{rule?.name ?? '—'}</td>
                   <td className="px-4 py-3">
-                    <span className="font-mono">{String(alert.current_quantity)}</span>
+                    <span className="font-mono">{String(alert.quantity)}</span>
                     <span className="text-muted-foreground"> / {String(alert.threshold_value)}</span>
                   </td>
                   <td className="px-4 py-3">
@@ -96,7 +96,7 @@ export default async function AlertsPage() {
                     </Badge>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground text-xs">
-                    {new Date(alert.triggered_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}
+                    {new Date(alert.created_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}
                   </td>
                 </tr>
               )

@@ -1,5 +1,8 @@
 // Utilities
 export { cn } from './lib/utils'
+export {
+  getStoredConsent, setStoredConsent, onConsentChange, type ConsentChoice,
+} from './lib/consent'
 
 // Brand
 export { Logo } from './components/logo'
@@ -14,6 +17,7 @@ export type { InputProps } from './components/input'
 export { Label } from './components/label'
 export { Separator } from './components/separator'
 export { Switch } from './components/switch'
+export { Checkbox } from './components/checkbox'
 
 // Layout
 export {
@@ -64,3 +68,7 @@ export { DataTable } from './components/data-table'
 
 // Feedback
 export { Toaster, toast } from './components/toast'
+export { CookieConsentBanner } from './components/cookie-consent'
+export type { CookieConsentBannerProps } from './components/cookie-consent'
+export { TurnstileWidget } from './components/turnstile-widget'
+export type { TurnstileWidgetProps } from './components/turnstile-widget'

@@ -1,5 +1,5 @@
-import type { MarketplaceConnector, Credentials, OAuthCredentials, Page, Product, InventoryLevel } from '@stockalert/integrations-core'
-import { fetchWithRetry, buildQuery } from '@stockalert/integrations-core'
+import type { MarketplaceConnector, Credentials, OAuthCredentials, Page, Product, InventoryLevel, WebhookVerifyInput } from '@stockalert/integrations-core'
+import { fetchWithRetry, buildQuery, timingSafeEqual, requireEnv, requireParam } from '@stockalert/integrations-core'
 import * as crypto from 'node:crypto'
 
 const GATEWAY = 'https://eco.taobao.com/router/rest'
@@ -27,15 +27,15 @@ export const aliexpressConnector: MarketplaceConnector = {
   platform: 'aliexpress',
 
   getAuthUrl(state: string, redirectUri: string, _extra?: Record<string, string>): string {
-    const appKey = process.env['ALIEXPRESS_APP_KEY'] ?? ''
+    const appKey = requireEnv('ALIEXPRESS_APP_KEY')
     const params = buildQuery({ response_type: 'code', force_auth: 'true', redirect_uri: redirectUri, client_id: appKey, state })
     return `https://oauth.aliexpress.com/authorize?${params}`
   },
 
   async connect(params: Record<string, string>): Promise<Credentials> {
-    const { code } = params
-    const appKey = process.env['ALIEXPRESS_APP_KEY'] ?? ''
-    const appSecret = process.env['ALIEXPRESS_APP_SECRET'] ?? ''
+    const code = requireParam(params, 'code', 'AliExpress')
+    const appKey = requireEnv('ALIEXPRESS_APP_KEY')
+    const appSecret = requireEnv('ALIEXPRESS_APP_SECRET')
     const callParams: Record<string, string> = {
       method: 'alibaba.oauth.token',
       app_key: appKey,
@@ -131,7 +131,24 @@ export const aliexpressConnector: MarketplaceConnector = {
     return results
   },
 
-  verifyWebhookSignature(_headers: Record<string, string>, _body: string, _secret: string): boolean {
-    return true
+  supportsPush: true,
+
+  // AliExpress message-push payloads are signed with the same
+  // sign_method scheme used for outbound API calls — recompute over the
+  // sorted params (minus `sign` itself) and compare.
+  async verifyWebhookSignature({ rawBody }: WebhookVerifyInput): Promise<boolean> {
+    let payload: Record<string, string>
+    try {
+      payload = JSON.parse(rawBody) as Record<string, string>
+    } catch {
+      return false
+    }
+
+    const { sign: providedSign, ...params } = payload
+    if (!providedSign) return false
+
+    const appSecret = requireEnv('ALIEXPRESS_APP_SECRET')
+    const computed = sign(params, appSecret)
+    return timingSafeEqual(computed, providedSign.toUpperCase())
   },
 }

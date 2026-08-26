@@ -1,0 +1,67 @@
+{
+  "common": {
+    "footer": "StockAlert — EC事業者向け在庫アラートサービス"
+  },
+  "lowStockAlert": {
+    "subject": "⚠️ 在庫僅少アラート: {productName}（残り{quantity}{unit}）",
+    "preview": "在庫僅少アラート: {productName}の在庫が残り{quantity}個です",
+    "heading": "⚠️ 在庫僅少アラート",
+    "body": "{storeName}の{productName}の在庫が少なくなっています。",
+    "currentQuantity": "現在の在庫数",
+    "threshold": "しきい値",
+    "viewProduct": "商品を見る →",
+    "manageAlerts": "StockAlertでアラートを管理",
+    "unitAbsolute": "個",
+    "unitPercentage": "%",
+    "unitDaysOfSupply": "日分"
+  },
+  "passwordReset": {
+    "subject": "StockAlertのパスワードをリセット",
+    "preview": "パスワードをリセット",
+    "heading": "パスワードをリセット",
+    "body": "StockAlertアカウントのパスワードリセットのリクエストを受け付けました。",
+    "cta": "パスワードをリセット",
+    "expiry": "このリンクは{minutes}分で有効期限が切れます。心当たりがない場合は、このメールを無視してください。"
+  },
+  "inviteAccepted": {
+    "subject": "{memberName}さんが{teamName}に参加しました",
+    "preview": "{memberName}さんがチームに参加しました",
+    "heading": "新しいチームメンバー",
+    "body": "{memberName}さん（{memberEmail}）が招待を承諾し、{teamName}に参加しました。",
+    "cta": "チームを見る"
+  },
+  "paymentFailed": {
+    "subject": "対応が必要です: StockAlertのお支払いに失敗しました",
+    "preview": "前回のお支払いを処理できませんでした",
+    "heading": "お支払いに失敗しました",
+    "body": "StockAlertサブスクリプション（{teamName}）のお支払いを処理できませんでした。",
+    "retryNote": "アラートや連携機能へのアクセスを失わないよう、お支払い方法を更新してください。",
+    "cta": "お支払い方法を更新"
+  },
+  "weeklyDigest": {
+    "subject": "StockAlert週次サマリー",
+    "preview": "追跡中の{productCount}商品で今週{alertCount}件のアラート",
+    "heading": "週次サマリー",
+    "intro": "今週の在庫状況をお知らせします。",
+    "trackedProducts": "追跡中の商品",
+    "alertsTriggered": "発生したアラート",
+    "topAtRisk": "リスクの高い商品",
+    "cta": "ダッシュボードを開く",
+    "unsubscribe": "週次ダイジェストの配信を停止"
+  },
+  "policyUpdate": {
+    "subject": "{policyName}の更新について",
+    "preview": "{policyName}の変更は{effectiveDate}に発効します",
+    "heading": "{policyName}を更新します",
+    "body": "{policyName}の重要な変更について、事前にお知らせします。{effectiveDate}より適用されます。その前にご確認ください。",
+    "cta": "更新された{policyName}を読む"
+  },
+  "trialReminder": {
+    "preview": "トライアルはあと{daysLeft}日で終了します",
+    "heading": "トライアルはあと{daysLeft}日で終了します",
+    "body": "{teamName}の無料トライアルはまもなく終了します。有効なサブスクリプションがない場合、アカウントは読み取り専用に切り替わります（データは削除されません）。",
+    "note": "在庫の同期とアラート送信を中断なく続けるには、今すぐプランをお選びください。",
+    "cta": "プランを選択",
+    "subject": "StockAlertのトライアルはあと{daysLeft}日で終了します"
+  }
+}
